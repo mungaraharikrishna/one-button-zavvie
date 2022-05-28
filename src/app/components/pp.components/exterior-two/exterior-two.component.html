@@ -1,0 +1,15 @@
+<pp-page-title label="Exterior 2 of 3"></pp-page-title>
+<form [formGroup]="exteriorTwoInfo" class="exterior-form">
+<!-- Frontyard Landscaping -->
+    <radio-with-img (newval)="formValueChanged(this.fns.FieldNames.exterior2.Front_Yard_Landscaping, $event)"[opts]="landscapingTypesFront" 
+      [qconfig]="landscapingFrontQuestionConfig"[oldval]="landscapingTypesFrontDefault"[formname]="exteriorTwoInfo"></radio-with-img>
+
+<!-- Backyard Landscaping -->
+    <radio-with-img (newval)="formValueChanged(this.fns.FieldNames.exterior2.Back_Yard_Landscaping, $event)"[opts]="landscapingTypesBack"
+      [qconfig]="landscapingBackQuestionConfig"[oldval]="landscapingTypesBackDefault" [formname]="exteriorTwoInfo"></radio-with-img> 
+
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

@@ -1,0 +1,49 @@
+<pp-page-title label="Exterior 1 of 3"></pp-page-title>
+<form [formGroup]="exteriorOneInfo" class="exterior-form">
+  <!-- Home Features  -->
+  <multi-select-checkbox (newval)="formValueChanged('Home_Features', $event); checkValidity()" [oldval]="homeFeaturesDefault"
+    [opts]="homeFeatures" [qconfig]="homeFeaturesQuestionConfig" [formname]="exteriorOneInfo"></multi-select-checkbox>
+
+  <!-- Shared Well -->
+  <div *ngIf="platformDataService.getUserData('Home_Features') && platformDataService.getUserData('Home_Features').indexOf('Well water') > -1">
+  <radio-true-false (newval)="formValueChanged('Shared_Well', $event)" [oldval]="sharedWellDefault"
+    [qconfig]="sharedWellQuestionConfig" [formname]="exteriorOneInfo"></radio-true-false>
+  </div>
+
+  <!-- Solar Panels -->
+  <radio-true-false (newval)="formValueChanged(fns.FieldNames.exterior1.Solar_Panels, $event); checkValidity()" [oldval]="solarPanelDefault"
+    [qconfig]="SolarPanelQuestionConfig" [formname]="exteriorOneInfo"></radio-true-false>
+
+  <!-- Own or Lease Solar Panels -->
+  <div *ngIf="exteriorOneInfo.get('solarPanels')!.value == 'true'">
+    <radio-true-false (newval)="formValueChanged('Solar_Own_Lease', $event)" [oldval]="solarPanel2Default"
+      [qconfig]="SolarPanel2QuestionConfig" [formname]="exteriorOneInfo"></radio-true-false>
+
+      <!-- Solar Panels Company -->
+      <div *ngIf="exteriorOneInfo.get('solarPanels2')!.value == 'false'">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.exterior1.Solar_Company, $event)" [oldval]="solarCompanyDefault"
+        [qconfig]="solarCompanyQuestionConfig" [formname]="exteriorOneInfo"></simple-text>
+      </div>
+  </div>
+
+  <!-- Swimming Pool -->
+  <radio-true-false (newval)="formValueChanged('Swimming_Pool', $event); checkValidity()" [oldval]="swimmingPoolDefault"
+    [qconfig]="SwimmingPoolQuestionConfig" [formname]="exteriorOneInfo"></radio-true-false>
+
+  <!-- Pool Type  -->
+  <div *ngIf="exteriorOneInfo.get('swimmingPool')!.value == 'true'">
+    <select-option (newval)="formValueChanged('Pool_Type', $event)" [oldval]="poolTypeDefault" [formname]="exteriorOneInfo" 
+      [opts]="poolType" [qconfig]="poolTypeQuestionConfig">
+    </select-option>
+  </div>
+
+  <!-- in-ground spa  -->
+  <radio-true-false (newval)="formValueChanged('Spa', $event)" [oldval]="spaDefault"
+    [qconfig]="SpaQuestionConfig" [formname]="exteriorOneInfo"></radio-true-false>
+
+</form>
+
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

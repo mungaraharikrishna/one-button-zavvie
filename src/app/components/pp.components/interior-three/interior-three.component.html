@@ -1,0 +1,17 @@
+<pp-page-title label="Interior 3 of 7"></pp-page-title>
+<form [formGroup]="interiorThreeInfo" class="interior-form">
+    <!-- Kitchen Features -->
+    <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior3.Kitchen_Special_Features, $event); checkValidity()" [oldval]="kitchenFeaturesDefault"
+    [opts]="kitchenFeatures" [qconfig]="kitchenFeaturesQuestionConfig" [formname]="interiorThreeInfo"></multi-select-checkbox>
+    <!-- Kitchen Remodeled -->
+    <select-option (newval)="formValueChanged(fns.FieldNames.interior3.Remodeled_Kitchen, $event)" [oldval]="remodeledKitchenDefault" [formname]="interiorThreeInfo"
+    [opts]="remodeledKitchen" [qconfig]="remodeledKitchenQuestionConfig"></select-option>
+    <!-- Kitchen Condition -->
+    <select-option (newval)="formValueChanged(fns.FieldNames.interior3.Overall_Condition_of_Kitchen, $event)" [oldval]="kitchenConditionDefault" [formname]="interiorThreeInfo"
+    [opts]="kitchenCondition" [qconfig]="kitchenConitionQuestionConfig"></select-option>
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>
+

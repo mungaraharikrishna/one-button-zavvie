@@ -1,0 +1,81 @@
+<div id="open-market-sales" class="open-market-sales">
+  <h4>Open market sale: </h4>
+  <div class="open-market-title pointerCursor" (click)="isHidden = !isHidden">
+    <h5><span [ngClass]="isHidden ? 'fa fa-m fa-chevron-up' : 'fa fa-m fa-chevron-down'" ></span> {{ ppAddress }}</h5>
+  </div>
+  <form [formGroup]="openMarketForm" autocomplete="off" class="accordion-item">
+      <div class="cor-container" [hidden]='isHidden'>
+          <div class="cor-row">
+            <div class="first-col">
+              <div class="homeVal-container">
+                  <label class="label"><b>Approx. Home Value</b></label>
+                  <input type="text" placeholder="$0" autocomplete="off" mask="separator" thousandSeparator="," prefix="$"
+                    formControlName="approxHomeValue" (keyup)="formValueChanged('open_mkt_price', openMarketForm.get('approxHomeValue')!.value)"/>
+              </div>
+              <div class="service-fee">
+                  <div class="label">
+                      <span><strong>Service Fee</strong></span>
+                  </div>
+                  <perc-amount
+                    (getValue)="formValueChanged('service_fee', $event)"
+                    (getPercentValue)="formValueChanged('service_fee_percent', $event)">
+                  </perc-amount>
+              </div>
+
+              <div class="commission">
+                  <div class="label">
+                      <span><strong>Commissions</strong></span>
+                  </div>
+                  <div class="label seller-agent" >
+                      <span>Seller Agent</span>
+                      <div class="input">
+                        <perc-amount
+                          (getValue)="formValueChanged('seller_agent', $event)"
+                            (getPercentValue)="formValueChanged('seller_agent_percent', $event)">
+                        </perc-amount>
+                      </div>
+                  </div>
+                  
+                  <div class="label buyer-agent">
+                      <span>Buyer Agent</span>
+                      <div class="input">
+                        <perc-amount
+                        (getValue)="formValueChanged('buyer_agent', $event)"
+                        (getPercentValue)="formValueChanged('buyer_agent_percent', $event)">        
+                        </perc-amount>
+                      </div>
+                  </div>
+              </div>
+            </div>
+
+            <div class="middle-col">
+              <div class="price-input-container">
+                  <label class="label"><strong>Prep and repair</strong></label>
+                  <dollar-amount (getValue)="formValueChanged('prep_repairs', $event)"></dollar-amount>
+              </div>
+
+              <div class="price-input-container">
+                  <label class="label"><strong>Closing cost</strong></label>
+                  <dollar-amount (getValue)="formValueChanged('closing_costs', $event)"></dollar-amount>
+              </div>
+
+              <div class="price-input-container">
+                  <label class="label"><strong>Cost of selling</strong></label>
+                  <span><b><p>{{costOfSelling() | currency : 'USD' : 'symbol' : '1.0-0' }} </p></b></span>
+              </div>
+
+              <div class="price-input-container">
+                  <label class="label"><strong>Existing Mortgage</strong></label>
+                  <dollar-amount (getValue)="formValueChanged('existing_mort', $event)"></dollar-amount>
+              </div>
+              
+            </div>
+
+            <div class="estimated-net">
+              <h5>Estimated net</h5>
+              <h5>{{ estimatedNet() | currency : 'USD' : 'symbol' : '1.0-0' }} </h5>
+            </div>
+          </div>
+      </div>
+  </form>
+</div>

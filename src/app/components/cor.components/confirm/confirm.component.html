@@ -1,0 +1,51 @@
+<form class="offer-collector-form" [formGroup]="offerCollectorForm" autocomplete="off">
+  <label class="label">Search Inquiry Address</label><br />
+  <input id="enter-CORaddress" class="config-input" type="text" placeholder="Search Property Profiles by Address" formControlName="homeAddress" autofocus />
+  <button class="clear-search-input" type="button" (click)="clearAddressInput()" *ngIf="showClearBtn()">Clear Address</button>
+</form>
+
+<div class="accordion">
+  <div class="accordion-item" *ngFor="let pp of allPPs | filter: searchText; let i = index">
+    <h5 class="accordion-header" [id]="'heading'+i">
+      <button class="accordion-button collapsed" type="button" data-toggle="collapse"[attr.data-target]="'#collapse'+i" aria-expanded="false" aria-controls="'collapse'+i">
+        {{ pp.PPTitle }}
+      </button>
+    </h5>
+    <div [id]="'collapse'+i" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <ul>
+          <li>
+            Confirmation #: <strong>{{ pp.Info.propertybase_confirmation && pp.Info.propertybase_confirmation[0] }}</strong>
+          </li>
+        </ul>
+        <div class="row">
+          <div class="col pp-info1">
+            <ul>
+              <li>Agent first name: <strong>{{pp.Info.agent_first_name && pp.Info.agent_first_name[0]}}</strong></li>
+              <li>Agent last name: <strong>{{pp.Info.agent_last_name && pp.Info.agent_last_name[0]}}</strong></li>
+              <li>Brokerage: <strong>{{pp.Info.partner && pp.Info.partner[0]}} - {{pp.Info.platform_id && pp.Info.platform_id[0]}}</strong></li>
+            </ul>
+          </div>
+          <div class="col pp-info2">
+            <ul>
+              <li>Client first name: <strong>{{pp.Info.agent_client_first_name && pp.Info.agent_client_first_name[0]}}</strong></li>
+              <li>Client last name: <strong>{{pp.Info.agent_client_last_name && pp.Info.agent_client_last_name[0]}}</strong></li>
+              <li>Estimated home value: <strong>{{ pp.Info.approximate_home_value && formatHomeValue(pp.Info.approximate_home_value[0]) | currency : 'USD' : 'symbol' : '1.0-0'}}</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="nextbackbtn-container">
+          <button (click)="setAddress(pp.PPTitle); confirmBtn(pp.ID)" *ngIf="!showConfirmLoader">Confirm</button>
+          <div class="loading-spinner" *ngIf="showConfirmLoader">
+            <loading-spinner></loading-spinner>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="callEligibility && CORconfigured">
+  <open-market></open-market>
+  <verify-buyer></verify-buyer>
+</div>

@@ -1,0 +1,19 @@
+<label>
+    <strong class="label">{{qconfig.label}}<span *ngIf="qconfig.required == 'true'" class="asterisk">*</span></strong><br>
+    Please select
+</label>
+
+<div class="input-container">
+    <div class="radio-buttons" *ngFor="let optObj of opts">
+        <label class="custom-radio" >
+            <input type="radio" [name]="qconfig.name" value="{{ optObj.name }}" (change)="updateValue($event)" [checked]="optObj.name == oldval">
+            <span class="radio-btn"> <i class="fal fa-check"></i>
+                <div class="thumbnail-img" style="background-image: url({{optObj.img}});background-attachment:scroll;"></div>
+                <div class="option-name">
+                    <h3>{{ optObj.name }}</h3>
+                </div>
+            </span>
+        </label>
+    </div>
+</div>
+

@@ -1,0 +1,458 @@
+<div class="row col-12 offer-bar offer-bar-{{ ibuyer.id }}">
+  <span class="tab col-12">{{
+    ibuyer.id == 99 ? labels.aaTerm
+      : ibuyer.id == 88 ? labels.asIsTerm
+        : ibuyer.id == 77 ? labels.bridgeTerm
+          : labels.ioTerm }}</span>
+  <form class="row io-row col-12" [formGroup]="formNamer()">
+    <div class="price col-12 col-md-235">
+      <div class="heading">
+        <span>
+          Estimated {{ ibuyer.id == 99 ? labels.aaHeading : ibuyer.id == 77 ? labels.bridgeHeading : labels.ioHeading }} Price
+        </span>
+      </div>
+      <div class="price-input-container" *ngIf="ibuyer.id == 99">
+        <span class="fas fa-edit"></span>
+        <input class="contract-price" type="text" size="11"
+          formControlName="openMarketPrice"
+          (keyup)="updateResultPrice(ibuyer.con_io_type, aaForm.get('openMarketPrice')!.value, false)"
+          placeholder="0"
+          tabindex="1" 
+          mask="separator" thousandSeparator="," prefix="$" />
+      </div>
+      <div class="price-input-container" *ngIf="ibuyer.id == 77">
+        <span class="fas fa-edit"></span>
+        <input class="contract-price" type="text" size="11"
+          formControlName="bridgePrice"
+          (change)="setNewIoHomeVal(getIoType().bridge_mkt_price)"
+          (keyup)="updateResultPrice(ibuyer.con_io_type, formNamer().get('bridgePrice')!.value, false)"
+          placeholder="0"
+          tabindex="1" 
+          mask="separator" thousandSeparator="," prefix="$" />
+      </div>
+    
+      <div class="price-input-container ranged-input-container"
+        *ngIf="( (isDouble() && asIsSituation() && !isStandardIbuyer() && ibuyer.id != 77)
+          || (isDouble() && !asIsSituation() && ibuyer.id != 77) )">
+        <span class="fas fa-edit"></span>
+        <input class="contract-price" type="text" size="11"
+          formControlName="lowPrice"
+          (keyup)="updateResultPrice(ibuyer.con_io_type, formNamer().get('lowPrice')!.value, true)"
+          placeholder="0"
+          tabindex="1" 
+          mask="separator" thousandSeparator="," prefix="$" />
+
+        <div class="input-dash">&ndash;</div>
+
+        <input class="contract-price" type="text" size="11" *ngIf="isDouble()"
+          formControlName="highPrice"
+          (keyup)="updateResultPrice(ibuyer.con_io_type, formNamer().get('highPrice')!.value, false)"
+          placeholder="0"
+          tabindex="1" 
+          mask="separator" thousandSeparator="," prefix="$" />
+      </div>
+    </div>
+    <div class="cost col-12 col-md-235">
+      <div class="heading">
+        <span>
+          Estimated Cost of Selling
+        </span>
+      </div>
+      <div class="cost-of-selling" *ngIf="!isDouble()">
+        {{ formatted(sellingCost( ibuyer, false, false )) }}
+      </div>
+      <div class="cost-of-selling ranged-input-container"
+        *ngIf="( (isDouble() && asIsSituation() && !isStandardIbuyer())
+                || (isDouble() && !asIsSituation()) )">
+        {{ showRangedValues( ibuyer ) }}
+      </div>
+    </div>
+    <div class="net col-12 col-md-235">
+      <div class="heading">
+        <span>
+          Estimated Net
+        </span>
+      </div>
+      <div class="estimated-net" *ngIf="!isDouble()">
+        {{ formatted(estimatedNet(values.aa.open_mkt_price, ibuyer, false, false )) }}
+      </div>
+      <div class="estimated-net ranged-input-container"
+        *ngIf="( (isDouble() && asIsSituation() && !isStandardIbuyer())
+          || (isDouble() && !asIsSituation()) )">
+        {{ showRangedEstimatedNet( lowContractVal(), highContractVal(), ibuyer ) }}
+      </div>
+    </div>
+    <div class="toggle col-md-06" *ngIf="( asIsSituation() && isStandardIbuyer() )">
+      <button>  
+        <span class="details">Details</span>
+        <span class="fa fa-dt chevron-aa fa-chevron-down"></span>
+        <span class="fa fa-m fa-chevron-down"></span>
+      </button>
+    </div>
+    <div class="toggle col-md-06"
+      *ngIf="( (asIsSituation() && !isStandardIbuyer()) || !asIsSituation() )">
+      <button (click)="collapseFunc(ibuyer.id)" data-toggle="collapse" [attr.data-target]="collapseContentEl"
+        aria-expanded="false" [attr.aria-controls]="collapseContentId" tabindex="17">
+        <span class="details">Details</span>
+        <span class="fa fa-dt chevron-{{ ibuyer.id }} fa-chevron-down"></span>
+        <span class="fa fa-m fa-chevron-down"></span>
+      </button>
+    </div>
+
+    <div id="collapseContent_{{ ibuyer.id }}" class="col-12 collapse">
+      <div class="expanded-content col-12">
+        <div class="price-expanded col-12 col-md-235">
+
+          <div class="offer-features">
+            <ul class="seller-elig">
+              <li *ngFor="let item of info_items">{{ item }}</li>
+            </ul>
+          </div>
+
+          <div class="best-fit">
+            <span class="best-fit-heading"><strong><em>Best Fit For: </em></strong></span><span class="best-fit-text">{{ best_fit }}</span>
+          </div>
+
+          <div class="ibuyer-modal" *ngIf="isDouble()">
+            <a *ngIf="isDouble()"
+              (click)="showHideIbuyerModal($event)"
+              href="#">Click for {{ ibuyer.id != 77 ? 'active iBuyers' : 'Bridge options' }}
+            </a>
+            <div class="active-ibuyer-modal" *ngIf="showIbuyerModal">
+              <a class="close-modal" style="float: right;" (click)="showHideIbuyerModal($event)" href="#">X</a>
+              <p *ngIf="ibuyer.id != 77">iBuyers in your market</p>
+              <p *ngIf="ibuyer.id == 77">Bridge options in your market</p>
+              <hr>
+              <ul class="active-ibuyers">
+                <li *ngFor="let activeIbuyer of ibuyer_vbs">
+                  <span class="active-ibuyer">{{ activeIbuyer }}</span>
+                </li>
+              </ul>
+              <div class="cta-all">
+                <button (click)="showPP($event)">Get Offers</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="mobile-header d-flex col-12 d-md-none">
+          <div class="heading">
+            <span>
+              Estimated Cost of Selling
+            </span>
+          </div>
+          <div class="cost-of-selling" *ngIf="!isDouble()">
+            {{ formatted(sellingCost( ibuyer, false, false )) }}
+          </div>
+          <div class="cost-of-selling ranged-input-container" *ngIf="isDouble()">
+            {{ showRangedValues( ibuyer ) }}
+          </div>
+        </div>
+        <div class="cost-expanded col-12 col-md-235">
+          <div class="price-of-home-to-purchase" *ngIf="ibuyer.id == 77">
+            <div class="label">
+              <span>
+                Price of Home Being Purchased
+              </span>
+            </div>
+            <div class="ranged-simple-dollar-input">
+              <div class="input-group">
+                <input size="11" type="text" class="simple-input"
+                  formControlName="lowhpc" (keyup)="updateLowHpcVal()"
+                  placeholder="$0" mask="separator" thousandSeparator="," prefix="$" />
+                <span class="arrow">&ndash;</span>
+                <input size="11" type="text" class="simple-input"
+                  formControlName="highhpc" (keyup)="updateHighHpcVal()"
+                  placeholder="$0" mask="separator" thousandSeparator="," prefix="$" />
+              </div>
+            </div>
+          </div>
+          <div class="service-fee">
+            <div class="label">
+              <span>
+                Service Fee
+              </span>
+            </div>
+            <!-- Agent Assisted -->
+            <perc-dollar-inputs *ngIf="ibuyer.id == 99"
+              [priceval]="aaPrice"
+              [name]="ibuyer.con_io_type"
+              cos="service_fee"
+              [perc]="ibuyer.con_service_fee"
+              [spec]="values.aa.special_service_fee"
+              [concierge]="useConcierge"
+              [conciergefee]="conciergeServiceFee"
+              (updatePercentValue)="updateComponentValue(ibuyer.con_io_type, 'service_fee_percent', $event)"
+              (updateDollarValue)="updateComponentValue(ibuyer.con_io_type, 'service_fee', $event)">
+            </perc-dollar-inputs>
+            <!-- Bridge Alt [ use hpc instead of pricevallow/pricevalhigh ]-->
+            <ranged-double-percent-dollar-inputs *ngIf="isDouble() && ibuyer.id == 77 && ibuyer.con_bridge_sf_type == 'bridge_alt'"
+              [lowperc]="ibuyer.con_low_service_fee"
+              [highperc]="ibuyer.con_high_service_fee"
+              [lowdollar]="values[ibuyer.con_io_type].low_service_fee"
+              [highdollar]="values[ibuyer.con_io_type].high_service_fee"
+              [pricevalhigh]="bridgePrice"
+              [pricevallow]="bridgePrice"
+              [lowhpc]="bridgeForm.get('lowhpc')!.value"
+              [highhpc]="bridgeForm.get('highhpc')!.value"
+              [usehpv]="true"
+              (updateLowPercentValue)="updateComponentValue(ibuyer.con_io_type, 'low_service_fee_percent', $event)"
+              (updateHighPercentValue)="updateComponentValue(ibuyer.con_io_type, 'high_service_fee_percent', $event)"
+              (updateLowDollarValue)="updateComponentValue(ibuyer.con_io_type, 'low_service_fee', $event)"
+              (updateHighDollarValue)="updateComponentValue(ibuyer.con_io_type, 'high_service_fee', $event)">
+            </ranged-double-percent-dollar-inputs>
+            <!-- Bridge Standard [ use pricevallow/pricevalhigh ]-->
+            <ranged-double-percent-dollar-inputs *ngIf="isDouble() && ibuyer.con_bridge_sf_type != 'bridge_alt' && ibuyer.con_bridge_sf_type != 'bridge_hybrid'"
+              [lowperc]="ibuyer.con_low_service_fee"
+              [highperc]="ibuyer.con_high_service_fee"
+              [lowdollar]="values[ibuyer.con_io_type].low_service_fee"
+              [highdollar]="values[ibuyer.con_io_type].high_service_fee"
+              [pricevalhigh]="ibuyer.id == 77 ? bridgePrice : formNamer().get('highPrice')!.value"
+              [pricevallow]="ibuyer.id == 77 ? bridgePrice : formNamer().get('lowPrice')!.value"
+              [usehpv]="false"
+              (updateLowPercentValue)="updateComponentValue(ibuyer.con_io_type, 'low_service_fee_percent', $event)"
+              (updateHighPercentValue)="updateComponentValue(ibuyer.con_io_type, 'high_service_fee_percent', $event)"
+              (updateLowDollarValue)="updateComponentValue(ibuyer.con_io_type, 'low_service_fee', $event)"
+              (updateHighDollarValue)="updateComponentValue(ibuyer.con_io_type, 'high_service_fee', $event)">
+            </ranged-double-percent-dollar-inputs>
+            <!-- Bridge Hybrid [ use hpc AND pricevallow/pricevalhigh ]-->
+            <bridge-hybrid-ranged-double-percent-dollar-inputs *ngIf="isDouble() && ibuyer.id == 77 && ibuyer.con_bridge_sf_type == 'bridge_hybrid'"
+              [lowperc]="ibuyer.con_low_service_fee"
+              [highperc]="ibuyer.con_high_service_fee"
+              [lowdollar]="values[ibuyer.con_io_type].low_service_fee"
+              [highdollar]="values[ibuyer.con_io_type].high_service_fee"
+              [bridgecontractval]="bridgePrice"
+              [lowhpc]="bridgeForm.get('lowhpc')!.value"
+              [highhpc]="bridgeForm.get('highhpc')!.value"
+              (updateLowPercentValue)="updateComponentValue(ibuyer.con_io_type, 'low_service_fee_percent', $event)"
+              (updateHighPercentValue)="updateComponentValue(ibuyer.con_io_type, 'high_service_fee_percent', $event)"
+              (updateLowDollarValue)="updateComponentValue(ibuyer.con_io_type, 'low_service_fee', $event)"
+              (updateHighDollarValue)="updateComponentValue(ibuyer.con_io_type, 'high_service_fee', $event)">
+            </bridge-hybrid-ranged-double-percent-dollar-inputs>
+          </div>
+          <div class="seller-agent">
+            <div class="label">
+              <span>
+                Seller Agent
+              </span>
+            </div>
+            <perc-dollar-inputs *ngIf="ibuyer.id == 99"
+              [name]="ibuyer.con_io_type"
+              cos="seller_agent"
+              [priceval]="aaPrice"
+              [perc]="ibuyer.con_seller_commission"
+              (updateDollarValue)="updateComponentValue(ibuyer.con_io_type, 'seller_agent', $event)"
+              (updatePercentValue)="updateComponentValue(ibuyer.con_io_type, 'seller_agent_percent', $event)">
+            </perc-dollar-inputs>
+            <ranged-perc-dollar-inputs *ngIf="ibuyer.id != 99"
+              [name]="ibuyer.con_io_type"
+              [pricevalhigh]="ibuyer.id == 77 ? bridgePrice : formNamer().get('highPrice')!.value"
+              [pricevallow]="ibuyer.id == 77 ? bridgePrice : formNamer().get('lowPrice')!.value"
+              [perc]="ibuyer.con_seller_commission"
+              [lowdollar]="values[ibuyer.con_io_type].low_seller_agent"
+              [highdollar]="values[ibuyer.con_io_type].high_seller_agent"
+              (updatePercentValue)="updateComponentValue(ibuyer.con_io_type, 'seller_agent_percent', $event)"
+              (updateLowDollarValue)="updateComponentValue(ibuyer.con_io_type, 'low_seller_agent', $event)"
+              (updateHighDollarValue)="updateComponentValue(ibuyer.con_io_type, 'high_seller_agent', $event)">
+            </ranged-perc-dollar-inputs>
+          </div>
+          <div class="buyer-agent">
+            <div class="label">
+              <span>
+                Buyer Agent
+              </span>
+            </div>
+            <perc-dollar-inputs *ngIf="ibuyer.id == 99"
+              [name]="ibuyer.con_io_type"
+              cos="buyer_agent"
+              [priceval]="aaPrice"
+              [perc]="ibuyer.con_buyer_commission"
+              (updateDollarValue)="updateComponentValue(ibuyer.con_io_type, 'buyer_agent', $event)"
+              (updatePercentValue)="updateComponentValue(ibuyer.con_io_type, 'buyer_agent_percent', $event)">
+            </perc-dollar-inputs>
+            <ranged-perc-dollar-inputs *ngIf="ibuyer.id != 99"
+              [name]="ibuyer.con_io_type"
+              [pricevalhigh]="ibuyer.id == 77 ? bridgePrice : formNamer().get('highPrice')!.value"
+              [pricevallow]="ibuyer.id == 77 ? bridgePrice : formNamer().get('lowPrice')!.value"
+              [perc]="ibuyer.con_buyer_commission"
+              [lowdollar]="values[ibuyer.con_io_type].low_buyer_agent"
+              [highdollar]="values[ibuyer.con_io_type].high_buyer_agent"
+              (updatePercentValue)="updateComponentValue(ibuyer.con_io_type, 'buyer_agent_percent', $event)"
+              (updateLowDollarValue)="updateComponentValue(ibuyer.con_io_type, 'low_buyer_agent', $event)"
+              (updateHighDollarValue)="updateComponentValue(ibuyer.con_io_type, 'high_buyer_agent', $event)">
+            </ranged-perc-dollar-inputs>
+          </div>
+          <div class="prep-repairs">
+            <div class="label">
+              <span>
+                Prep &amp; Repairs
+              </span>
+            </div>
+            <alt-input-percent *ngIf="ibuyer.id == 99"
+              [prmodifier]="homeCondition"
+              [altmod]="ibuyer.alt_prep_repairs"
+              [asisandaa]="asIsAgentAssisted()"
+              [priceval]="aaPrice"
+              [asismod]="asisMod"
+              [perc]="ibuyer.con_prep_repairs"
+              [dollar]="values.aa.prep_repairs"
+              [concierge]="useConcierge"
+              [conciergelabel]="conciergePlatformName"
+              (updateDollarValue)="updateComponentValue(ibuyer.con_io_type, 'prep_repairs', $event)"
+              (conciergeChanged)="resetPrice($event)">
+            </alt-input-percent>
+            <ranged-alt-input-percent *ngIf="isDouble()"
+              [asisbridge]="ibuyer.con_io_type == 'bridge' && asIsSituation()"
+              [prmodifier]="homeCondition"
+              [lowaltmod]="ibuyer.alt_pr_low"
+              [highaltmod]="ibuyer.alt_pr_high"
+              [pricevalhigh]="ibuyer.id == 77 ? bridgePrice : formNamer().get('highPrice')!.value"
+              [pricevallow]="ibuyer.id == 77 ? bridgePrice : formNamer().get('lowPrice')!.value"
+              [lowperc]="ibuyer.pr_low"
+              [highperc]="ibuyer.pr_high"
+              [lowdollar]="values[ibuyer.con_io_type].low_prep_repairs"
+              [highdollar]="values[ibuyer.con_io_type].high_prep_repairs"
+              (updateLowDollarValue)="updateComponentValue(ibuyer.con_io_type, 'low_prep_repairs', $event)"
+              (updateHighDollarValue)="updateComponentValue(ibuyer.con_io_type, 'high_prep_repairs', $event)">
+            </ranged-alt-input-percent>
+          </div>
+          <div class="closing-costs">
+            <div class="label">
+              <span>
+                Closing Costs
+              </span>
+            </div>
+            <simple-input-percent *ngIf="ibuyer.id == 99"
+              [priceval]="aaPrice"
+              [perc]="ibuyer.con_closing_costs"
+              [dollar]="values.aa.closing_costs"
+              [prdollar]="values.aa.prep_repairs"
+              [concierge]="useConcierge"
+              (updateDollarValue)="updateComponentValue(ibuyer.con_io_type, 'closing_costs', $event)">
+            </simple-input-percent>
+            <ranged-simple-input-percent *ngIf="isDouble()"
+              [pricevalhigh]="ibuyer.id == 77 ? bridgePrice : formNamer().get('highPrice')!.value"
+              [pricevallow]="ibuyer.id == 77 ? bridgePrice : formNamer().get('lowPrice')!.value"
+              [lowperc]="ibuyer.cc_low"
+              [highperc]="ibuyer.cc_high"
+              [lowdollar]="values[ibuyer.con_io_type].low_closing_costs"
+              [highdollar]="values[ibuyer.con_io_type].high_closing_costs"
+              (updateLowDollarValue)="updateComponentValue(ibuyer.con_io_type, 'low_closing_costs', $event)"
+              (updateHighDollarValue)="updateComponentValue(ibuyer.con_io_type, 'high_closing_costs', $event)">
+            </ranged-simple-input-percent>
+          </div>
+        </div>
+        <div class="mobile-header d-flex col-12 d-md-none">
+          <div class="heading">
+            <span>
+              Estimated Net
+            </span>
+          </div>
+          <div class="estimated-net ranged-input-container" *ngIf="!isDouble()">
+            {{ formatted(estimatedNet(values.aa.open_mkt_price, ibuyer, false, false )) }}
+          </div>
+          <div class="estimated-net ranged-input-container" *ngIf="isDouble()">
+            {{ showRangedEstimatedNet(lowContractVal(), highContractVal(), ibuyer ) }}
+          </div>
+        </div>
+        <div class="net-expanded col-12 col-md-235">
+          <div class="cta">
+            <button (click)="showPP($event)">{{ cta.aaCtaLabel }}</button>
+          </div>
+          <div class="table">
+            <span *ngIf="isDouble()">
+              <span>Net Difference</span>
+              <div class="table-value">
+                {{ ibuyer.id != 99 && showRangedMlot() }}
+              </div>
+            </span>
+            <span class="aa_img" *ngIf="!isDouble() && aaImgSrc">
+              <img [src]="aaImgSrc" [alt]="aaImgAlt" />
+            </span>
+            <span class="io_img" *ngIf="isDouble() && ioImgSrc">
+              <img [src]="ioImgSrc" [alt]="ioImgAlt" />
+            </span>
+            <span class="concierge-ad" *ngIf="showConcierge && conciergeLink && conciergeImage && !isDouble()">
+              <button (click)="showConciergeForm()">
+                <img id="concierge-1" [src]="conciergeImage.url" [alt]="conciergeImage.alt" />
+              </button>
+            </span>
+          </div>
+          <div class="disclaimer">
+            <div *ngIf="isDouble()">
+              * Offer Optimizer™ is NOT affiliated with, sponsored by, or endorsed by any iBuyer(s)
+            </div>
+          </div>
+        </div>
+        <div class="toggle-expanded col-12 col-md-06"></div>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="show_concierge_form" class="modal-wrapper">
+  <div class="jw-modal">
+    <div class="modal-body">
+      <div class="modal-content-container">
+        <button class="close-modal" (click)="closeConciergeModal()"><i class="far fa-times-circle"></i></button>
+        <div *ngIf="!concierge_form_submitted">
+          <h3>Confirm Concierge Details</h3>
+          <div class="details-container">
+            <div class="details-body col-12">
+              <form [formGroup]="conciergeForm" autocomplete="off" (ngSubmit)="submitConciergeForm($event)">
+                <div class="name-container">
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentFirstName', $event)" [oldval]="agentFirstNameDefault"
+                      [qconfig]="agentFirstNameQuestionConfig" [formname]="conciergeForm"></simple-text-sm>
+                  </div>
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentLastName', $event)" [oldval]="agentLastNameDefault"
+                      [qconfig]="agentLastNameQuestionConfig" [formname]="conciergeForm"></simple-text-sm>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="label">Agent email address <span class="asterisk">*</span> </label>
+                  <input type="email" class="form-control" (keyup)="formValueChanged('AgentEmail', conciergeForm.get('AgentEmail')!.value); checkValidity()" placeholder="Enter email" formControlName="AgentEmail"
+                    email required />
+                </div>
+
+                <div class="name-container">
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentClientFirstName', $event); checkValidity()" [oldval]="agentClientFirstNameDefault"
+                      [qconfig]="agentClientFirstNameQuestionConfig" [formname]="conciergeForm"></simple-text-sm>
+                  </div>
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentClientLastName', $event); checkValidity()" [oldval]="agentClientLastNameDefault"
+                      [qconfig]="agentClientLastNameQuestionConfig" [formname]="conciergeForm"></simple-text-sm>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="label">Client email address <span class="asterisk">*</span> </label>
+                  <input type="email" class="form-control" value="agentClientEmailDefault" placeholder="Enter email"
+                    (keyup)="formValueChanged('AgentClientEmail', conciergeForm.get('AgentClientEmail')!.value); checkValidity()"
+                    formControlName="AgentClientEmail" email required />
+                </div>
+
+                <div class="btn-container">
+                  <button *ngIf="!pb_wait" [disabled]="conciergeBtnDisabled" [ngClass]="{ 'disabled' : conciergeBtnDisabled }">GO</button>
+                  <div class="form loading-spinner" *ngIf="pb_wait">
+                    <loading-spinner></loading-spinner>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="concierge_form_submitted">
+          <div class="svg-check col-12"><svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="circle-check" class="svg-inline--fa fa-circle-check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M340.7 180.7L224 297.4L171.3 244.7c-6.25-6.25-16.38-6.25-22.62 0s-6.25 16.38 0 22.62l64 64C215.8 334.4 219.9 336 224 336s8.188-1.562 11.31-4.688l128-128c6.25-6.25 6.25-16.38 0-22.62S346.9 174.4 340.7 180.7zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 480c-123.5 0-224-100.5-224-224s100.5-224 224-224s224 100.5 224 224S379.5 480 256 480z"></path></svg></div>
+          <h3>Thank you for confirming Concierge details!</h3>
+          <div class="details-container">
+            <p>You will be redirected to the Concierge website in a new tab.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-background"></div>
+</div>

@@ -1,0 +1,497 @@
+<div class="row col-12 offer-bar offer-bar-{{ buyersolution.id }}">
+  <span class="tab col-12">{{
+    buyersolution.id == 99 ? labels.openMarketBuyerHeading
+      : buyersolution.id == 555
+        ? labels.cashHeading
+        : labels.leaseToOwnHeading }}</span>
+  <form class="row io-row col-12" [formGroup]="formNamer()">
+    <div class="price col-12 col-md-235">
+      <div class="heading">
+        <span>
+          Value of Home to be Purchased
+        </span>
+      </div>
+
+      <!-- ranged price -->
+      <div class="price-input-container ranged-input-container">
+        <span class="fas fa-edit"></span>
+        <input class="contract-price" type="text" size="11"
+          formControlName="lowPrice"
+          (keyup)="updateResultPrice(buyersolution.con_buyer_type, formNamer().get('lowPrice')!.value, true)"
+          placeholder="0"
+          tabindex="1" 
+          mask="separator" thousandSeparator="," prefix="$" />
+
+        <div class="input-dash">&ndash;</div>
+
+        <input class="contract-price" type="text" size="11"
+          formControlName="highPrice"
+          (keyup)="updateResultPrice(buyersolution.con_buyer_type, formNamer().get('highPrice')!.value, false)"
+          placeholder="0"
+          tabindex="1" 
+          mask="separator" thousandSeparator="," prefix="$" />
+      </div>
+    </div>
+    <!-- ranged price -->
+
+    <!-- ranged costs -->
+    <div class="cost col-12 col-md-225">
+      <div class="heading">
+        <span>
+          Costs of Home Purchase
+        </span>
+      </div>
+      <div class="cost-of-selling ranged-input-container">
+        {{ showRangedValues( buyersolution ) }}
+      </div>
+    </div>
+    <!-- ranged costs -->
+
+    <!-- ranged monthly costs -->
+    <div class="net monthly col-12 col-md-235">
+      <div class="heading">
+        <span>
+          Monthly Costs
+        </span>
+      </div>
+      <div class="estimated-net ranged-input-container">
+        {{ showMonthlyCosts( buyersolution ) }}
+      </div>
+    </div>
+    <!-- ranged monthly costs -->
+    <div class="extra col-12 col-md-205"></div>
+
+    <div class="toggle col-md-06">
+      <button (click)="collapseFunc(buyersolution.id)" data-toggle="collapse" [attr.data-target]="collapseContentEl"
+        aria-expanded="false" [attr.aria-controls]="collapseContentId" tabindex="17">
+        <span class="details">Details</span>
+        <span class="fa fa-dt chevron-{{ buyersolution.id }} fa-chevron-down"></span>
+        <span class="fa fa-m fa-chevron-down"></span>
+      </button>
+    </div>
+
+    <div id="collapseContent_{{ buyersolution.id }}" class="col-12 collapse">
+      <div class="expanded-content col-12">
+        <div class="price-expanded col-12 col-md-235">
+    
+          <div class="explainer-heading">
+            <span>{{ explainerText() }}</span>
+          </div>
+
+          <div class="offer-features">
+            <ul>
+              <li *ngFor="let item of buyersolution.con_info_items">{{ item }}</li>
+            </ul>
+          </div>
+
+          <div class="best-fit">
+            <span class="best-fit-heading"><strong><em>Best Fit For: </em></strong></span><span class="best-fit-text">{{ buyersolution.con_best_fit }}</span>
+          </div>
+
+          <div class="ibuyer-modal" *ngIf="buyersolution.con_buyer_type !== 'aa'">
+            <a href="#" (click)="showHideIbuyerModal($event)">Click for {{ buyersolution.con_buyer_name }} buying options</a>
+            <div class="active-ibuyer-modal" *ngIf="showIbuyerModal">
+              <a class="close-modal" style="float: right;" (click)="showHideIbuyerModal($event)" href="#">X</a>
+              <p>Buying options</p>
+              <hr>
+              <ul class="active-ibuyers" *ngIf="buyersolution.con_buyer_type === 'cash'">
+                <li *ngFor="let buyingOption of verified_buyers.cash_vbs">
+                  <span class="active-option">{{ buyingOption }}</span>
+                </li>
+              </ul>
+              <ul class="active-ibuyers" *ngIf="buyersolution.con_buyer_type === 'lease_to_own'">
+                <li *ngFor="let buyingOption of verified_buyers.lease_vbs">
+                  <span class="active-option">{{ buyingOption }}</span>
+                </li>
+              </ul>
+              <div class="cta-all">
+                <button (click)="showPP($event)">Get Offers</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mortgage-logo" *ngIf="showMortgageLogo && buyersolution.con_buyer_type == 'aa'">
+            <div>
+              <a [href]="mortgageLink" [title]="mortgageImage.alt" target="_blank" *ngIf="mortgageLink !== ''">
+                <div class="mortgage-image">
+                  <img id="mortgage-logo" [src]="mortgageImage.url" [alt]="mortgageImage.alt" />
+                </div>
+              </a>
+              <div class="mortgage-image" *ngIf="mortgageLink === ''">
+                <img id="mortgage-logo" [src]="mortgageImage.url" [alt]="mortgageImage.alt" />
+              </div>
+              <p *ngIf="mortgageText" class="mortgage-text">{{ mortgageText }}</p>
+            </div>
+          </div>
+
+          <div class="mortgage-logo" *ngIf="showCashLogo && buyersolution.con_buyer_type == 'cash'">
+            <div>
+              <a [href]="cashLink" [title]="cashImage.alt" target="_blank" *ngIf="cashLink !== ''">
+                <div class="mortgage-image">
+                  <img id="mortgage-logo" [src]="cashImage.url" [alt]="cashImage.alt" />
+                </div>
+              </a>
+              <div class="mortgage-image" *ngIf="cashLink === ''">
+                <img id="mortgage-logo" [src]="cashImage.url" [alt]="cashImage.alt" />
+              </div>
+              <p *ngIf="cashText" class="mortgage-text">{{ cashText }}</p>
+            </div>
+          </div>
+
+          <span class="buyer-eligibility">
+            Eligibility: What you need to qualify
+          </span>
+
+          <div class="eligibility-items">
+            <ul>
+              <li *ngFor="let item of buyersolution.con_eligibility">{{ item }}</li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="mobile-header d-flex col-12 d-md-none">
+          <div class="heading">
+            <span>
+              Estimated Cost of Selling
+            </span>
+          </div>
+
+          <div class="cost-of-selling ranged-input-container">
+            {{ showRangedValues( buyersolution ) }}
+          </div>
+        </div>
+        <div class="cost-expanded col-12 col-md-225">
+          <div class="service-fee">
+            <div class="label">
+              <span>
+                Down Payment
+              </span>
+            </div>
+            <down-payment
+              [perc_1]="buyersolution.con_down_payment_low"
+              [perc_2]="buyersolution.con_down_payment_high"
+              [priceval_1]="formNamer().get('lowPrice')!.value"
+              [priceval_2]="formNamer().get('highPrice')!.value"
+              (updateDollar1Value)="updateComponentValue(buyersolution.con_buyer_type, 'down_payment_low', $event)"
+              (updateDollar2Value)="updateComponentValue(buyersolution.con_buyer_type, 'down_payment_high', $event)"
+              (updatePercent1Value)="updateComponentValue(buyersolution.con_buyer_type, 'down_payment_low_percent', $event)"
+              (updatePercent2Value)="updateComponentValue(buyersolution.con_buyer_type, 'down_payment_high_percent', $event)">
+            </down-payment>
+          </div>
+          <div class="closing-costs">
+            <div class="label">
+              <span>
+                Closing Costs
+              </span>
+            </div>
+            <ranged-simple-input-percent
+              [disabledollar]="buyersolution.con_buyer_type !== 'aa' ? true : false"
+              [pricevalhigh]="formNamer().get('highPrice')!.value"
+              [pricevallow]="formNamer().get('lowPrice')!.value"
+              [lowperc]="buyersolution.con_buyer_cc_low"
+              [highperc]="buyersolution.con_buyer_cc_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].buyer_low_closing_costs"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].buyer_high_closing_costs"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'buyer_low_closing_costs', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'buyer_high_closing_costs', $event)">
+            </ranged-simple-input-percent>
+            <span *ngIf="buyersolution.con_buyer_type !== 'aa'">
+              <div class="label">
+                <span>
+                  Service Fee
+                </span>
+              </div>
+              <ranged-simple-input-percent
+                [disabledollar]="true"
+                [pricevalhigh]="formNamer().get('highPrice')!.value"
+                [pricevallow]="formNamer().get('lowPrice')!.value"
+                [lowperc]="buyersolution.con_buyer_servicefee_low"
+                [highperc]="buyersolution.con_buyer_servicefee_high"
+                [lowdollar]="buyervalues[buyersolution.con_buyer_type].buyer_low_servicefee"
+                [highdollar]="buyervalues[buyersolution.con_buyer_type].buyer_high_servicefee"
+                (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'buyer_low_servicefee', $event)"
+                (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'buyer_high_servicefee', $event)">
+              </ranged-simple-input-percent>
+            </span>
+          </div>
+        </div>
+        <div class="mobile-header d-flex col-12 d-md-none">
+          <div class="heading">
+            <span>
+              Monthly Costs
+            </span>
+          </div>
+          <div class="estimated-net ranged-input-container">
+            {{ showMonthlyCosts( buyersolution ) }}
+          </div>
+        </div>
+        <div class="net-expanded monthly-expanded col-12 col-md-235">
+          <div class="service-fee" *ngIf="buyersolution.con_buyer_type !== 'lease_to_own'">
+            <div class="label">
+              <span class="embiggen">
+                Mortgage (Principal and Interest)
+              </span>
+            </div>
+            <div class="price-input-container ranged-input-container">
+              <input class="contract-price" type="text" size="11"
+                formControlName="lowMortgage"
+                (keyup)="updateResultPrice(buyersolution.con_buyer_type, formNamer().get('lowMortgage')!.value, true)"
+                placeholder="0"
+                tabindex="1" [attr.disabled]="true"
+                mask="separator" thousandSeparator="," prefix="$" />
+      
+              <div class="input-dash">&ndash;</div>
+      
+              <input class="contract-price" type="text" size="11"
+                formControlName="highMortgage"
+                (keyup)="updateResultPrice(buyersolution.con_buyer_type, formNamer().get('highMortgage')!.value, false)"
+                placeholder="0"
+                tabindex="1" [attr.disabled]="true"
+                mask="separator" thousandSeparator="," prefix="$" />
+            </div>
+          </div>
+          <div class="service-fee" *ngIf="buyersolution.con_buyer_type === 'lease_to_own'">
+            <div class="label">
+              <span class="embiggen">
+                Lease Amount
+              </span>
+            </div>
+            <div class="price-input-container ranged-input-container">
+              <input class="contract-price disabled" type="text" size="11"
+                formControlName="lowLease"
+                (keyup)="updateResultPrice(buyersolution.con_buyer_type, formNamer().get('lowLease')!.value, true)"
+                placeholder="0"
+                tabindex="1" [attr.disabled]="true"
+                mask="separator" thousandSeparator="," prefix="$" />
+              <div class="input-dash">&ndash;</div>
+              <input class="contract-price disabled" type="text" size="11"
+                formControlName="highLease"
+                (keyup)="updateResultPrice(buyersolution.con_buyer_type, formNamer().get('highLease')!.value, false)"
+                placeholder="0"
+                tabindex="1" [attr.disabled]="true"
+                mask="separator" thousandSeparator="," prefix="$" />
+            </div>
+          </div>
+          <div class="service-fee" *ngIf="buyersolution.con_buyer_type === 'lease_to_own'">
+            <div class="label">
+              <span class="embiggen">
+                Premium for Equity
+              </span>
+            </div>
+            <ranged-simple-input-percent
+              [disabledollar]="true"
+              [pricevalhigh]="formNamer().get('highLease')!.value"
+              [pricevallow]="formNamer().get('lowLease')!.value"
+              [lowperc]="buyersolution.con_premiumequity_low"
+              [highperc]="buyersolution.con_premiumequity_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].low_premiumequity"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].high_premiumequity"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'low_premiumequity', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'high_premiumequity', $event)">
+            </ranged-simple-input-percent>
+          </div>
+          <div class="home-ownership-cost-heading">Cost of Home Ownership</div>
+          <div class="closing-costs">
+            <div class="label">
+              <span>
+                Taxes
+              </span>
+            </div>
+            <monthly-ranged-simple-input-percent
+              [pricevalhigh]="buyersolution.con_buyer_type === 'lease_to_own' ? formNamer().get('highLease')!.value : formNamer().get('highPrice')!.value"
+              [pricevallow]="buyersolution.con_buyer_type === 'lease_to_own' ? formNamer().get('lowLease')!.value : formNamer().get('lowPrice')!.value"
+              [lowperc]="buyersolution.con_taxes_low"
+              [highperc]="buyersolution.con_taxes_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].taxes_low"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].taxes_high"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'taxes_low', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'taxes_high', $event)">
+            </monthly-ranged-simple-input-percent>
+          </div>
+          <div class="closing-costs">
+            <div class="label">
+              <span>
+                Insurance
+              </span>
+            </div>
+            <monthly-ranged-simple-input-percent *ngIf="buyersolution.con_buyer_type !== 'lease_to_own'"
+              [pricevalhigh]="formNamer().get('highPrice')!.value"
+              [pricevallow]="formNamer().get('lowPrice')!.value"
+              [lowperc]="buyersolution.con_ins_low"
+              [highperc]="buyersolution.con_ins_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].ins_low"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].ins_high"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'ins_low', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'ins_high', $event)">
+            </monthly-ranged-simple-input-percent>
+            <ranged-simple-input-percent *ngIf="buyersolution.con_buyer_type === 'lease_to_own'"
+              [pricevalhigh]="formNamer().get('highLease')!.value"
+              [pricevallow]="formNamer().get('lowLease')!.value"
+              [lowperc]="buyersolution.con_ins_low"
+              [highperc]="buyersolution.con_ins_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].ins_low"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].ins_high"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'ins_low', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'ins_high', $event)">
+            </ranged-simple-input-percent>
+          </div>
+          <div class="closing-costs">
+            <div class="label">
+              <span>
+                Utilities
+              </span>
+            </div>
+            <ranged-simple-input-percent 
+              name="utilities"
+              [pricevalhigh]="buyersolution.con_buyer_type === 'lease_to_own' ? formNamer().get('highLease')!.value : formNamer().get('highPrice')!.value"
+              [pricevallow]="buyersolution.con_buyer_type === 'lease_to_own' ? formNamer().get('lowLease')!.value : formNamer().get('lowPrice')!.value"
+              [lowperc]="buyersolution.con_utils_low"
+              [highperc]="buyersolution.con_utils_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].utils_low"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].utils_high"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'utils_low', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'utils_high', $event)">
+            </ranged-simple-input-percent>
+          </div>
+          <div class="closing-costs">
+            <div class="label">
+              <span>
+                Maintenance
+              </span>
+            </div>
+            <ranged-simple-input-percent
+              name="maintenance"
+              [warranty]="buyersolution.con_buyer_type === 'aa' ? warranty_om : buyersolution.con_buyer_type === 'cash' ? warranty_cash : false"
+              [pricevalhigh]="buyersolution.con_buyer_type === 'lease_to_own' ? formNamer().get('highLease')!.value : formNamer().get('highPrice')!.value"
+              [pricevallow]="buyersolution.con_buyer_type === 'lease_to_own' ? formNamer().get('lowLease')!.value : formNamer().get('lowPrice')!.value"
+              [lowperc]="buyersolution.con_maintenance_low"
+              [highperc]="buyersolution.con_maintenance_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].maintenance_low"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].maintenance_high"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'maintenance_low', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'maintenance_high', $event)">
+            </ranged-simple-input-percent>
+          </div>
+          <div class="closing-costs" *ngIf="showHomeWarranty && buyersolution.con_buyer_type !== 'lease_to_own'">
+            <div class="label">
+              <label>
+                <input type="checkbox" class="warranty-checkbox" (change)="toggleOpenMarketWarranty(buyersolution)" *ngIf="buyersolution.con_buyer_type === 'aa'" />
+                <input type="checkbox" class="warranty-checkbox" (change)="toggleCashWarranty(buyersolution)" *ngIf="buyersolution.con_buyer_type === 'cash'" />
+                <span>Home Warranty (Optional)</span>
+              </label>
+            </div>
+            <ranged-simple-input-percent
+              [disabledollar]="true"
+              [pricevallow]="getPriceVal(buyersolution.con_buyer_type, true)"
+              [pricevalhigh]="getPriceVal(buyersolution.con_buyer_type, false)"
+              [lowperc]="buyersolution.con_home_warranty_low"
+              [highperc]="buyersolution.con_home_warranty_high"
+              [lowdollar]="buyervalues[buyersolution.con_buyer_type].warranty_low"
+              [highdollar]="buyervalues[buyersolution.con_buyer_type].warranty_high"
+              (updateLowDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'warranty_low', $event)"
+              (updateHighDollarValue)="updateComponentValue(buyersolution.con_buyer_type, 'warranty_high', $event)">
+            </ranged-simple-input-percent>
+          </div>
+        </div>
+        <div class="mobile-header d-flex col-12 d-md-none">
+          <div class="heading">
+            <span></span>
+          </div>
+          <div class="cost-of-selling ranged-input-container"></div>
+        </div>
+        <div class="extra-expanded col-12 col-md-195">
+          <div class="cta">
+            <button (click)="showPP($event)">{{ cta.aaCtaLabel }}</button>
+          </div>
+          <div class="table">
+            <div *ngIf="buyersolution.con_buyer_type !== 'lease_to_own' && showHomeWarranty">
+              <div>
+                <button (click)="showHWForm(1)">
+                  <div class="home-warranty-image">
+                    <img id="home-warranty-1" [src]="homeWarrantyImage.url" [alt]="homeWarrantyImage.alt" />
+                  </div>
+                  <p *ngIf="homeWarrantyText" class="home-warranty-text">{{ homeWarrantyText }}</p>
+                </button>
+              </div>
+              <div>
+                <button (click)="showHWForm(2)">
+                  <div class="home-warranty-image" *ngIf="homeWarrantyImage_two">
+                    <img id="home-warranty-2" [src]="homeWarrantyImage_two.url" [alt]="homeWarrantyImage_two.alt" />
+                  </div>
+                  <p *ngIf="homeWarrantyText_two" class="home-warranty-text">{{ homeWarrantyText_two }}</p>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="show_hw_form" class="modal-wrapper">
+  <div class="jw-modal">
+    <div class="modal-body">
+      <div class="modal-content-container"><i class="fa-light fa-circle-check"></i>
+        <button class="close-modal" (click)="closeHWModal()"><i class="far fa-times-circle"></i></button>
+        <div *ngIf="!warranty_form_submitted">
+          <h3>Confirm Home Warranty Details</h3>
+          <div class="details-container">
+            <div class="details-body col-12">
+              <form [formGroup]="warrantyForm" autocomplete="off" (ngSubmit)="submitWarrantyForm(active_form, $event)">
+                <div class="name-container">
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentFirstName', $event)" [oldval]="agentFirstNameDefault"
+                      [qconfig]="agentFirstNameQuestionConfig" [formname]="warrantyForm"></simple-text-sm>
+                  </div>
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentLastName', $event)" [oldval]="agentLastNameDefault"
+                      [qconfig]="agentLastNameQuestionConfig" [formname]="warrantyForm"></simple-text-sm>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="label">Agent email address <span class="asterisk">*</span> </label>
+                  <input type="email" class="form-control" (keyup)="formValueChanged('AgentEmail', warrantyForm.get('AgentEmail')!.value); checkValidity()" placeholder="Enter email" formControlName="AgentEmail"
+                    email required />
+                </div>
+
+                <div class="name-container">
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentClientFirstName', $event); checkValidity()" [oldval]="agentClientFirstNameDefault"
+                      [qconfig]="agentClientFirstNameQuestionConfig" [formname]="warrantyForm"></simple-text-sm>
+                  </div>
+                  <div class="text-input-container">
+                    <simple-text-sm (newval)="formValueChanged('AgentClientLastName', $event); checkValidity()" [oldval]="agentClientLastNameDefault"
+                      [qconfig]="agentClientLastNameQuestionConfig" [formname]="warrantyForm"></simple-text-sm>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="label">Client email address <span class="asterisk">*</span> </label>
+                  <input type="email" class="form-control" value="agentClientEmailDefault" placeholder="Enter email"
+                    (keyup)="formValueChanged('AgentClientEmail', warrantyForm.get('AgentClientEmail')!.value); checkValidity()"
+                    formControlName="AgentClientEmail" email required />
+                </div>
+
+                <div class="btn-container">
+                  <button *ngIf="!pb_wait" type="submit" [disabled]="warrantyBtnDisabled" [ngClass]="{ 'disabled' : warrantyBtnDisabled }">GO</button>
+                  <div class="form loading-spinner" *ngIf="pb_wait">
+                    <loading-spinner></loading-spinner>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="warranty_form_submitted">
+          <div class="svg-check col-12"><svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="circle-check" class="svg-inline--fa fa-circle-check" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M340.7 180.7L224 297.4L171.3 244.7c-6.25-6.25-16.38-6.25-22.62 0s-6.25 16.38 0 22.62l64 64C215.8 334.4 219.9 336 224 336s8.188-1.562 11.31-4.688l128-128c6.25-6.25 6.25-16.38 0-22.62S346.9 174.4 340.7 180.7zM256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 480c-123.5 0-224-100.5-224-224s100.5-224 224-224s224 100.5 224 224S379.5 480 256 480z"></path></svg></div>
+          <h3>Thank you for confirming Home Warranty details!</h3>
+          <div class="details-container">
+            <p>You will be redirected to the Home Warranty website in a new tab.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-background"></div>
+</div>

@@ -1,0 +1,45 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.property-form {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 42vh;
+}
+
+.label {
+  color: $partner;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1;
+  margin-bottom: 0;
+  padding-left: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.sublabel {
+  font-size: .7em;
+}
+
+.asterisk {
+  color: $red;
+  font-size: 1.5em;
+}
+
+input.ng-touched.ng-invalid {
+  border: 1px solid $red;
+}
+
+.nextbackbtn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}

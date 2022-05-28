@@ -1,0 +1,23 @@
+<div class="offer-optimizer">
+  <app-config
+    [res_wait]="res_wait"
+    (configured)="setConfigured($event)"
+    [showPoweredByZavvie]="showPoweredByZavvie"
+    [showBuyerOBZ]="showBuyerOBZ"
+    [aaHeading]="aaHeading"
+    [aaTerm]="aaTerm"
+    [ioHeading]="ioHeading"
+    [ioTerm]="ioTerm"
+    [bridgeHeading]="bridgeHeading"
+    [bridgeTerm]="bridgeTerm"
+    [openMarketBuyerHeading]="openMarketBuyerHeading"
+    [cashHeading]="cashHeading"
+    [leaseToOwnHeading]="leaseToOwnHeading"
+    [hideBridge]="hideBridge"
+    [ppaddress]="ppaddress"></app-config>
+  <app-results *ngIf="configured"
+    [configured]="configured"></app-results>
+  <div class="pdf-container col-12">
+    <app-pdf [configured]="configured" [showoo]="showoo"></app-pdf>
+  </div>
+</div>

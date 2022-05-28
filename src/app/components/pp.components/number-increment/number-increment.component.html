@@ -1,0 +1,12 @@
+<div class="input-container number-increment">
+  <label class="number-increment-label">{{ qconfig.inputlabel }}</label>
+  <div class="input-wrapper">
+    <button class="minus" (click)="decrease()" [disabled]="data == 0">
+      <span class="fa fa-minus"></span>
+    </button>
+    <span class="inc-label"> {{ data }} </span>
+    <button class="plus" (click)="increase()">
+      <span class="fa fa-plus"></span>
+    </button>
+  </div>
+</div>

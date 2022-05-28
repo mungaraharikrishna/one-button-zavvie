@@ -1,0 +1,40 @@
+<pp-page-title label="Property 1 of 5"></pp-page-title>
+
+<form [formGroup]="addressForm" autocomplete="off">
+  <label class="label">Enter address of the home you are selling:</label> <br />
+  <input id="confirm-address" class="config-input" ngx-google-places-autocomplete  (onAddressChange)="handleAddressChange($event)"
+    type="text" placeholder="Address" formControlName="homeAddress" />
+</form>
+
+<div class="address-component" [ngClass]="{ 'no-map': !haveAddress }">
+  <div class="map-container" *ngIf="latitude && longitude">
+    <agm-map class="map" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"></agm-marker>
+    </agm-map>
+  </div>
+
+  <div class="button-container">
+    <div *ngIf="!buttonDisabled" class="display-address">
+      {{ addressa }}<br>
+      {{ addressb }}
+      <button class="change-address" (click)="changeAddress()" *ngIf="!showLoader && latitude && longitude">Change Address</button>
+      <button type="button" [ngClass]="{ 'confirmed': !haveAddress }" class="confirm-address" [disabled]="!haveAddress" (click)="confirmAddressClicked($event)" *ngIf="!showLoader">CONFIRM ADDRESS <i class="far fa-angle-right"></i> </button>
+    </div>
+
+    <div *ngIf="buttonDisabled" class="display-address">
+      {{ addressa }}<br>
+      {{ addressb }}
+      <button class="change-address" (click)="changeAddress()" *ngIf="!showLoader">Change Address</button>
+      <button class="confirmed" type="button" [disabled]="true">ADDRESS CONFIRMED</button>
+    </div>
+    <loading-spinner *ngIf="showLoader"></loading-spinner>
+  </div>
+</div>
+<div class="nextbackbtn-container" *ngIf="buttonDisabled">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>
+
+<div *ngIf="showSellerEmailPopup">
+  <seller-email></seller-email>
+</div>

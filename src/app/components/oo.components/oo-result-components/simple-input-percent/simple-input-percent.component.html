@@ -1,0 +1,10 @@
+<div class="simple-input-percent">
+  <div class="input-group">
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="perc" />
+    <input size="9" type="text" class="simple-input"
+      [(ngModel)]="dollar"
+      (keyup)="updateHiddenVal()"
+      placeholder="$0"  mask="separator" thousandSeparator="," prefix="$" />
+  </div>
+</div>

@@ -1,0 +1,242 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$black: #000000;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+$dark_gray: #e0e0e0;
+
+input.ng-touched.ng-invalid {
+  border: 1px solid $red;
+}
+
+.label {
+  color: $partner;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-left: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.asterisk {
+  color: $red;
+  font-size: 1.5em;
+}
+
+.nextbackbtn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+input {
+  @media screen and (min-width: 992px) {
+    width: 50%;
+  }
+}
+
+.inputs-container .form-group input[type=tel] {
+  border-radius: 0 !important;
+}
+
+.form-group.checkbox {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  input {
+    cursor: pointer;
+    font-weight: 400;
+    height: 25px;
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+      
+    & + label {
+      color: $partner;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+      pointer-events: none;
+      position: relative;
+      display: flex;
+      line-height: 1.5;
+    }
+
+    & + label:before {
+      border: 2px solid lightGray;
+      content: '';
+      margin-right: 10px;
+      display: inline-block;
+      vertical-align: text-top;
+      width: 25px;
+      height: 25px;
+    }
+  
+    &:checked + label:before {
+      background: $white;
+    }
+
+    &:checked + label:after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 5px;
+      display: inline-block;
+      transform: rotate(39deg);
+      height: 15px;
+      width: 9px;
+      border-bottom: 3px solid $black;
+      border-right: 3px solid $black;
+    }
+  }
+}
+
+.name-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+
+  input {
+    width: 50%;
+  }
+
+  @media screen and (min-width: 992px) {
+    flex-direction: row;
+    width: 50%;
+
+    input {
+      width: 100%;
+    }
+  }
+
+  #agentID {
+    margin-top: 14px;
+  }
+}
+
+.text-input-container {
+  margin-left: 0;
+  width: 100%;
+
+  & + .text-input-container {
+    @media screen and (min-width: 992px) {
+      margin-left: 1em;
+    }
+  }
+    
+}
+
+.loading-spinner {
+  position: relative;
+  display: block;
+  top: -100px;
+  width: 100px;
+  transform: scale(.75);
+}
+
+.modal-wrapper {
+  display: flex;
+  justify-content: center;
+
+  .buy-modal {
+    bottom: 0;
+    overflow: hidden;
+    position: fixed;
+    max-width: 300px;
+    top: 10em;
+    z-index: 1000;
+
+    @media screen and (min-width: 768px) {
+      max-width: 500px;
+      top: calc(50% - 15em);
+    }
+
+    .modal-body {
+      background: #f2f2f2;
+      border-radius: $oo_border_radius;
+      padding: 1em;
+      text-align: center;
+      z-index: 999;
+
+      @media screen and (min-width: 768px) {
+        padding: 1.25em;
+      }
+
+      .modal-content-container {
+        border-radius: $oo_border_radius;
+        border: 2px solid $highlight;
+        padding-bottom: 15px;
+
+        &.ribbon-info {
+          display: flex;
+          flex-direction: column;
+          padding-bottom: 2em;
+
+          button {
+            align-self: flex-end;
+            background: $highlight;
+            border: 1px solid $highlight;
+            border-radius: $oo_border_radius;
+            color: $white;
+            margin-right: 1em;
+            padding: .5em .75em;
+          }
+
+          a {
+            line-height: 1.4;
+            margin: 0 2em;
+          }
+        }
+      }
+
+      h3 {
+        color: $highlight;
+        font-size: 1.5em;
+        margin: .5em;
+      }
+    }
+  }
+
+  .loading-spinner {
+    min-height: 50px;
+    position: relative;
+    top: -30px;
+    transform: scale(.5);
+    width: unset;
+  }
+
+  .modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.75;
+    z-index: 900;
+  }
+}
+
+.extra-info {
+  display: inline-block;
+  font-size: .65em;
+  margin-left: 0;
+  max-width: 100%;
+  position: relative;
+  top: 0;
+
+  @media screen and (min-width: 768px) {
+    margin-left: 1em;
+    max-width: 30%;
+    top: 5px;
+  }
+}

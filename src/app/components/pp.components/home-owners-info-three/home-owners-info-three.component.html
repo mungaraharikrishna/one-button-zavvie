@@ -1,0 +1,52 @@
+<pp-page-title label="Homeowner Info 3"></pp-page-title>
+<span class="pp-bridge-heading">For {{ bridgeHeading }} we need to know a few more things:</span> <br />
+<span class="pp-bridge-subheading">Tell us about the property you are looking to buy</span>
+<hr>
+<form [formGroup]="homeOwnerThreeInfo" class="submit-form">
+  <!-- Buying a replacement home -->
+  <radio-true-false (newval)="formValueChanged(fns.FieldNames.homeownerinfo3.Buying_Replacement_Home, $event)" [oldval]="buyingReplacementHomeDefault"
+    [qconfig]="buyingReplacementHomeQuestionConfig" [formname]="homeOwnerThreeInfo"></radio-true-false>
+  <div *ngIf="homeOwnerThreeInfo.get(fns.FieldNames.homeownerinfo3.Buying_Replacement_Home)!.value == 'true'">
+
+    <!-- already pre-approved for a loan  -->
+    <div class="input-container checkbox">
+      <label class="label">Are you already pre-approved for a loan on your next home?</label>
+      <div *ngFor="let option of preApprovalArray">
+        <input type="radio" (change)="formValueChanged(fns.FieldNames.homeownerinfo3.Prequalify_Me, option.value)" [value]="option.value" name="preapproval" formControlName="Prequalify_Me" />
+        <label class="checkbox">
+          <span class="option-heading">{{ option.heading }} - {{ option.subHeading }}</span>
+        </label>
+      </div>
+    </div>
+    <div *ngIf="homeOwnerThreeInfo.get(fns.FieldNames.homeownerinfo3.Prequalify_Me)!.value == 'No but I want to get preapproval'">
+      <!-- Your Approvimate Monthly Income -->
+      <simple-number-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo3.Monthly_Income, $event)" [oldval]="monthlyIncomeDefault"
+        [qconfig]="monthlyIncomeQuestionConfig" [formname]="homeOwnerThreeInfo"></simple-number-text>
+      <!-- Additional Income form Househols Members -->
+      <simple-number-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo3.Additional_Income, $event)" [oldval]="additionalIncomeDefault"
+        [qconfig]="additionalIncomeQuestionConfig" [formname]="homeOwnerThreeInfo"></simple-number-text>
+    </div>
+    <!-- Buying in what city -->
+    <simple-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo3.Buying_In_City, $event)" [oldval]="buyingInCityDefault"
+      [qconfig]="buyingInCityQuestionConfig" [formname]="homeOwnerThreeInfo"></simple-text>
+    <!-- Price Range  -->
+    <div class="price-range">
+      <simple-number-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo3.BuyingPriceRangeLow, $event)" [oldval]="buyingPriceRangeLowDefault"
+        [qconfig]="buyingPriceRangeLowQuestionConfig" [formname]="homeOwnerThreeInfo"></simple-number-text>
+      <span style="margin-left: 1em; margin-right: 1em; margin-bottom: 1.5em;">&mdash;</span>
+      <simple-number-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo3.BuyingPriceRangeHigh, $event)" [oldval]="buyingPriceRangeHighDefault"
+        [qconfig]="buyingPriceRangeHighQuestionConfig" [formname]="homeOwnerThreeInfo"></simple-number-text>
+    </div>
+    <!-- Ready to make an offer on a home -->
+    <radio-true-false (newval)="formValueChanged(fns.FieldNames.homeownerinfo3.Ready_To_Make_Offer, $event)" [oldval]="readyToMakeOfferDefault"
+      [qconfig]="readyToMakeOfferQuestionConfig" [formname]="homeOwnerThreeInfo"></radio-true-false> 
+
+  </div>
+  <div class="loading-spinner" *ngIf="showLoader">
+    <loading-spinner></loading-spinner>
+  </div>
+</form>
+<div class="nextbackbtn-container" *ngIf="!showLoader">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="sendBtnConfig" (click)="sendToPb()"></app-nextbackbtn>
+</div>

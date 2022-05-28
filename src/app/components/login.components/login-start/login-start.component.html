@@ -1,0 +1,10 @@
+<login-link
+  (loginShow)="openApp()"
+  (showProfile)="showProfile()"
+  (logout)="onLogout()"></login-link>
+<login-signup *ngIf="activeForm !== ''"
+  (close_login)="closeProfile()"
+  [show_login]="show_login"
+  [show_profile]="show_profile"
+  [logout]="logout"
+  [activeForm]="activeForm"></login-signup>

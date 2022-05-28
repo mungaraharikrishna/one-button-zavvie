@@ -1,0 +1,20 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.card {
+  width: 90%;
+  margin: 3em;
+  background: $highlight;
+  color: $white;
+}
+
+.fas {
+  color: green;
+  border: 2px solid greenyellow;
+  border-radius: 60%;
+  margin: 0 10px;
+}

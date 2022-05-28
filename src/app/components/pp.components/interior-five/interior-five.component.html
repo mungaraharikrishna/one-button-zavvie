@@ -1,0 +1,19 @@
+<pp-page-title label="Interior 5 of 7"></pp-page-title>
+<form [formGroup]="interiorFiveInfo" class="interior-form">
+    <!-- Kitchen Flooring Type -->
+    <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior5.Kitchen_Flooring_Types, $event); checkValidity()" [oldval]="kitchenFlooringTypesDefault"
+    [opts]="flooringTypes" [qconfig]="kitchenFlooringTypesQuestionConfig" [formname]="interiorFiveInfo"></multi-select-checkbox>
+    <!-- Kitchen Flooring Condition -->
+    <select-option (newval)="formValueChanged(fns.FieldNames.interior5.Kitchen_Flooring_Condition, $event)" [oldval]="kitchenFlooringConditionDefault" [formname]="interiorFiveInfo"
+    [opts]="kitchenFlooringCondition" [qconfig]="kitchenFlooringConditionQuestionConfig"></select-option>
+     <!-- Main Area Flooring Type -->
+     <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior5.Main_Flooring_Types, $event); checkValidity()" [oldval]="mainFlooringTypesDefault"
+     [opts]="mainflooringTypes" [qconfig]="mainFlooringTypesQuestionConfig" [formname]="interiorFiveInfo"></multi-select-checkbox>
+     <!-- Main Area Flooring Condition -->
+     <select-option (newval)="formValueChanged(fns.FieldNames.interior5.Main_Flooring_Condition, $event)" [oldval]="mainFlooringConditionDefault" [formname]="interiorFiveInfo"
+     [opts]="mainFlooringCondition" [qconfig]="mainFlooringConditionQuestionConfig"></select-option>
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

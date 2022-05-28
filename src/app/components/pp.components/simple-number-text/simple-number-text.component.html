@@ -1,0 +1,16 @@
+<div class="form-group">
+  <label class="label" for="{{ qconfig.controlname }}">{{ qconfig.inputlabel }} <span *ngIf="qconfig.required == 'true'" class="asterisk">*</span> </label><br>
+    <span class="small-txt" *ngIf="qconfig.inputsublabel">{{ qconfig.inputsublabel }}</span>
+  <!-- Amount value input -->
+  <div *ngIf="qconfig.placeholder == '$0'">
+    <input type="text" (keyup)="changeSelection($event)" class="form-control" [placeholder]="qconfig.placeholder" (formControlName)="qconfig.controlname"
+      [value]="oldval" mask="separator" thousandSeparator="," prefix="$">
+  </div>
+  <!-- Phone Number Input -->
+  <div *ngIf="qconfig.placeholder == 'Phone'">
+  <input type="text" (keyup)="changeSelection($event)" class="form-control" [placeholder]="qconfig.placeholder" (formControlName)="qconfig.controlname"
+    [value]="oldval" mask="(000) 000-0000">
+  </div>
+</div>
+
+  

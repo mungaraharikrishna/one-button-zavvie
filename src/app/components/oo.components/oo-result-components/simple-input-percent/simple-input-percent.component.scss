@@ -1,0 +1,24 @@
+.simple-input-percent {
+
+  .input-group {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  input {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 34px;
+    line-height: 1;
+    max-height: 34px;
+    padding: 0 .25em;
+    text-align: right;
+    width: 45%;
+    -webkit-user-select: text;
+
+    &.concierge-checkbox {
+      cursor: pointer;
+      width: unset;
+    }
+  }
+}

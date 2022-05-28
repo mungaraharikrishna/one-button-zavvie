@@ -1,0 +1,43 @@
+<pp-page-title label="Property 2 of 5"></pp-page-title>
+<form [formGroup]="propertyOne" class="property-form">
+
+  <!-- Home Value -->
+  <div class="input-container">
+    <label class="label" for="ApproximateHomeVal" *ngIf="!asisSituation()">Estimated home value<span class="asterisk">*</span> </label>
+    <label class="label" for="ApproximateHomeVal" *ngIf="asisSituation()">Approximate after renovation value of the property you are selling<span class="asterisk">*</span> </label>
+    <br><span class="small-txt">The estimated market value of your home after repairs and renovations.</span>
+    <input type="text" (keyup)="homeValueChanged($event)" class="form-control" placeholder="$0" formControlName="ApproximateHomeVal"
+      [value]="homeValueDefault" mask="separator" thousandSeparator="," prefix="$">
+  </div>
+
+  <!-- Home Condition -->
+  <select-option (newval)="formValueChanged('HomeCondition', $event)" [oldval]="homeConditionDefault" [formname]="propertyOne"
+    [opts]="homeCondition" [qconfig]="homeConditionQuestionConfig"></select-option>
+
+  <!-- Property Type -->
+  <select-option (newval)="formValueChanged(fns.FieldNames.property1.PropertyType, $event)" [oldval]="propTypeDefault" [formname]="propertyOne"
+    [opts]="propertyType" [qconfig]="propertyTypeQuestionConfig"></select-option>
+
+  <!-- Home Type -->
+  <radio-true-false (newval)="formValueChanged(fns.FieldNames.property1.HomeType, $event)" [oldval]="homeTypeDefault"
+    [qconfig]="homeTypeQuestionConfig" [formname]="propertyOne"></radio-true-false>
+
+  <div *ngIf="propertyOne.get(fns.FieldNames.property1.HomeType)!.value == 'Investment Property'">
+
+    <!-- Investment Property Rented-->
+    <radio-true-false (newval)="formValueChanged(fns.FieldNames.property1.InvPropRented, $event)" [oldval]="invPropRentedDefault"
+      [qconfig]="currentlyRentedQuestionConfig" [formname]="propertyOne"></radio-true-false>
+
+    <div *ngIf="propertyOne.get(fns.FieldNames.property1.InvPropRented)!.value == 'true'">
+      <!-- Lease End -->
+      <simple-text (newval)="formValueChanged(fns.FieldNames.property1.LeaseEnd, $event)" [oldval]="leaseEndDefault"
+        [qconfig]="leaseEndQuestionConfig" [formname]="propertyOne"></simple-text>
+    </div>
+  </div>
+
+</form>
+
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

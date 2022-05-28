@@ -1,0 +1,22 @@
+<div class="alt-input-percent">
+  <div class="input-group">
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="perc" name="perc" 
+      (change)="updateInputVal()"
+      mask="percent" suffix="%" appValidateNumber />
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="altmod" name="altmod"
+      mask="percent" suffix="%" appValidateNumber />
+    <div class="concierge-checkbox-container" *ngIf="showconcierge">
+      <label>
+        <input type="checkbox" class="concierge-checkbox" (change)="changeConcierge()" />
+        <strong>{{ conciergelabel }}</strong> lets you pay for renovations after your house sells.
+      </label>
+    </div>
+    <input size="9" type="text" class="simple-input"
+      [(ngModel)]="dollar" name="dollar"
+      (keyup)="updateHiddenVal(); updatePrepRepairs()"
+      placeholder="$0" mask="separator" thousandSeparator="," prefix="$" 
+      [attr.disabled]="concierge == true ? true : null" />
+  </div>
+</div>

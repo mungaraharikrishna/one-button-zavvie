@@ -1,0 +1,62 @@
+$partner: var(--partner);
+
+.ranged-double-percent-dollar-inputs {
+
+  .input-group {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    input {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1.1em;
+      height: 34px;
+      line-height: 1;
+      padding: 0 .25em;
+      text-align: right;
+      width: 45%;
+      -webkit-user-select: text;
+
+      &.disabled {
+        background: none;
+        border: none;
+      }
+    }
+  }
+
+  .arrow {
+    color: $partner;
+  }
+
+  .arrow + .input-group {
+    justify-content: flex-end;
+  }
+}
+
+.ranged-double-percent-dollar-inputs {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  
+  .input-group {
+    width: 55%;
+
+    // @media screen and (min-width: 1050px) {
+    //   justify-content: flex-start;
+    // }
+
+    &.percent {
+
+      input {
+        text-align: left;
+      }
+    }
+  }
+
+  .arrow + .input-group {
+    justify-content: space-between;
+  }
+}

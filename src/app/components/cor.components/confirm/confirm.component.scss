@@ -1,0 +1,143 @@
+$partner: var(--partner);
+$labels: #444444;
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+html,
+body {
+  transition: all 0.5s ease-out;
+}
+.offer-collector-form {
+  position: relative;
+}
+
+.label {
+  color: $labels;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-left: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.config-input {
+  color: $partner;
+  text-align: left;
+  margin-bottom: 10px;
+
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  max-width: 100%;
+  padding: .25rem 0 .25rem .5rem;
+  width: 100%;
+
+  & + .config-input {
+    @media screen and (min-width: 992px) {
+      margin-left: 1em;
+    }
+  }
+    
+}
+
+.pp-info1, .pp-info2,
+.accordion-body {
+
+  ul {
+    list-style-type: none;
+    color: $partner;
+    font-size: 1em; 
+  }
+}
+
+.loading-spinner {
+  min-height: 55px;
+  position: relative;
+  right: 2em;
+  top: -45px;
+  transform: scale(.6);
+}
+
+.nextbackbtn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1em;
+
+  button {
+    background-color: $highlight;
+    border: 0;
+    border-radius: $oo_border_radius;
+    color: $white;
+    cursor: pointer;
+    margin: .5em;
+    padding: 0.5em 1em;
+
+    &.disabled {
+      background-color: #e2e2e2;
+      border: 0;
+      cursor: auto;
+    }
+  }
+}
+
+.accordion-item {
+  background: #f1f1f1;
+  margin-bottom: 10px;
+}
+
+.accordion-collapse.collapsing,
+.accordion-collapse.show {
+  padding: 1em;
+}
+
+.accordion-button {
+  border: 0;
+  border-radius: 0;
+  padding: .6em;
+  text-align: left;
+  width: 100%;
+  background: $highlight;
+  color: $white;
+
+  &:hover {
+    color: #ffffff;
+  }
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: #ffffff;
+    top: 0;
+    background: $highlight;
+  }
+}
+
+.clear-search-input {
+  background: 0;
+  border: 0;
+  color: $highlight;
+  margin: 1em 1em 0 0;
+  padding: 0;
+  position: unset;
+  text-decoration: underline;
+
+  @media screen and (min-width: 768px) {
+    float: none;
+    margin: 0;
+    position: absolute;
+    text-decoration: none;
+    top: 2.25em;
+    right: 1em;
+    text-decoration: underline;
+  }
+}
+
+.pp_link {
+  float: left;
+  font-size: .9em;
+  position: relative;
+  top: -5px;
+}

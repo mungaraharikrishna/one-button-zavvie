@@ -1,0 +1,293 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$black: #000000;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+$dark_gray: #e0e0e0;
+
+.modal-wrapper {
+  display: flex;
+  justify-content: center;
+
+  .jw-modal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    overflow: hidden;
+    
+
+    @media screen and (min-width: 768px) {
+      top: calc(50% - 15em);
+    }
+
+    &.email-to-client {
+      top: calc(50% - 25em);
+      width: 100vw;
+
+      @media screen and (min-width: 768px) {
+        width: 66vw;
+      }
+    }
+    .modal-content-container {
+      border-radius: $oo_border_radius;
+      border: 2px solid $highlight;
+      padding-bottom: 15px;
+    }
+
+    .modal-body {
+      background: #f2f2f2;
+      border-radius: $oo_border_radius;
+      margin: 10px;
+      padding: 20px 0;
+      text-align: center;
+
+      @media screen and (min-width: 768px) {
+        padding: 20px;
+      }
+
+      h3 {
+        color: $highlight;
+        margin-top: 0;
+      }
+      h4{
+        padding: 10px;
+        color: $white;
+        background: $highlight;
+      }
+
+      .details-container {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 95%;
+
+        @media screen and (min-width: 768px) {
+          align-items: flex-start;
+          flex-direction: row;
+          margin: 0 auto;
+        }
+      }
+
+      .option1 {
+        margin-bottom: 1em;
+
+        @media screen and (min-width: 768px) {
+          margin-bottom: 0;
+        }
+
+        .btn-container {
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+
+          button {
+            border-radius: .25em;
+            margin-top: 1em;
+            padding: .25em 1em;
+
+            &.cancel-btn {
+              background: $white;
+              border: 1px solid $highlight;
+              color: $highlight;
+              margin-right: .5em;
+            }
+  
+            &.confirm-btn {
+              background: $highlight;
+              border: 0;
+              color: $white;
+            }
+          }
+        }
+      }
+
+      .option1 + .option2 {
+        margin-left: .5em;
+      }
+
+      .option1, .option2 {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+
+        @media screen and (min-width: 768px) {
+          padding: 0;
+        }
+      }
+
+      .mock-email {
+        align-items: center;
+        border: 1px solid #e0e0e0;
+        border-radius: .25em;
+        display: flex;
+        flex-direction: column;
+        padding: 1em 2em;
+
+        img {
+          height: auto;
+          margin-bottom: .5em;
+          max-width: 100px;
+        }
+      }
+  
+      .email-message {
+        padding: .5em;
+        margin: 0 auto;
+        width: 95%;
+      }
+
+      .details-body {
+        background: $white;
+        border: 2px solid $highlight;
+        border-radius: $oo_border_radius;
+        cursor: pointer;
+        max-width: 250px;
+        min-height: 18em;
+        padding-bottom: 1em;
+        position: relative;
+
+        @media screen and (min-width: 768px) {
+          width: unset;
+        }
+
+        .details-title {
+          background: $dark_gray;
+          border-top-left-radius: $oo_border_radius;
+          border-top-right-radius: $oo_border_radius;
+          color: $white;
+          margin: 0;
+          padding: .5em .25em 0 .25em;
+          position: relative;
+
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: -24px;
+            left: 0;
+            height: 0;
+            border-left: 124px solid transparent;
+            @media screen and (min-width: 768px) {
+              border-left: 114px solid transparent;
+            }
+            border-right: 124px solid transparent;
+            border-top: 25px solid $dark_gray;
+          }
+        }
+
+        &:hover {
+
+          .details-title {
+            background: $highlight;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            color: $white;
+            
+            &::after {
+              border-top: 25px solid $highlight;
+            }
+          }
+
+          button {
+            background: $highlight;
+          }
+        }
+
+        h5 {
+          margin-top: 3.5em;
+        }
+
+        p {
+          font-size: .9em;
+        }
+
+        h5, p {
+          padding: 0 .5em;
+        }
+
+        button {
+          color: $white;
+          background: $dark_gray;
+          border: 0;
+          border-radius: $oo_border_radius;
+          bottom: 1em;
+          position: absolute;
+          top: unset;
+        }
+        
+        &.email-to-client {
+          cursor: default;
+          max-width: 100%;
+          padding: 1em 0;
+
+          @media screen and (min-width: 768px) {
+            padding: 1em .5em;
+          }
+
+          p {
+            align-self: flex-start;
+            margin-bottom: .5em;
+            margin-left: 1em;
+            margin-top: .5em;
+            text-align: left;
+
+            .email-details-to-email,
+            .email-details-to-name,
+            .email-details-to-subject {
+              font-weight: bold;
+            }
+          }
+        }
+      }
+
+      .option1 button {
+        left: calc(50% - 75px);
+      }
+      
+      .option2 button {
+        left: calc(50% - 85px);
+      }
+    }
+  }
+
+  .modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.75;
+    z-index: 900;
+  }
+}
+
+body.modal-background-open {
+  overflow: hidden;
+}
+
+.loading-spinner {
+  min-height: 50px;
+  position: relative;
+  top: -30px;
+  transform: scale(.5);
+
+  &.hide {
+    display: none;
+  }
+}
+
+.btn-container button + .loading-spinner {
+  min-width: 177px;
+}
+
+.btn-container button + button + .loading-spinner {
+  margin-left: 0;
+  min-width: 0;
+}

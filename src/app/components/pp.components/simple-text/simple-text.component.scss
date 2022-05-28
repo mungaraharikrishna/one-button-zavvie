@@ -1,0 +1,22 @@
+$partner: var(--partner);
+$red: #fb4e30;
+
+.form-group {
+  text-align: left;
+}
+
+.label {
+  color: $partner;
+  font-family: Avenir;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-left: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.asterisk {
+  color: $red;
+  font-size: 1.5em;
+}

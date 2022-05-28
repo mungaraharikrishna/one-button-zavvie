@@ -1,0 +1,16 @@
+<pp-page-title label="Interior 4 of 7"></pp-page-title>
+<form [formGroup]="interiorFourInfo" class="interior-form">
+    <!-- Master Bath Features -->
+    <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior4.Bathroom_Special_Features, $event); checkValidity()" [oldval]="masterBathDefault"
+    [opts]="masterBath" [qconfig]="masterBathQuestionConfig" [formname]="interiorFourInfo"></multi-select-checkbox>
+    <!-- Remodeled Master Bathroom -->
+    <select-option (newval)="formValueChanged(fns.FieldNames.interior4.Remodeled_Master_Bathroom, $event)" [oldval]="masterBathRemodeledDefault" [formname]="interiorFourInfo"
+    [opts]="remodeledMbath" [qconfig]="masterBathRemodeledQuestionConfig"></select-option>
+    <!-- Master Bath Condition -->
+    <select-option (newval)="formValueChanged(fns.FieldNames.interior4.Overall_Condition_of_Master_Bathroom, $event)" [oldval]="masterBathConditionDefault" [formname]="interiorFourInfo"
+    [opts]="masterBathCondition" [qconfig]="masterBathConitionQuestionConfig"></select-option>
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

@@ -1,0 +1,7 @@
+<button (click)="pdfClicked($event)" *ngIf="!pdfRequested">Download PDF</button>
+<div class="pdf-loading-container" *ngIf="pdfRequested">
+  <div class="loading-msg" style="color: #386099;">
+    <span class="fas fa-spinner" aria-hidden="true"></span>
+    <span class="msg">Building PDF: <span style="color: #666666">{{ pdfMsg }}</span></span>
+  </div>
+</div>

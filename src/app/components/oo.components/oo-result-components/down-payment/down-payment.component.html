@@ -1,0 +1,25 @@
+<div class="down-payment-container">
+  <div class="group group-1">
+    <div class="input-group">
+      <input size="9" type="text" class="percent-input" placeholder="0" autocomplete="off" [(ngModel)]="perc_1" name="perc_1"
+        value="perc_1" (keyup)="changeDollar1Amt()" mask="percent" suffix="%" [dropSpecialCharacters]="false" appValidateNumber />
+    </div>
+    <div class="input-group">
+      <input class="disabled" size="9" type="text" tabindex="20" placeholder="$0" autocomplete="off"
+        [(ngModel)]="dollar_1" name="dollar_1" mask="separator" thousandSeparator="," prefix="$" 
+        (keyup)="changePerc1Amt()" [attr.disabled]="true" />
+    </div>
+  </div>
+  
+  <div class="group group-2">
+    <div class="input-group">
+      <input size="9" type="text" class="percent-input" placeholder="0" autocomplete="off" [(ngModel)]="perc_2" name="perc_2"
+        value="perc_2" (keyup)="changeDollar2Amt()" mask="percent" suffix="%" [dropSpecialCharacters]="false" appValidateNumber />
+    </div>
+    <div class="input-group">
+      <input class="disabled" size="9" type="text" tabindex="20" placeholder="$0" autocomplete="off"
+        [(ngModel)]="dollar_2" name="dollar_2" mask="separator" thousandSeparator="," prefix="$" 
+        (keyup)="changePerc2Amt()" [attr.disabled]="true" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="ranged-double-percent-dollar-inputs">
+  <div class="input-group double ranged percent">
+    <input size="4" type="text" class="percent-input" placeholder="0"
+      mask="percent" suffix="%" appValidateNumber [dropSpecialCharacters]="false"
+      [(ngModel)]="lowperc"
+      (keyup)="changeLowDollarAmt()" />
+    <span class="arrow">&ndash;</span>
+    <input size="4" type="text" class="percent-input" placeholder="0"
+      mask="percent" suffix="%" appValidateNumber [dropSpecialCharacters]="false"
+      [(ngModel)]="highperc"
+      (keyup)="changeHighDollarAmt()" />
+  </div>
+  <span class="arrow">&#8594;</span>
+  <div class="input-group double ranged">
+    <input size="5" type="text" placeholder="$0" mask="separator" thousandSeparator="," prefix="$"
+      [(ngModel)]="lowdollar"
+      (change)="changeLowPercAmt()" />
+    <span class="arrow">&ndash;</span>
+    <input size="5" type="text" placeholder="$0" mask="separator" thousandSeparator="," prefix="$"
+      [(ngModel)]="highdollar"
+      (change)="changeHighPercAmt()" />
+  </div>
+</div>

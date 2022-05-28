@@ -1,0 +1,39 @@
+<pp-page-title label="Property 4 of 5"></pp-page-title>
+
+<form [formGroup]="propertyThree" class="property-form">
+
+  <simple-text (newval)="formValueChanged('TotalSqFt', $event)" [oldval]="totalSqFootageDefault"
+    [qconfig]="totalSqFootageQuestionConfig" [formname]="propertyThree"></simple-text>
+
+  <simple-text (newval)="formValueChanged('AboveGroundSqFt', $event)" [oldval]="aboveSqFootageDefault"
+    [qconfig]="aboveSqFootageQuestionConfig" [formname]="propertyThree"></simple-text>
+
+  <simple-text (newval)="formValueChanged('BelowGroundSqFt', $event)" [oldval]="belowSqFootageDefault"
+    [qconfig]="belowSqFootageQuestionConfig" [formname]="propertyThree"></simple-text>
+
+  <simple-text (newval)="formValueChanged('YearBuilt', $event)" [oldval]="yearBuiltDefault"
+    [qconfig]="yearBuiltQuestionConfig" [formname]="propertyThree"></simple-text>
+
+  <simple-text (newval)="formValueChanged('YearPurchased', $event)" [oldval]="yearPurchasedDefault"
+    [qconfig]="yearPurchasedQuestionConfig" [formname]="propertyThree"></simple-text>
+
+  <number-increment (newval)="formValueChanged('Number_Floors', $event)" [oldval]="numberFloorsDefault"
+    [qconfig]="numberFloorsQuestionConfig" [formname]="propertyThree"></number-increment>
+
+  <number-increment (newval)="formValueChanged('Number_GarageSpaces', $event)" [oldval]="numberGarageSpacesDefault"
+    [qconfig]="numberGarageSpacesQuestionConfig" [formname]="propertyThree"></number-increment>
+
+  <div class="input-container checkbox">
+    <label class="label">Garage Type</label>
+    <div *ngFor="let gType of garageTypesArray">
+      <input type="radio" (change)="formValueChanged('GarageType', gType)" [value]="gType" name="garageTypes" formControlName="GarageType" />
+      <label><span class="checkbox-label">{{ gType }}</span></label>
+    </div>
+  </div>
+
+</form>
+
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

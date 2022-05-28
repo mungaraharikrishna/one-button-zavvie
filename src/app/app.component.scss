@@ -1,0 +1,9 @@
+:root {
+  --top-position: 0;
+}
+
+.one-button-container {
+  padding: 2em 0 0;
+  position: relative;
+  top: var(--top-position);
+}

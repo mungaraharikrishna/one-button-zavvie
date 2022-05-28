@@ -1,0 +1,58 @@
+$zavvie_blue: #386099;
+$highlight: var(--highlight);
+$white: #ffffff;
+$text_color: #595959;
+$border_radius: 6px;
+
+button {
+  background: 0;
+  border: 0;
+  color: $highlight;
+  cursor: pointer;
+  padding: 0;
+}
+
+.obz-login-menu {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
+  font-family: Avenir;
+  padding-bottom: 5px;
+  padding-left: 0.5em;
+  position: relative;
+  z-index: 999;
+
+  svg {
+    fill: $highlight;
+    width: 20px;
+  }
+
+  ul {
+    background: $white;
+    border: 1px solid $text_color;
+    box-shadow: 4px 3px 10px #222222;
+    list-style: none;
+    padding-left: 0;
+    position: absolute;
+    right: 0;
+    top: 1.7em;
+
+    li {
+      color: $highlight;
+      padding: .5em 1em;
+    }
+  }
+}
+
+.login-button button {
+  font-size: 1em;
+  font-weight: bold;
+  margin-left: .25em;
+  padding-left: 0;
+  position: relative;
+  top: 2px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

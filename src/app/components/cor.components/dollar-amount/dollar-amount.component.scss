@@ -1,0 +1,21 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.dollar-amount{
+    .input-group {
+        input {
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          font-size: 1.1em;
+          height: 34px;
+          line-height: 1;
+          padding: 0 0.25em;
+          width: 9rem;
+          text-align: right;
+        }
+      }
+}

@@ -1,0 +1,146 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+html, body {
+  transition: all 0.5s ease-out;
+}
+
+.address-component {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  @media screen and (min-width: 992px) {
+    flex-direction: row;
+  }
+
+  &.no-map {
+    justify-content: flex-end;
+  }
+}
+
+.label {
+  color: unset;
+  font-size: 1em;
+  padding: 0;
+}
+
+.display-address {
+  line-height: 1.1;
+  margin-bottom: .5em;
+  text-align: center;
+}
+
+.config-input {
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  color: #666666;
+  margin-bottom: 1em;
+  max-width: 100%;
+  padding: .25rem 0 .25rem .5rem;
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  min-height: 150px;
+  min-width: 190px;
+  position: relative;
+
+  button {
+    color: $white;
+    display: block;
+    font-weight: bold;
+    background-color: $highlight;
+    border-radius: $oo_border_radius;
+    border: 2px solid transparent;
+    margin: 0 auto;
+    max-width: 215px;
+    padding: 0.5em;
+
+    &.confirm-address {
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+
+    &.confirmed {
+      background-color: #6a6a6a;
+      box-shadow: none;
+      transform: translateY(2px);
+    }
+
+      &:hover {
+        transform: translateY(2px);
+        box-shadow: none;
+      }
+    }
+
+    &.change-address {
+      color: #666;
+      background-color: transparent;
+      font-weight: normal;
+      text-decoration: underline;
+
+      &:hover {
+        color: $highlight 
+      }
+    }
+  }
+}
+
+.config-input {
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  color: #666666;
+  max-width: 100%;
+  padding: .25rem 0 .25rem .5rem;
+  width: 100%;
+}
+
+.map-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  max-width: 100%;
+  padding: 10px;
+
+  @media screen and (min-width: 768px) {
+    margin: 0 2em;
+  }
+
+  .map {
+    height: 300px;
+    width: 66vw;
+    overflow: hidden;
+    border-radius: $oo_border_radius;
+    border: $oo_border;
+
+    @media screen and (min-width: 768px) {
+      width: 500px;
+    }
+  }
+
+  .display-address {
+    align-items: center;
+    display: flex;
+
+    span {
+      color: $red;
+      cursor: pointer;
+      padding: 5px;
+    }
+  }
+}
+
+.nextbackbtn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}

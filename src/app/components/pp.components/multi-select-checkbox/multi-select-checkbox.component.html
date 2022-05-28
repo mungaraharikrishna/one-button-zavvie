@@ -1,0 +1,15 @@
+<div class="multi-select">
+  <label>
+    <strong class="label">{{ qconfig.label }}</strong><br>
+    Please select all that apply <span *ngIf="qconfig.required == 'true' || qconfig.required == true" class="asterisk">*</span>
+  </label>
+  <div class="input-container multi-checkbox">
+    <div class="multi-checkbox-container" *ngFor="let opt of opts">
+      <input *ngIf="opt !== 'None of the above'" #checkboxes type="checkbox" value="{{ opt }}" (formControlName)="qconfig.controlname"
+        (change)="toggleCompFeatures(opt)" [checked]="selection && selection.indexOf(opt) > -1" />
+      <input *ngIf="opt == 'None of the above'" #nonCheckbox type="checkbox" value="{{ opt }}" (formControlName)="qconfig.controlname"
+        (change)="toggleCompFeatures(opt)" [checked]="selection && selection == 'None of the above'" />
+      <label>{{ opt }}</label>    
+    </div> 
+  </div>
+</div>

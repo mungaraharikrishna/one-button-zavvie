@@ -1,0 +1,50 @@
+<div class="bread-crumbs">
+  <ul *ngIf="!express">
+    <li [class.active]= "!currentUrl || currentUrl === 'solutions'"> <span>Step 1</span> 
+      <a routerLink="#" (click)="sellersollutions()" [class.disabled]= "transBtnDisabled">
+        <i *ngIf="firstRouteDone" class="fas fa-check-circle"></i> SOLUTIONS
+      </a>
+    </li>
+    <li [class.active]="currentUrl === 'general-info'"> <span>Step 2</span> 
+      <a routerLink="#" (click)="generalInfo()" [class.disabled]= "transBtnDisabled2">
+        <i *ngIf="secondRouteDone" class="fas fa-check-circle"></i> GENERAL INFO
+      </a>
+    </li>
+    <li [class.active]="currentUrl === 'buyer-info'"> <span>Step 3</span> 
+      <a routerLink="#" (click)="buyerInfo()" [class.disabled]= "transBtnDisabled3">
+        <i *ngIf="thirdRouteDone" class="fas fa-check-circle"></i> BUYER INFO
+      </a>
+    </li>
+    <li [class.active]="currentUrl === 'property'"> <span>Step 4</span> 
+      <a routerLink="#" (click)="property()" [class.disabled]="transBtnDisabled4">
+        <i *ngIf="fourthRouteDone" class="fas fa-check-circle"></i> PROPERTY
+      </a>
+    </li>
+    <li [class.active]="currentUrl === 'interior'"> <span>Step 5</span> 
+      <a routerLink="#" (click)="interior()" [class.disabled]="transBtnDisabled5">
+        <i *ngIf="fifthRouteDone" class="fas fa-check-circle"></i> INTERIOR
+      </a>
+    </li>
+    <li [class.active]="currentUrl === 'exterior'"> <span>Step 6</span> 
+      <a routerLink="#" (click)="exterior()" [class.disabled]="transBtnDisabled6">
+        <i *ngIf="sixthRouteDone" class="fas fa-check-circle"></i> EXTERIOR
+      </a>
+    </li>
+    <li [class.active]="currentUrl === 'seller-info'"> <span>Step 7</span> 
+      <a routerLink="#" (click)="homeowners()" [class.disabled]= "transBtnDisabled7">
+        <i *ngIf="seventhRouteDone" class="fas fa-check-circle"></i> SELLER INFO
+      </a>
+    </li>
+    <li [class.active]="currentUrl === 'photos'"> <span>Step 8</span> 
+      <a routerLink="#" (click)="photos()" [class.disabled]="transBtnDisabled8">
+        <i *ngIf="eigthRouteDone" class="fas fa-check-circle"></i> PHOTOS
+        <span class="arrow_bg"></span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- container for all components  -->
+<div class="ppContainer">
+  <router-outlet></router-outlet>
+</div>

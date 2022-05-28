@@ -1,0 +1,19 @@
+<label class="label">{{ qconfig.inputlabel }}<span *ngIf="qconfig.required == 'true'" class="asterisk">*</span></label> <br/>
+<span class="small-txt">{{ qconfig.suplabel }}</span>
+<div class="inputs-container">
+  <div class="input-container" [ngClass]="qconfig.type">
+    <input type="radio" #radio (change)="updateValue($event)" [checked]="oldval == qconfig.trueval" [attr.value]="qconfig.trueval" [attr.name]="qconfig.controlname" (formControlName)="qconfig.controlname" />
+    <label>{{ qconfig.truelabel }}</label>
+  </div>
+  <div class="input-container" [ngClass]="qconfig.type">
+    <input type="radio" #radio (change)="updateValue($event)" [checked]="oldval == qconfig.falseval" [attr.value]="qconfig.falseval" [attr.name]="qconfig.controlname" (formControlName)="qconfig.controlname" />     
+    <label>{{ qconfig.falselabel }}</label>
+  </div>
+  <!-- Unsure Option  -->
+  <div *ngIf="qconfig.option == 'Unsure'">
+    <div class="input-container" [ngClass]="qconfig.type">
+      <input type="radio" #radio (change)="updateValue($event)" [checked]="oldval == qconfig.unsureval" [attr.value]="qconfig.unsureval" [attr.name]="qconfig.controlname" (formControlName)="qconfig.controlname" />     
+      <label>{{ qconfig.unsurelabel }}</label>
+    </div>
+  </div>
+</div>

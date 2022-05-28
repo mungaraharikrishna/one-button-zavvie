@@ -1,0 +1,136 @@
+$partner: var(--partner);
+$labels: #444444;
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.pointerCursor {
+  cursor: pointer;
+}
+
+.label {
+  color: $labels;
+  font-size: 1em;
+
+  &.seller-agent label,
+  &.buyer-agent label {
+    font-weight: normal;
+  }
+}
+
+.cor-container {
+  padding: 0 .5em;
+
+  @media screen and (min-width: 768px) {
+    padding: 0 1em;
+  }
+
+  .cor-row {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 992px) {
+      flex-direction: row;
+      justify-content: space-evenly;
+    }
+  }
+}
+
+.open-market-sales {
+
+  h4 {
+    color: $labels;
+    font-weight: bold;
+    margin-top: 0;
+    padding-top: 2em;
+  }
+
+  .open-market-title {
+    background: $highlight;
+    border: 0;
+    border-radius: $oo_border;
+    color: $white;
+    padding: .6em;
+    text-align: left;
+    width: 100%;
+
+    span {
+      margin-right: 1em;
+    }
+
+    h5 {
+      color: $white;
+    }
+  }
+
+  .homeVal-container {
+    display: flex;
+    justify-content: space-between;
+    
+    input {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1.1em;
+      height: 34px;
+      line-height: 1;
+      padding: 0 0.25em;
+      text-align: right;
+      margin-bottom: 10px;
+      width: 50%;
+    }
+  }
+
+  .estimated-net {
+    font-size: 1.2em;
+  
+    h5 {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin: 0;
+      text-align: center;
+    }
+  }
+
+  .first-col {
+
+    .service-fee {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .commission {
+
+      .seller-agent,
+      .buyer-agent {
+        display: flex;
+        justify-content: space-between;
+        text-indent: -20px;
+        margin-left: 10%;
+      }
+    }
+  }
+
+  .first-col,
+  .middle-col {
+    padding: 0 .5em;
+
+    .price-input-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+  }
+
+  .estimated-net {
+    margin-left: 2em;
+  }
+}
+
+.accordion-item {
+  background: #f1f1f1;
+  margin-bottom: 10px;
+  margin-top: 0;
+  padding-top: 1em;
+}

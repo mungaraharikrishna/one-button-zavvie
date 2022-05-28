@@ -1,0 +1,25 @@
+<div class="profile-component">
+  <div class="profile-table">
+    <h3>My Account</h3>
+    <div class="name-container">
+      <div class="profile-data">Name</div>
+      <div class="profile-value">{{ agent.first_name }} {{ agent.last_name }}</div>
+    </div>
+    <div class="name-container">
+      <div class="profile-data">Phone number</div>
+      <div class="profile-value">{{ agent.phone | mask: '(000) 000-0000' }}</div>
+    </div>
+    <div class="name-container">
+      <div class="profile-data">MLS number</div>
+      <div class="profile-value">{{ agent.mls_number }}</div>
+    </div>
+    <div class="name-container">
+      <div class="profile-data">Email address</div>
+      <div class="profile-value">{{ agent.email }}</div>
+    </div>
+    <div class="name-container">
+      <div class="profile-data">Password<br /><button (click)="showChangePassword.emit($event)">Change Password</button></div>
+      <div class="profile-value">**********</div>
+    </div>
+  </div>
+</div>

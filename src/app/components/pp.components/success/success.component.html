@@ -1,0 +1,139 @@
+<!-- Success Card if Agent fills out the info (sellerOnly)-->
+<pp-page-title label="Success"></pp-page-title>
+
+<div *ngIf="success && isSeller && !isBuyer || express" class="card">
+  <div class="card-body">
+    <div class="float-right">
+      <div class="btn-group">
+        <button (click)= "closeCard()" class="btn btn-success closebtn">x</button>
+      </div>
+    </div>
+    <h2 class="card-title"><i class="fas fa-check-circle"></i>SUCCESS </h2>
+    <p class="success-subhead">Confirmation code: <strong>{{ confirmation }}</strong></p>
+    <p class="success-msg">We have all the information we need to collect your offers from your marketplace.</p>
+    <p class="success-msg-block">Submitting photos with {{ ioPlatformName }} generates more accurate offers.</p>
+    <p class="success-msg-block">Don’t have photos? No worries! If we do not receive photos in 24 hours, we will request offers without photos.</p>
+    <a routerLinkActive="active" (click)="photos()">SUBMIT PHOTOS</a>
+  </div>
+</div>
+
+<!-- email to client card (sellerOnly)-->
+<div *ngIf="emailToClientMsg && isSeller && !isBuyer">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="thanksTitle">Congratulations!</h2>
+      <p class="congrats-text">You’ve successfully shared the property questionnaire with your client at <strong>{{ formattedAddress }}</strong>.</p>
+      <p class="congrats-text">We’ll reach out via email when your client submits property details.</p>
+    </div>
+  </div>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig"(click)="startOver()"></app-nextbackbtn>
+</div>
+
+<!-- SELLER Thank you Card -->
+<div *ngIf="thankYouMessage">
+  <div class="card">
+    <div class="card-body">
+      <div class="float-sm-right">
+        <div class="btn-group">
+          <button class="btn btn-success closebtn" (click)="closeCard()" *ngIf="showCloseBtn">x</button>
+        </div>
+      </div>
+      <h2 class="thanksTitle">Congratulations!</h2>
+      <p class="congrats-text">You've successfully requested real offers for <strong>{{ formattedAddress }}</strong>.</p>
+      <p class="congrats-text">We'll reach out via email with the next steps or if we have any follow up questions.</p>
+    </div>
+  </div>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig"(click)="startOver()"></app-nextbackbtn>
+</div>
+
+<!-- BUYER only email to client card -->
+<div *ngIf="buyerEmailToClientMsg && isBuyer && !isSeller">
+  <div class="card">
+    <ng-template [ngTemplateOutlet]="BuyerSuccess"></ng-template>
+  </div>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="startOver()"></app-nextbackbtn>
+</div>
+
+<!-- Both Buyer and Seller and Agent fill out the PP -->
+<div *ngIf="success && isSeller && isBuyer">
+  <div class="card">
+    <div class="card-body">
+      <div class="confirm-container">
+        <div class="buyer-info">
+          <h2 class="card-title"><i class="fas fa-check-circle"></i>Confirmation</h2>
+          <p class="success-subhead">Confirmation code: <strong>{{ confirmation }}</strong></p>
+          <p class="success-msg">We have all the information we need to collect your offers from your marketplace.</p>
+          <p class="success-msg-block">Submitting photos with {{ ioPlatformName }} generates more accurate offers.</p>
+          <p class="success-msg-block">Don’t have photos? No worries! If we do not receive photos in 24 hours, we will request offers without photos.</p>
+          <a routerLinkActive="active" (click)="photos()">SUBMIT PHOTOS</a>
+        </div>
+        <ng-template [ngTemplateOutlet]="BuyerSuccess"></ng-template>
+      </div>
+    </div>
+  </div>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig"(click)="startOver()"></app-nextbackbtn>
+</div>
+
+<!-- Both Buyer and Seller confirmation Card if emailed to seller -->
+<div *ngIf="emailToClientMsg && isSeller && isBuyer">
+  <div class="card">
+    <div class="card-body">
+      <div class="confirm-container">
+        <div class="seller-info">
+          <h2 class="card-title"><i class="fas fa-check-circle"></i>Confirmation</h2>
+          <p class="success-msg-block">You’ve successfully shared the property questionnaire with your client at <strong>{{ formattedAddress }}</strong>.</p>
+          <p class="success-msg-block">We’ll reach out via email when your client submits property details.</p>
+        </div>
+        <ng-template [ngTemplateOutlet]="BuyerSuccess"></ng-template>
+      </div>
+    </div>
+  </div>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig"(click)="startOver()"></app-nextbackbtn>
+</div>
+
+<!-- Buyer Success markup -->
+<ng-template #BuyerSuccess>
+  <div class="card-body seller-info">
+    <h2 class="thanksTitle">Nice work!</h2>
+    <ul>
+      <li class="congrats-text"><i class="fad fa-check-square"></i> <p class="inline-p">You have started the process to bring valuable buying options to your client, <strong>{{ client_name }}</strong>.</p></li>
+      <li class="congrats-text"><i class="fad fa-check-square"></i> <p class="inline-p">We just sent you a confirmation email. Please check your inbox.</p></li>
+      <li class="congrats-text"><i class="far fa-square"></i> <p class="inline-p">The next step is to create your account(s) with each of the available companies listed below. You will need to enter a little basic info about your client.</p>
+        <!-- Loop through the Buyer Types and show Eligible VBs -->
+        <div class="indented-content">
+          <!-- Set in the Broker Platform -->
+          <p *ngIf="show_mortgage_financing && mortgage_link && mortgage_text"
+            class="solution-type">{{ labels.aaHeading }}</p>
+          <ul *ngIf="show_mortgage_financing && mortgage_link && mortgage_text">
+            <li><a [href]="mortgage_link">{{ mortgage_text }} - click here for next steps</a></li>
+          </ul>
+          <!-- from MM / Eligible Cash Offer VBs -->
+          <p *ngIf="show_cash_vbs" class="solution-type">{{ labels.cashHeading }}</p>
+          <ul *ngIf="filteredVBs.cash.length == 0"><!-- if no Eligible Cash Offer VBs -->
+            <li>No solutions available</li>
+          </ul>
+          <ul *ngIf="show_cash_vbs && filteredVBs.cash.length > 0">
+            <li *ngFor="let cvbs of filteredVBs.cash"><!-- Eligible Cash Offer VBs -->
+              <a *ngIf="cvbs.url" [href]="cvbs.url" target="_blank" style="color: white;">{{ cvbs.name }} - click here for next steps</a>
+              <span *ngIf="!cvbs.url">{{ cvbs.name }}</span><!-- some VBs don't have a link -->
+            </li>
+          </ul>
+          <!-- from MM / Eligible Lease-to-own VBs -->
+          <p *ngIf="show_lease_vbs" class="solution-type">{{ labels.leaseToOwnHeading }}</p>
+          <ul *ngIf="filteredVBs.lease.length == 0"><!-- if no Eligible Lease-to-own VBs -->
+            <li>No solutions available</li>
+          </ul>
+          <ul *ngIf="show_lease_vbs && filteredVBs.lease.length > 0">
+            <li *ngFor="let lvbs of filteredVBs.lease"><!-- Eligible Lease-to-own VBs -->
+              <a *ngIf="lvbs.url" [href]="lvbs.url" target="_blank" style="color: white;">{{ lvbs.name }} - click here for next steps</a>
+              <span *ngIf="!lvbs.url">{{ lvbs.name }}</span><!-- some VBs don't have a link -->
+            </li>
+          </ul>
+        </div>
+
+        <p>If you already have an account set up with any of these companies, you can simply sign in to that account to enter your client information.</p>
+        <p>Each company will then contact you to move the process forward.</p>
+      </li>
+    </ul>
+  </div>
+</ng-template>

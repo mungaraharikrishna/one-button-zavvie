@@ -1,0 +1,25 @@
+<div class="ranged-alt-input-percent">
+  <div class="input-group">
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="lowperc" name="lowperc"
+      (keyup)="updateLowInputVal()" />
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="highperc" name="highperc"
+      (keyup)="updateHighInputVal()" />
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="lowaltmod" name="lowaltmod"
+      (keyup)="updateLowInputVal()" />
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="highaltmod" name="highaltmod"
+      (keyup)="updateHighInputVal()"  />
+    <input size="5" type="text" class="simple-input"
+      [(ngModel)]="lowdollar" name="lowdollar"
+      (keyup)="updateLowHiddenVal()"
+      placeholder="$0" mask="separator" thousandSeparator="," prefix="$"  />
+    <span class="arrow">&ndash;</span>
+    <input size="5" type="text" class="simple-input"
+      [(ngModel)]="highdollar" name="highdollar"
+      (keyup)="updateHighHiddenVal()"
+      placeholder="$0" mask="separator" thousandSeparator="," prefix="$"  />
+  </div>
+</div>

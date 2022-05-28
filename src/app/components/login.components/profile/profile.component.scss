@@ -1,0 +1,39 @@
+$zavvie_blue: #386099;
+$brcolor: var(--brcolor);
+
+.profile-component {
+  font-family: Avenir;
+
+  .name-container {
+    align-items: flex-start;
+    border-bottom: 1px solid $brcolor;
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0;
+
+    @media screen and (min-width: 768px) {
+      align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .profile-data {
+    color: $brcolor;
+    font-weight: bold;
+    text-align: left;
+
+    button {
+      background: 0;
+      border: 0;
+      color: #428bca;
+      font-size: .9em;
+      font-weight: bold;
+      padding: 0;
+    }
+  }
+
+  .profile-value {
+    color: $brcolor;
+  }
+}

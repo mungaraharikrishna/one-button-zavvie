@@ -1,0 +1,22 @@
+<pp-page-title label="Interior 7 of 7"></pp-page-title>
+<form [formGroup]="interiorSeven" class="interior-form">
+  <!-- Appliances that need to be replaced -->
+  <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior7.Appliances_that_need_to_be_replaced, $event)" [oldval]="appliancesDefault"
+    [opts]="appliances" [qconfig]="appliancesQuestionConfig" [formname]="interiorSeven"></multi-select-checkbox>
+  <!-- Known Issues -->
+  <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior7.Known_Issues_with_the_Following, $event); checkValidity()" [oldval]="knownIssuesDefault"
+    [opts]="issues" [qconfig]="knownIssuesQuestionConfig" [formname]="interiorSeven"></multi-select-checkbox>
+
+  <!-- Major repairs -->
+  <radio-true-false (newval)="formValueChanged(fns.FieldNames.interior7.Needs_Major_Repairs, $event); checkValidity()" [oldval]="majorRepairsDefault"
+    [qconfig]="majorRepairsQuestionConfig" [formname]="interiorSeven"></radio-true-false>
+
+  <!-- Major update/reno -->
+  <radio-true-false (newval)="formValueChanged(fns.FieldNames.interior7.Needs_Major_Updating, $event); checkValidity()" [oldval]="majorUpdatingDefault"
+    [qconfig]="majorUpdatingQuestionConfig" [formname]="interiorSeven"></radio-true-false>
+
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

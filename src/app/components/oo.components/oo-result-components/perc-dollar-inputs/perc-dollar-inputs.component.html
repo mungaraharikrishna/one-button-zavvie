@@ -1,0 +1,12 @@
+<div class="perc-dollar-inputs">
+  <div class="input-group">
+    <input size="9" type="text" class="percent-input" placeholder="0" autocomplete="off" [(ngModel)]="perc" name="perc"
+      value="perc" (keyup)="changeDollarAmt()" mask="percent" suffix="%" [dropSpecialCharacters]="false" appValidateNumber />
+  </div>
+  <span class="arrow">&#8594;</span>
+  <div class="input-group">
+    <input size="9" type="text" tabindex="20" placeholder="$0" autocomplete="off"
+      [(ngModel)]="dollar" name="dollar" mask="separator" thousandSeparator="," prefix="$" 
+      (keyup)="changePercAmt()" />
+  </div>
+</div>

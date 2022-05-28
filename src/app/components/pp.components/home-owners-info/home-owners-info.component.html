@@ -1,0 +1,31 @@
+<pp-page-title label="Seller Info 1 of 2"></pp-page-title>
+<form class="submit-form" [formGroup]="homeOwnerInfo">
+
+  <!-- Estimated repair cost -->
+  <div class="input-container">
+    <label class="label" for="">Estimated repair costs of your home<span class="asterisk">*</span> </label>
+    <input type="text" (keyup)="repairCostsChanged($event)" class="form-control" placeholder="$0" formControlName="Repair_Cost"
+      [value]="repairCostDefault" mask="separator" thousandSeparator="," prefix="$">
+  </div>
+
+  <!-- Ready to sell -->
+  <select-option (newval)="formValueChanged(fns.FieldNames.homeownerinfo1.WhenReadyToSell, $event);  checkValidity()" [oldval]="readyToSellDefault" [formname]="homeOwnerInfo"
+    [opts]="readyToSell" [qconfig]="readyToSellQuestionConfig"></select-option>
+  <!-- Adding Info About Home -->
+  <label class="label">Anything else we should know about your property?</label>
+  <textarea class="input" maxlength="500" [formControlName]="fns.FieldNames.homeownerinfo1.Message" (keyup)="formValueChanged(fns.FieldNames.homeownerinfo1.Message, homeOwnerInfo.get(fns.FieldNames.homeownerinfo1.Message)!.value)" ></textarea>
+  <div class="loading-spinner" *ngIf="showLoader">
+    <loading-spinner></loading-spinner>
+  </div>
+</form>
+
+<!-- If bridge is not checked -->
+<div *ngIf="bridgeChecked == 'false' && !showLoader" class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="sendBtnConfig" (click)="sendToPb()"> </app-nextbackbtn>
+</div>
+<!-- If bridge is checked -->
+<div *ngIf="bridgeChecked == 'true'" class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"> </app-nextbackbtn>
+</div>

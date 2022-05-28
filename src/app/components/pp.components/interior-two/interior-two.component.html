@@ -1,0 +1,14 @@
+<pp-page-title label="Interior 2 of 7"></pp-page-title>
+<form [formGroup]="interiorTwoInfo" class="interior-form">
+    <!-- Kitchen Counter Tops -->
+  <radio-with-img (newval)="formValueChanged(fns.FieldNames.interior2.Kitchen_Counter_Tops, $event); checkValidity()"[opts]="counterTops" 
+  [qconfig]="kitchenCounterTopsQuestionConfig"[oldval]="kitchenCounterTopsDefault"[formname]="interiorTwoInfo"></radio-with-img>
+    <!-- Kitchen Counter Tops -->
+  <select-option (newval)="formValueChanged(fns.FieldNames.interior2.Kitchen_Appliances, $event); checkValidity()" [oldval]="kitchenAppliancesDefault" [formname]="interiorTwoInfo"
+  [opts]="kitchenAppliances" [qconfig]="kitchenAppliancesQuestionConfig"></select-option>
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>
+

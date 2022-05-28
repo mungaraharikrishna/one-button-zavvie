@@ -1,0 +1,8 @@
+<div class="input-container dropdown-select">
+  <label class="label">{{ qconfig.inputlabel }}<span *ngIf="qconfig.required == 'true'" class="asterisk">*</span></label>
+  <select class="dropdown-select" (change)="changeSelection($event)"
+    (formControlName)="qconfig.controlname">
+    <option value="" selected>{{ qconfig.label }}</option>
+    <option *ngFor="let opt of opts" [selected]="opt == oldval">{{ opt }}</option>
+  </select>
+</div>

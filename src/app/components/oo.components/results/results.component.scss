@@ -1,0 +1,840 @@
+$blue: var(--blue);
+$partner: var(--partner);
+$highlight: var(--highlight);
+$slider_top: var(--slider_top);
+$slider_bottom: var(--slider_bottom);
+$social_bg: var(--social-bg);
+$bg_position: var(--bg-position);
+
+$white: #ffffff;
+$red: #fb4e30;
+$orange: #f26432;
+$lightGray: #f2f2f2;
+
+$oo_border_radius: 8px;
+$oo_border: 2px solid $partner;
+
+.tab {
+  background: $highlight;
+  border-radius: $oo_border_radius $oo_border_radius 0 0;
+  color: $white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  left: 0;
+  margin-left: 15px;
+  padding: 0.15rem 1rem;
+  position: absolute;
+  text-align: center;
+  top: -1.5em;
+  width: auto;
+  z-index: 99;
+
+  @media screen and (min-width: 475px) {
+    font-size: 1.2em;
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: 1.3em;
+    top: -1.6em;
+  }
+
+  &.start {
+    top: -1.6em;
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      left: 4rem;
+    }
+  }
+
+  sup {
+    font-size: 5px;
+    top: -7px;
+  }
+}
+
+.results {
+
+  .results-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 3em;
+    margin-top: 1em;
+
+    .btn-wrap {
+
+      .result-button {
+        overflow: hidden;
+        background: $white;
+        border: 0;
+        border-radius: 0;
+        color: #b4b4b4;
+        display: flex;
+        flex-direction: column;
+        font-size: 1.3em;
+        font-weight: normal;
+        min-height: 50px;
+        line-height: 1.1;
+        justify-content: center;
+        margin-right: .5em;
+        padding: 0 1.5em .5em;
+        position: relative;
+        transition: all 0.2s ease-in-out;
+      }
+
+      &.disabled {
+
+        .result-button {
+          border-bottom: 3px solid $highlight;
+          color: $highlight;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .empty-result {
+    margin: 0 auto 2em;
+    max-width: 1400px;
+    width: 85%;
+
+    @media screen and (min-width: 768px) {
+      width: 95%;
+    }
+
+    a {
+      color: $highlight;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .io-row {
+    align-content: space-between;
+    align-items: flex-start;
+    display: flex;
+    padding: 0;
+    position: relative;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  .col-md-235 {
+    @media screen and (min-width: 768px) {
+      box-sizing: border-box;
+      width: 31.33333%;
+      float: left;
+      flex: 0 0 31.33333%;
+      max-width: 31.33333%;
+      position: relative;
+    }
+  }
+
+  .col-md-06 {
+    @media screen and (min-width: 768px) {
+      box-sizing: border-box;
+      width: 6%;
+      float: left;
+      flex: 0 0 6%;
+      max-width: 6%;
+      position: relative;
+    }
+  }
+
+  .price,
+  .cost,
+  .net,
+  .mobile-header {
+    align-items: center;
+    border-left: $oo_border;
+    border-right: $oo_border;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    padding: 1rem 4.5rem;
+    text-align: left;
+    transition: padding 300ms;
+
+    @media screen and (min-width: 768px) {
+      border-left: 0;
+      border-right: 0;
+      height: 100px;
+      justify-content: center;
+      padding: 0;
+      text-align: center;
+    }
+
+    .heading {
+      font-size: 1.25em;
+      line-height: 1;
+
+      sup {
+        font-size: 5px;
+        top: -7px;
+      }
+
+      @media screen and (min-width: 1200px) {
+        font-size: 1.1em;
+        line-height: 1.1;
+      }
+    }
+
+    input {
+      border: 0;
+      border-radius: 5px;
+      color: #666;
+      font-size: 2rem;
+      height: unset;
+      line-height: 1;
+      margin: 0;
+      text-align: center;
+      user-select: text;
+      -webkit-user-select: text;
+
+      @media screen and (min-width: 768px) {
+        border: 1px solid #ddd;
+        margin: 0 auto;
+      }
+
+      @media screen and (min-width: 768px) and (max-width: 1000px){
+        max-width: 90%;
+      }
+
+      @media screen and (min-width: 1200px) {
+        font-size: 1.75em;
+      }
+    }
+
+    .mobile-header {
+      align-items: center;
+      background: #f2f2f2;
+      border-left: $oo_border;
+      border-right: $oo_border;
+      border-top-left-radius: $oo_border_radius;
+      border-top-right-radius: $oo_border_radius;
+      display: flex;
+      position: relative;
+      text-align: center;
+      transition: background-color 500ms;
+
+      input {
+        font-weight: bold;
+        max-width: 98%;
+        text-align: center;
+        user-select: text;
+        -webkit-user-select: text;
+      }
+    }
+
+    .cost-of-selling {
+      align-items: center;
+      color: #666;
+      display: flex;
+      font-size: 1.5em;
+      height: 35%;
+      justify-content: center;
+      line-height: 1.25;
+
+      @media screen and (min-width: 1200px) {
+        font-size: 1.75em;
+        line-height: 1;
+      }
+    }
+
+    .heading {
+      line-height: 1.3;
+    }
+  }
+
+  .open .price,
+  .open .cost,
+  .open .net {
+    transition: padding 300ms;
+  }
+  
+  .open .price {
+    border-bottom-left-radius: 0;
+  }
+
+  .open .cost {
+    @media screen and (min-width: 768px) {
+      background: none;
+    }
+  }
+
+  .price {
+    align-items: center;
+    background: #f2f2f2;
+    display: flex;
+    border-bottom-left-radius: 0;
+    border-top: $oo_border;
+    border-top-left-radius: $oo_border_radius;
+    border-top-right-radius: $oo_border_radius;
+    position: relative;
+    text-align: center;
+    transition: background-color 500ms;
+
+    @media screen and (min-width: 768px) {
+      background: $white;
+      border-bottom-left-radius: $oo_border_radius;
+      border-top-right-radius: 0;
+      border-top: 0;
+    }
+
+    input {
+      border: 1px solid #ddd;
+      font-weight: bold;
+      max-width: 98%;
+      padding: .25rem .5rem;
+      text-align: center;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    .price-border {
+      background-color: $partner;
+      display: none;
+      height: 44%;
+      left: -1rem;
+      opacity: 1;
+      position: absolute;
+      top: 30%;
+      transition: opacity 500ms;
+      width: 2px;
+
+      @media screen and (min-width: 768px) {
+        display: block;
+      }
+    }
+
+    .price-input-container {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      height: 35%;
+      justify-content: flex-start;
+      position: relative;
+
+      .heading {
+        align-self: center;
+        height: 15%;
+        margin-bottom: 1rem;
+      }
+
+      input {
+        width: 100%;
+      }
+
+      &.ranged-input-container {
+        @media screen and (min-width: 768px) {
+          padding-left: 5%;
+        }
+
+        .input-dash {
+          padding: .25rem;
+        }
+
+        .fa-edit {
+          @media screen and (min-width: 768px) {
+            left: 0;
+          }
+        }
+      }
+    }
+
+    .fa-edit {
+      color: #999999;
+      font-size: .8em;
+      left: -1.5rem;
+      position: absolute;
+    }
+  }
+
+  .open .price {
+    background-color: $white;
+
+    .price-border {
+      opacity: 0;
+    }
+  }
+
+  .cost {
+    align-items: center;
+    background: #f2f2f2;
+    border-bottom: $oo_border;
+    border-top: $oo_border;
+    display: flex;
+    position: relative;
+    text-align: center;
+    transition: background-color 500ms;
+
+    @media screen and (min-width: 768px) {
+      background: none;
+      border-bottom: 0;
+      border-top: 0;
+    }
+
+    input {
+      font-weight: bold;
+      max-width: 98%;
+      text-align: center;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+  }
+
+  .net {
+    transition: background-color 500ms;
+    align-items: center;
+    background: #f2f2f2;
+    display: flex;
+    border-bottom: $oo_border;
+    border-bottom-left-radius: $oo_border_radius;
+    border-bottom-right-radius: $oo_border_radius;
+    position: relative;
+    text-align: center;
+    transition: background-color 500ms;
+
+    @media screen and (min-width: 768px) {
+      background: $white;
+      border-bottom: 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    input {
+      font-weight: bold;
+      max-width: 98%;
+      text-align: center;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    .estimated-net {
+      align-items: center;
+      color: $partner;
+      display: flex;
+      font-weight: 900;
+      font-size: 1.75em;
+      justify-content: flex-start;
+      height: 35%;
+      line-height: 1.25;
+      transition: background-color 500ms;
+
+      @media screen and (min-width: 768px) {
+        justify-content: center;
+      }
+    }
+  }
+
+  .open .net {
+    background-color: $white;
+
+    input {
+      background: #f1f1f1;
+    }
+  }
+
+  .collapse,
+  .collapsing {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .collapsing {
+    pointer-events: none;
+  }
+
+  .expanded-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+    }
+
+    .perc-dollar-inputs,
+    perc-dollar-inputs {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: .25rem;
+      padding: 0;
+
+      .input-group {
+        width: 45%;
+
+        input {
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          font-size: 1.1em;
+          line-height: 1;
+          padding: 0 .25em;
+          width: 100%;
+          user-select: text;
+          -webkit-user-select: text;
+        }
+      }
+
+      .arrow {
+        color: $partner;
+      }
+
+      .arrow + .input-group {
+        justify-content: flex-end;
+
+        input {
+          text-align: right;
+        }
+      }
+    }
+    .bridge-hybrid-ranged-double-perc-dollar-inputs-container,
+    .ranged-double-perc-dollar-inputs-container,
+    .ranged-perc-dollar-inputs-container,
+    .ranged-alt-input-perc-container,
+    .ranged-simple-input-perc-container {
+
+      .input-group {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+
+        input {
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          font-size: 1.1em;
+          line-height: 1;
+          padding: 0 .25em;
+          text-align: right;
+          width: 45%;
+          user-select: text;
+          -webkit-user-select: text;
+
+          &.disabled {
+            background: none;
+            border: none;
+          }
+        }
+      }
+
+      .arrow {
+        color: $partner;
+      }
+
+      .arrow + .input-group {
+        justify-content: flex-end;
+      }
+    }
+
+    .ranged-perc-dollar-inputs-container,
+    .ranged-double-perc-dollar-inputs-container,
+    .bridge-hybrid-ranged-double-perc-dollar-inputs-container {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      
+      .input-group {
+        width: 55%;
+
+        @media screen and (min-width: 1050px) {
+          justify-content: flex-start;
+        }
+
+        &.percent {
+
+          input {
+            text-align: left;
+          }
+
+          .arrow {
+            width: 13px;
+            @media screen and (min-width: 1100px) {
+              padding: 0 .25rem;
+            }
+          }
+
+          @media screen and (min-width: 1050px) {
+
+            input {
+              width: unset;
+            }
+          }
+        }
+      }
+
+      .arrow + .input-group {
+        justify-content: space-between;
+      }
+    }
+
+    .ranged-alt-input-perc-container,
+    .ranged-simple-input-perc-container {
+      display: flex;
+      justify-content: flex-end;
+
+      .input-group {
+        width: 55%;
+      }
+    }
+
+    simple-input-perc,
+    alt-input-perc {
+      .input-group {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      input {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        line-height: 1;
+        max-height: 34px;
+        padding: 0 .25em;
+        text-align: right;
+        width: 45%;
+        user-select: text;
+        -webkit-user-select: text;
+
+        &.concierge-checkbox {
+          cursor: pointer;
+          width: unset;
+        }
+      }
+    }
+  }
+
+  .price-expanded,
+  .cost-expanded,
+  .net-expanded {
+    background: $white;
+    padding-bottom: 1.5em;
+    padding-top: 1.5em;
+
+    .label {
+      font-size: .9em;
+    }
+  }
+
+  .price-expanded {
+    background: $white;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+
+    @media screen and (min-width: 768px) {
+      border-bottom-left-radius: $oo_border_radius;
+      font-size: .8em;
+    }
+
+    .label {
+      color: #666;
+      display: block;
+      font-size: .9em;
+      margin-bottom: .25rem;
+      text-align: left;
+
+      @media screen and (min-width: 1200px) {
+        font-size: 1.1em;
+      }
+    }
+  }
+
+  .cost-expanded {
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    @media screen and (min-width: 768px) {
+      background: none;
+    }
+
+    @media screen and (min-width: 1250px) {
+      padding-left: 2em;
+      padding-right: 2em;
+    }
+
+    @media screen and (min-width: 1400px) {
+      padding-left: 4em;
+      padding-right: 4em;
+    }
+
+    .label {
+      color: $partner;
+      font-weight: bold;
+      padding: 1rem 0 0;
+    }
+  }
+
+  .net-expanded {
+    align-content: center;
+    background: $white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+
+    .table {
+      color: #666;
+      font-size: 1em;
+      line-height: 1.1;
+      margin: 2rem 0;
+      padding: 0;
+      text-align: center;
+
+      @media screen and (min-width: 768px) {
+        margin: 0;
+      }
+
+      @media screen and (min-width: 1000px) {
+        font-size: 1.1em;
+      }
+
+      @media screen and (min-width: 1350px) {
+        font-size: 1.2em;
+      }
+
+      .tt {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    .table-value {
+      color: $highlight;
+      float: none;
+      font-size: 1.6em;
+      font-weight: 900;
+      margin-top: .15rem;
+      text-align: center;
+
+      @media screen and (min-width: 768px) and (max-width: 999px) {
+        font-size: 1.4em;
+      }
+
+      @media screen and (min-width: 1000px) {
+        font-size: 1.6em;
+      }
+    }
+
+    .disclaimer {
+      font-size: .8em;
+      line-height: 1.1;
+      padding-bottom: 0;
+      padding-left: 0;
+      padding-right: 0;
+
+      @media screen and (min-width: 768px) {
+        font-size: .6em;
+        padding: 0 2rem;
+      }
+
+      @media screen and (min-width: 1000px) {
+        padding: 0 5rem;
+      }
+    }
+
+    .cta {
+      text-align: center;
+
+      a {        
+        background: $partner;
+        border-radius: 3px;
+        color: $white;
+        font-weight: bold;
+        margin: 0 auto;
+        padding: .5rem;
+        text-decoration: none;
+        text-transform: uppercase;
+        width: 90%;
+      }
+    }
+  }
+
+  .dummy {
+
+    .price input {
+      margin-top: 4px;
+      width: unset;
+    }
+
+    .cost .cost-of-selling,
+    .net .estimated-net {
+      height: unset;
+    }
+  }
+}
+
+.toggle {
+  display: flex;
+  position: absolute;
+  right: .5vw;
+  top: 2.5vh;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: column;
+    height: 100px;
+    justify-content: center;
+    margin: 0 -1px 0;
+    position: relative;
+    right: unset;
+    top: unset;
+  }
+
+  .details {
+    display: none;
+
+    @media screen and (min-width: 1000px) {
+      display: block;
+    }
+  }
+
+  button,
+  div {
+    align-items: center;
+    background: none;
+    border: none;
+    color: $partner;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.1em;
+    outline: none;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: column;
+    }
+
+    .fa {
+      font-size: 1.5em;
+    }
+
+    .fa-dt {
+      display: none;
+
+      @media screen and (min-width: 768px) {
+        display: block;
+      }
+    }
+
+    .fa-m {
+      display: block;
+      font-size: 1.5em;
+      left: -1rem;
+      position: absolute;
+      top: 1rem;
+
+      @media screen and (min-width: 768px) {
+        display: none;
+      }
+    }
+  }
+}

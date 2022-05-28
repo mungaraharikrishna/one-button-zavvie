@@ -1,0 +1,8 @@
+<span>
+    <div class="dollar-amount">
+        <div class="input-group">
+            <input type="text" placeholder="$0" autocomplete="off" mask="separator" thousandSeparator="," prefix="$" 
+            [value]="dollar_amount" (keyup)="changeDollarValue($event)" (formControlName)="controlname"/>
+        </div>
+    </div>
+</span>

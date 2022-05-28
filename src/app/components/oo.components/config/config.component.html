@@ -1,0 +1,223 @@
+<div class="config-bar">
+  <div class="config">
+
+    <!-- Reactive Form -->
+    <div class="form loading-spinner" *ngIf="res_wait">
+      <loading-spinner></loading-spinner>
+    </div>
+    <form [formGroup]="userTypeForm" class="config-form col-12" *ngIf="!res_wait && showBuyerOO()">
+      <div class="row col-12">
+        <div class="input-container i-am-a col-md-4">
+          <label><span>My client is a</span></label>
+          <div class="pb-inputs">
+            <select id="choose-user" formControlName="userType" (change)="changeUserType($event); resetForm()" class="i-am-a dropdown-select">
+              <option value="" selected>Choose</option>
+              <option *ngFor="let userType of userTypes" [selected]="userTypeChanged()">{{ userType }}</option>
+            </select>
+            <div class="form-group checkbox" *ngIf="isbuyer && !isseller">
+              <input #radio type="radio"
+                formControlName="alsoSellingCheckbox"
+                name="alsoSellingCheckbox"
+                (click)="toggleAlsoSellingCheckbox(); resetForm()" />
+              <label class="checkbox">I have a home to sell</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <form [formGroup]="ooConfigForm" (ngSubmit)="configureOO()" class="config-form col-12" autocomplete="off" *ngIf="!res_wait">
+      <h4 class="buyer-heading" *ngIf="isbuyer">Price Range of Home Being Purchased</h4>
+      <div class="buyer-form" *ngIf="isbuyer">
+        <div class="input-container home-val col-md-4 col-lg-3">
+          <label><span>Min Price</span></label>
+          <div class="pb-inputs">
+            <input id="min-price" class="config-input home-value" type="text" formControlName="minPrice" (keyup)="changeBuyerMin($event)"
+              placeholder="$0" mask="separator" thousandSeparator="," prefix="$"  name="minPrice">
+          </div>
+        </div>
+        <div class="input-container home-condition col-md-3">
+          <label><span>Max Price</span></label>
+          <div class="pb-inputs">
+            <input id="max-price" class="config-input home-value" type="text" formControlName="maxPrice" (keyup)="changeBuyerMax($event)"
+              placeholder="$0" mask="separator" thousandSeparator="," prefix="$" name="maxPrice">
+          </div>
+        </div>
+        <div class="submit-container">
+          <button class="configure" [disabled]="!buyerFormValid()" *ngIf="isbuyer && !isseller"
+            [ngClass]="{ 'disabled': !buyerFormValid() }">GO</button>
+        </div>
+      </div>
+      <h4 class="seller-heading" *ngIf="isseller || !showBuyerOO()">Address of Home Being Sold</h4>
+      <div class="seller-form" *ngIf="isseller || !showBuyerOO()">
+        <div class="input-container col-12 col-md-4 col-lg-5">
+          <label>
+            <span>Address</span>
+          </label>
+          <input id="enter-address" class="config-input address" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"
+            type="text" placeholder="Address" [value]="ppaddress === undefined ? '' : ppaddress" (keyup)="addressChanged($event)" formControlName="homeAddress" />
+        </div>
+        <div class="input-container home-val col-md-4 col-lg-3">
+          <label><span>Approx. Home Value</span></label>
+          <div class="pb-inputs">
+            <input id="enter-home-value" class="config-input home-value" type="text" formControlName="homeValue" (keyup)="resetForm()"
+              placeholder="$" name="homeValue">
+          </div>
+        </div>
+        <div class="input-container home-condition col-md-3">
+          <label><span>Home Condition</span></label>
+          <div class="pb-inputs">
+            <select formControlName="homeCondition" (change)="resetForm()" class="home-condition dropdown-select">
+              <option *ngFor="let condition of conditions" [ngValue]="condition" [selected]="condition == conditions[1]"
+                [defaultSelected]="condition == conditions[1]">{{ condition.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="submit-container">
+          <button *ngIf="!res_wait && !address_changed" class="configure" [disabled]="sellerFormInvalid()"
+            [ngClass]="{ 'disabled': sellerFormInvalid() }">GO</button>
+          <div class="loading-spinner" *ngIf="res_wait || address_changed">
+            <loading-spinner></loading-spinner>
+          </div>
+        </div>
+      </div>
+    </form>
+    <p class="col-12">*These offers, selling processes, and cost estimates are representative of market specific
+      internal and publicly available industry data. The Offer Optimizer™ is a tool designed for comparison
+      purposes only.
+    </p>
+  </div>
+</div>
+<div class="results page-width" *ngIf="!cnfgrd && !res_wait">
+  <div class="results-buttons">
+    <div class="btn-wrap" [ngClass]="{ 'disabled': showSellerDummies }">
+      <button class="result-button seller-button" *ngIf="isseller" (click)="toggleResults()"
+        [disabled]="showSellerDummies" [ngClass]="{ 'disabled': showSellerDummies }">Seller Solutions</button>
+    </div>
+    <div class="btn-wrap" [ngClass]="{ 'disabled': !showSellerDummies && showBuyerDummies }">
+      <button class="result-button buyer-button" *ngIf="isbuyer" (click)="toggleResults()"
+        [disabled]="!showSellerDummies && showBuyerDummies" [ngClass]="{ 'disabled': !showSellerDummies && showBuyerDummies }">Buyer Solutions</button>
+    </div>
+  </div>
+  <div class="seller-results" *ngIf="isseller && showSellerDummies">
+    <div class="row offer-bar dummy dummy-1 col-12">
+      <span class="tab dummy col-12">{{ aaTerm }}</span>
+      <div class="row io-row col-12">
+        <div class="price col-12 col-md-4">
+          <div class="heading">Estimated {{ aaHeading }} Price</div>
+          <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+        </div>
+        <div class="cost col-12 col-md-4">
+          <div class="heading">Estimated Cost of Selling</div>
+          <div class="cost-of-selling">–</div>
+        </div>
+        <div class="net col-12 col-md-4">
+          <div class="heading">Estimated Net</div>
+          <div class="estimated-net">–</div>
+        </div>
+      </div>
+    </div>
+    <div class="row offer-bar dummy dummy-77 col-12" *ngIf="!hideBridge">
+      <span class="tab dummy col-12">{{ bridgeTerm }}</span>
+      <div class="row io-row col-12">
+        <div class="price col-12 col-md-4">
+          <div class="heading">Estimated {{ bridgeHeading }} Price</div>
+          <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+        </div>
+        <div class="cost col-12 col-md-4">
+          <div class="heading">Estimated Cost of Selling</div>
+          <div class="cost-of-selling">–</div>
+        </div>
+        <div class="net col-12 col-md-4">
+          <div class="heading">Estimated Net</div>
+          <div class="estimated-net">–</div>
+        </div>
+      </div>
+    </div>
+    <div class="row offer-bar dummy dummy-3 col-12">
+      <span class="tab dummy col-12">{{ ioTerm }}</span>
+      <div class="row io-row col-12">
+        <div class="price col-12 col-md-4">
+          <div class="heading">Estimated {{ ioHeading }} Price</div>
+          <div class="dummy-input-container">
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+            <span class="hyphen">&ndash;</span>
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+          </div>
+        </div>
+        <div class="cost col-12 col-md-4">
+          <div class="heading">Estimated Cost of Selling</div>
+          <div class="cost-of-selling">–</div>
+        </div>
+        <div class="net col-12 col-md-4">
+          <div class="heading">Estimated Net</div>
+          <div class="estimated-net">–</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="buyer-results" *ngIf="isbuyer && showBuyerDummies">
+    <div class="row offer-bar dummy dummy-1 col-12">
+      <span class="tab dummy col-12">{{ openMarketBuyerHeading }}</span>
+      <div class="row io-row col-12">
+        <div class="price col-12 col-md-5">
+          <div class="heading">Value of Home to be Purchased</div>
+          <div class="dummy-input-container">
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+            <span class="hyphen">&ndash;</span>
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+          </div>
+        </div>
+        <div class="cost col-12 col-md-4">
+          <div class="heading">Costs of Home Purchase</div>
+          <div class="cost-of-selling">–</div>
+        </div>
+        <div class="net col-12 col-md-3">
+          <div class="heading">Monthly Costs</div>
+          <div class="estimated-net">–</div>
+        </div>
+      </div>
+    </div>
+    <div class="row offer-bar dummy dummy-77 col-12" *ngIf="showCashBuyer">
+      <span class="tab dummy col-12">{{ cashHeading }}</span>
+      <div class="row io-row col-12">
+        <div class="price col-12 col-md-5">
+          <div class="heading">Value of Home to be Purchased</div>
+          <div class="dummy-input-container">
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+            <span class="hyphen">&ndash;</span>
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+          </div>
+        </div>
+        <div class="cost col-12 col-md-4">
+          <div class="heading">Costs of Home Purchase</div>
+          <div class="cost-of-selling">–</div>
+        </div>
+        <div class="net col-12 col-md-3">
+          <div class="heading">Monthly Costs</div>
+          <div class="estimated-net">–</div>
+        </div>
+      </div>
+    </div>
+    <div class="row offer-bar dummy dummy-3 col-12"  *ngIf="showLeaseBuyer">
+      <span class="tab dummy col-12">{{ leaseToOwnHeading }}</span>
+      <div class="row io-row col-12">
+        <div class="price col-12 col-md-5">
+          <div class="heading">Value of Home to be Purchased</div>
+          <div class="dummy-input-container">
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+            <span class="hyphen">&ndash;</span>
+            <input class="contract-price disabled" type="text" size="4" disabled="" value="--">
+          </div>
+        </div>
+        <div class="cost col-12 col-md-4">
+          <div class="heading">Costs of Home Purchase</div>
+          <div class="cost-of-selling">–</div>
+        </div>
+        <div class="net col-12 col-md-3">
+          <div class="heading">Monthly Costs</div>
+          <div class="estimated-net">–</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

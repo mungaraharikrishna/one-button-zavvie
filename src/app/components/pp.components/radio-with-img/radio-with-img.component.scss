@@ -1,0 +1,99 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$black: #000000;
+$red: #fb4e30;
+$nines: #999999;
+$pp_text_color: #666666;
+
+.input-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.asterisk {
+  color: $red;
+  font-size: 1.5em;
+}
+
+.label {
+  color: $partner;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-left: 0;
+  text-align: left;
+  display: inline-block;
+  white-space: normal;
+}
+
+.custom-radio {
+
+  input {
+    display: none;
+  }
+
+  .radio-btn {
+    border: 3px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    height: 110px;
+    margin: 10px 0;
+    position: relative;
+    text-align: center;
+    width: 100px;
+
+    @media screen and (min-width: 768px) {
+      height: 220px;
+      width: 200px;
+    }
+
+    i {
+      color: $white;
+      background-color: $highlight;
+      font-size: 20px;
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translate(-50%);
+      border-radius: 50px;
+      padding: 3px;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .thumbnail-img {
+      background-repeat: no-repeat center center fixed;
+      background-size: cover;
+      border: 3px solid $white;
+      border-radius: 10px;
+      height: 85%;
+      width: 100%;
+    }
+
+    .option-name h3 {
+      color: $pp_text_color;
+      left: 50%;
+      font-family:"Raleway", sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      margin-top: 1em;
+      position: absolute;
+      text-transform: uppercase;
+      transform: translate(-50%, -50%);
+      width: 80px;
+    }
+  }
+}
+
+.custom-radio input:checked + .radio-btn .thumbnail-img {
+    border: 3px solid $highlight;
+} 
+
+.custom-radio input:checked + .radio-btn i {
+    opacity: 1;
+}

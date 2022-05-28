@@ -1,0 +1,331 @@
+$highlight: var(--highlight);
+$white: #ffffff;
+$oo_border_radius: 8px;
+
+.one-button {
+  display: flex;
+  flex-direction: column;
+  font-family: Avenir;
+  font-size: .9em;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.app {
+  background: $white;
+  border: 1px solid #888888;
+  border-radius: $oo_border_radius;
+  box-shadow: 1px 2px 6px #888888;
+  padding: 2em 3em;
+}
+
+.powered-by {
+  float: none;
+  text-align: right;
+
+  @media screen and (min-width: 768px) {
+    float: right;
+  }
+}
+
+.app-heading {
+  margin-bottom: 2em;
+
+  .heading-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    .icon {
+      color: $highlight;
+      margin-right: .66em;
+      width: 80px;
+
+      svg {
+        fill: #212529;
+      }
+    }
+
+    .headings {
+      color: #212529;
+
+      h3 {
+        font-size: 2em;
+      }
+
+      h3,
+      h4 {
+        font-family: Avenir;
+        font-weight: normal;
+        margin-bottom: 0;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+.oo,
+.pp,
+.offer-report {
+  display: none;
+
+  &.show_oo,
+  &.show_pp,
+  &.show_cor {
+    display: block;
+  }
+}
+
+.oo-nav {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+button {
+  background-color: $highlight;
+  border: 0;
+  border-radius: $oo_border_radius;
+  color: $white;
+  cursor: pointer;
+  margin: .5em;
+  padding: 0.5em 1em;
+
+  &.disabled {
+    background-color: #e2e2e2;
+    border: 0;
+    cursor: auto;
+  }
+}
+
+.offer-report {
+  margin: 0 auto;
+  max-width: 1300px;
+  min-height: 25vh;
+  padding: 2em 0 3em;
+  width: 90%;
+
+  @media screen and (min-width: 768px) {
+    min-height: 50vh;
+  }
+}
+
+.oo-footer {
+  margin-top: 1em;
+
+  h3 {
+    text-align: center;
+  }
+
+  .backbtn {
+    background-color: $white;
+    border: 2px solid $highlight;
+    color: $highlight;
+    font-weight: bold;
+  }
+}
+
+.loan_officer_card {
+  position: relative;
+  height: 500px;
+  transition: 0.3s;
+
+  & .loan_officer_container {
+
+    .card_body {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      .item-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      & .info_header {
+        font-family: 'Avenir';
+        font-size: 1.3em;
+        text-align: center;
+        letter-spacing: 0.0025em;
+      }
+
+      & .info_image {
+        box-sizing: border-box;
+
+        /* Auto layout */
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 16px 32px;
+
+        // position: absolute;
+        width: 156px;
+        height: 140px;
+        left: 268px;
+        top: 160px;
+        margin-right: 2em;
+        background: #FFFFFF;
+        /* Primary/primary-100 */
+
+        border: 2px solid #386099;
+        border-radius: 6px;
+      }
+
+      & .info_image1 {
+        box-sizing: border-box;
+
+        /* Auto layout */
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 16px 32px;
+
+        // position: absolute;
+        width: 156px;
+        height: 140px;
+        left: 480px;
+        top: 160px;
+
+        background: #FFFFFF;
+        /* Primary/primary-100 */
+
+        border: 2px solid #386099;
+        border-radius: 6px;
+      }
+
+      & .cash_offer_txt {
+        width: 88px;
+        height: 25px;
+        font-family: 'Avenir';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 25px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        color: #386099;
+        flex: none;
+        order: 0;
+        flex-grow: 0;
+      }
+    }
+  }
+
+  & .bridge_tile {
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 32px;
+
+    // position: absolute;
+    width: 156px;
+    height: 140px;
+    left: 268px;
+    top: 151px;
+
+    background: #FFFFFF;
+    /* Primary/primary-100 */
+
+    border: 2px solid #386099;
+    border-radius: 6px;
+
+    & .bridge_tile_txt {
+      width: 88px;
+      height: 25px;
+      font-family: 'Avenir';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 25px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #386099;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+    }
+  }
+}
+
+.info_btn_txt {
+  display: flex;
+  justify-content: center;
+  padding-top: 1em;
+
+  button {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 48px;
+    // position: absolute;
+    width: 386px;
+    height: 42px;
+    left: 256px;
+    top: 340px;
+    background: #B2B2B2;
+    box-shadow: 0px 2px 0px rgb(0 0 0 / 4%);
+    border-radius: 35px;
+  }
+}
+
+.nav_link {
+  position: absolute;
+  width: 91px;
+  height: 22px;
+  left: 30px;
+  top: 26px;
+
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+
+
+  color: #386099;
+}
+
+.new_header {
+  margin-top: 16px;
+  margin-left: 16px;
+  height: 41px;
+
+  /* H2/medium */
+
+  font-family: 'Avenir Next';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 41px;
+  /* identical to box height */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* Neutral/neutral-100 */
+
+  color: #091321;
+}

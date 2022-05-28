@@ -1,0 +1,23 @@
+<button class="download-pdf" (click)="confirmAgentName($event)" *ngIf="configured && !pdfRequested">Get Estimate Report</button>
+<div class="pdf-loading-container" *ngIf="pdfRequested">
+  <div class="loading-msg" style="color: #386099;">
+    <span class="fas fa-spinner" aria-hidden="true"></span>
+    <span class="msg">Building PDF: <span style="color: #666666">{{ pdfMsg }}</span></span>
+  </div>
+</div>
+<div class="agent-prompt" *ngIf="configured && showoo && modalOpen">
+  <form [formGroup]="pdfAgentName" (ngSubmit)="printPdf($event)">
+    <h5>Confirm agent name</h5>
+    <div class="name-container">
+      <div class="text-input-container">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.generalInfo.AgentFirstName, $event)" [oldval]="agentFirstNameDefault"
+          [qconfig]="agentFirstNameQuestionConfig" [formname]="pdfAgentName"></simple-text>
+      </div>
+      <div class="text-input-container">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.generalInfo.AgentLastName, $event)" [oldval]="agentLastNameDefault"
+          [qconfig]="agentLastNameQuestionConfig" [formname]="pdfAgentName"></simple-text>
+      </div>
+    </div>
+    <button class="download-pdf" type="submit">Confirm</button>
+  </form>
+</div>

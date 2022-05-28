@@ -1,0 +1,27 @@
+$zavvie_blue: #386099;
+$zavvie_gray: gray;
+$border_radius: 6px;
+$white: #ffffff;
+
+button {
+  background: $zavvie_blue;
+  border: 0;
+  border-radius: $border_radius;
+  color: $white;
+  cursor: pointer;
+  font-family: Avenir;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 2em;
+  padding: .5em 0;
+  width: 100%;
+
+  &:disabled {
+    background: $zavvie_gray;
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: 1.2em;
+    margin-top: 1em;
+  }
+}

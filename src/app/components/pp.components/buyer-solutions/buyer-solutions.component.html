@@ -1,0 +1,33 @@
+<pp-page-title label="Buyer Solutions"></pp-page-title>
+<label class="label">
+    I'd like offers from the following buying solutions:
+</label>
+<form class="ss-form" [formGroup]="buyerSolutionsForm">
+    <div *ngFor="let bs of buyerSolutions; let i=index">
+        <div class="input-container multi-checkbox {{ bs.id == 6 ? 'warranty-6' : '' }}" [ngClass]="{ 'warranty': bs.id == 5 }">
+            <div class="multi-checkbox-container" [ngClass]="{ 'warranty': bs.id == 5 || bs.id == 6 }">
+                <input type="checkbox" [checked]="buyerSolutionsSelection.indexOf(bs.value) > -1" [value]="bs.value" (change)="toggleBuyerSolutionsSelection($event)" 
+                 [ngClass]="{ 'warranty': bs.id == 5 }" />
+                <label>
+                    <ul>
+                      <li><span class="feature-heading">{{ bs.heading }}</span></li>
+                      <li><span class="feature-subheading">{{ bs.subHeading }}</span></li>
+                    </ul>
+                  </label>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- checkbox -->
+<div *ngIf="!prevSellerOnly" class="form-group checkbox">
+    <div class="form-group">
+        <radio-true-false (newval)="formValueChanged(fns.FieldNames.buyerSolutions.HomeToSell, $event); checkValidity()" [oldval]="homeToSellDefault"
+          [qconfig]="homeToSellQuestionConfig" [formname]="buyerSolutionsForm"></radio-true-false> 
+    </div>
+</div>
+
+<div class="nextbackbtn-container">
+  <app-nextbackbtn *ngIf="prevSellerOnly && isBuyer && isSeller" [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

@@ -1,0 +1,70 @@
+$partner: var(--partner);
+
+.input-container.number-increment {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 1em;
+  width: 30vw;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+
+  .number-increment-label {
+    align-self: center;
+    color: $partner;
+    font-size: 1.3em;
+    font-weight: 400;
+    line-height: 1.5;
+    padding-left: 0;
+    text-align: left;
+  }
+
+  .inc-label {
+    padding: .5em 1em;
+  }
+
+  button {
+    background: #ffffff;
+    border: 1px solid #999999;
+    border-radius: 50%;
+    box-shadow: none;
+    color: #666666;
+    height: 2.5em;
+    position: relative;
+    top: 0;
+    width: 2.5em;
+
+    &:hover,
+    &:active {
+      border: 1px solid #666666;
+      top: 0;
+    }
+
+    &:disabled {
+      border: 1px solid #f3f3f3;
+      color: #f3f3f3;
+      top: 0;
+    }
+
+    .fa-minus,
+    .fa-plus {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      height: 2em;
+      justify-content: center;
+      left: 8px;
+      position: absolute;
+      top: 4px;
+      width: 1.25em;
+    }
+  }
+
+  .input-wrapper {
+    align-items: center;
+    display: flex;
+  }
+}

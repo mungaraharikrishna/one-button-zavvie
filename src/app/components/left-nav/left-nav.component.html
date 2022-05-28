@@ -1,0 +1,8 @@
+<ul *ngIf="!express && !showlo">
+  <li><button (click)="goToOO($event)" [ngClass]="{ 'active': showoo }" [disabled]="showoo">Get Estimates</button></li>
+  <li><button (click)="goToPP($event)" [ngClass]="{ 'disabled': !isSeller && !isBuyer || showpp, 'active': showpp }" [disabled]="!isSeller && !isBuyer || showpp">Request Offers</button></li>
+  <li *ngIf="can_use_cor"><button (click)="goToCOR($event)" [ngClass]="{ 'active': showcor }" [disabled]="showcor">Collect Offers</button></li>
+</ul>
+<ul *ngIf="showlo">
+  <li><button type="button" [ngClass]="{ 'active': showlo }" >Add a client</button></li>
+</ul>

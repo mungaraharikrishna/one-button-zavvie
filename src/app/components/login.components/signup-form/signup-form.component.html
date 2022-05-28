@@ -1,0 +1,128 @@
+<h3>Create a zavvie account</h3>
+<span class="sub-heading">Already have an account? <button class="login-link" (click)="showLoginForm()" *ngIf="!form_submitted && !waiting_for_response || signupResponseError">Sign in</button></span>
+
+<form [formGroup]="signupForm" (ngSubmit)="submitForm()" autocomplete="off">
+
+  <p class="errorText" *ngIf="signupResponseError">{{ signupResponse.problem }}</p>
+  <p class="errorText" *ngIf="forgotPasswordError">{{ forgotPasswordError }}</p>
+
+  <div class="signup-form" *ngIf="!form_submitted || waiting_for_response || signupResponseError">
+    <div class="name-container">
+      <label>First Name
+        <input type="text" class="form-control"
+          formControlName="FirstName" (input)="formValueChanged('FirstName', $event)" required />
+      </label>
+      <label>Last Name
+        <input type="text" class="form-control"
+          formControlName="LastName" (input)="formValueChanged('LastName', $event)" required />
+      </label>
+    </div>
+
+    <div class="name-container">
+      <label>Phone number
+        <input type="text" class="form-control" mask="(000)000-0000" [dropSpecialCharacters]="true"
+          formControlName="PhoneNumber" (input)="formValueChanged('PhoneNumber', $event)" required />
+      </label>
+      <label>MLS number (optional)
+        <input type="text" class="form-control"
+          formControlName="MLS_ID" (input)="formValueChanged('MLS_ID', $event)" />
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label>Email address
+        <div class="input-wrapper">
+          <span class="extra-info"><sup>*</sup>This email address will be used to create an account or add your client’s info to your pre-existing account for some solution providers</span>
+          <input type="email" class="form-control" email
+            formControlName="EmailAddress" (input)="formValueChanged('EmailAddress', $event)" required />
+          <span class="exclamation-icon" *ngIf="emailExistsCustomError || checkEmailProblem || emailForbidden">
+            <!-- fat exclamation circle -->
+            <ng-template [ngTemplateOutlet]="svgFatExclamation"></ng-template>
+          </span>
+          <span class="emailGood" *ngIf="emailGood()">
+            <!-- solid check circle -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/></svg>
+          </span>
+        </div>
+        <span class="emailError" *ngIf="emailExistsCustomError === EMAIL_EXISTS">
+          <!-- fat exclamation circle -->
+          <ng-template [ngTemplateOutlet]="svgFatExclamation"></ng-template>
+            An account for this email address already exists. <a class="login-link" (click)="showLoginForm()">Sign in</a>
+        </span>
+        <span class="emailError" *ngIf="emailExistsCustomError === EMAIL_EXISTS_NO_PASSWORD">
+          <span>
+            <!-- fat exclamation circle -->
+            <ng-template [ngTemplateOutlet]="svgFatExclamation"></ng-template>
+          </span>
+          <span>
+            An account for this email address already exists, but the password has not been set.
+            <a class="login-link" (click)="sendTemporaryPassword()">Send temporary password to sign in</a>
+          </span>
+        </span>
+        <!-- Error from API or component code -->
+        <span class="emailError" *ngIf="checkEmailProblem || emailForbidden">
+          <!-- fat exclamation circle -->
+          <ng-template [ngTemplateOutlet]="svgFatExclamation"></ng-template>
+            {{ checkEmailProblem }}
+        </span>
+        <!-- fat exclamation circle -->
+        <!-- Invalid email field -->
+        <span class="emailError" *ngIf="this.signupForm.get('EmailAddress')!.invalid && this.signupForm.get('EmailAddress')!.touched && !checkEmailProblem && !emailForbidden">
+          <ng-template [ngTemplateOutlet]="svgFatExclamation"></ng-template>
+            Email is invalid
+        </span>
+
+      </label>
+    </div>
+
+    <div class="form-group">
+      <label class="password">Password
+        <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control"
+          formControlName="Password" (input)="formValueChanged('Password', $event)" required />
+        <button class="show-password" type="button" (click)="showPassword = !showPassword">{{ showPassword ? 'HIDE' : 'SHOW' }}</button>
+      </label>
+    </div>
+    <p>Password must contain:</p>
+    <p>
+      <span class="exclamation-circle" *ngIf="Password?.errors?.required || Password?.errors?.minlength || Password?.errors?.maxlength">
+        <ng-template [ngTemplateOutlet]="svgExclamation"></ng-template></span>
+      <span class="check-circle" *ngIf="!(Password?.errors?.required || Password?.errors?.minlength || Password?.errors?.maxlength)">
+        <ng-template [ngTemplateOutlet]="svgCircle"></ng-template></span>
+      At least 8 characters</p>
+    <p>
+      <span class="exclamation-circle" *ngIf="Password?.errors?.noLetter">
+        <ng-template [ngTemplateOutlet]="svgExclamation"></ng-template></span>
+      <span class="check-circle" *ngIf="!Password?.errors?.noLetter">
+        <ng-template [ngTemplateOutlet]="svgCircle"></ng-template></span>
+      1 letter</p>
+    <p>
+      <span class="exclamation-circle" *ngIf="Password?.errors?.noDigit">
+        <ng-template [ngTemplateOutlet]="svgExclamation"></ng-template></span>
+      <span class="check-circle" *ngIf="!Password?.errors?.noDigit">
+        <ng-template [ngTemplateOutlet]="svgCircle"></ng-template></span>
+      1 number</p>
+    <p>
+      <span class="exclamation-circle" *ngIf="Password?.errors?.noSpecialCharacter">
+        <ng-template [ngTemplateOutlet]="svgExclamation"></ng-template></span>
+      <span class="check-circle" *ngIf="!Password?.errors?.noSpecialCharacter">
+        <ng-template [ngTemplateOutlet]="svgCircle"></ng-template></span>
+      1 special character (@!#, etc.)</p>
+
+    <div class="form-group checkbox">
+      <input type="checkbox"
+        formControlName="AgreeTerms" name="agreeTerms" required />
+      <span></span><span class="checkbox terms">I agree to zavvie's <a href="https://zavvie.com/privacy-policy/#terms-of-use" target="_blank">Terms of Use</a> and <a href="https://zavvie.com/privacy-policy/#privacy-policy" target="_blank">Privacy Policy</a></span>
+    </div>
+
+    <div class="btn-container">
+      <button-comp *ngIf="!waiting_for_response" [disable]="signupForm.invalid || !emailGood()" label="Create your zavvie account"></button-comp>
+      <div class="loading-spinner" *ngIf="waiting_for_response">
+        <loading-spinner></loading-spinner>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #svgCircle><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 464c-118.664 0-216-96.055-216-216 0-118.663 96.055-216 216-216 118.664 0 216 96.055 216 216 0 118.663-96.055 216-216 216zm141.63-274.961L217.15 376.071c-4.705 4.667-12.303 4.637-16.97-.068l-85.878-86.572c-4.667-4.705-4.637-12.303.068-16.97l8.52-8.451c4.705-4.667 12.303-4.637 16.97.068l68.976 69.533 163.441-162.13c4.705-4.667 12.303-4.637 16.97.068l8.451 8.52c4.668 4.705 4.637 12.303-.068 16.97z"/></svg></ng-template>
+<ng-template #svgFatExclamation><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm42-104c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42zm-81.37-211.401l6.8 136c.319 6.387 5.591 11.401 11.985 11.401h41.17c6.394 0 11.666-5.014 11.985-11.401l6.8-136c.343-6.854-5.122-12.599-11.985-12.599h-54.77c-6.863 0-12.328 5.745-11.985 12.599z"/></svg></ng-template>
+<ng-template #svgExclamation><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M256 40c118.621 0 216 96.075 216 216 0 119.291-96.61 216-216 216-119.244 0-216-96.562-216-216 0-119.203 96.602-216 216-216m0-32C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm-11.49 120h22.979c6.823 0 12.274 5.682 11.99 12.5l-7 168c-.268 6.428-5.556 11.5-11.99 11.5h-8.979c-6.433 0-11.722-5.073-11.99-11.5l-7-168c-.283-6.818 5.167-12.5 11.99-12.5zM256 340c-15.464 0-28 12.536-28 28s12.536 28 28 28 28-12.536 28-28-12.536-28-28-28z"/></svg></ng-template>

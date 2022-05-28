@@ -1,0 +1,13 @@
+<pp-page-title label="Interior 1 of 7"></pp-page-title>
+<form [formGroup]="interiorOne" class="interior-form">
+  <!-- Interior Piant Condition -->
+  <select-option (newval)="formValueChanged(fns.FieldNames.interior1.Interior_Paint, $event)" [oldval]="interiorPaintConditionDefault" [formname]="interiorOne"
+  [opts]="conditionPaintInterior" [qconfig]="interiorPaintConditionQuestionConfig"></select-option>
+  <!-- Interior Piant Color -->
+  <select-option (newval)="formValueChanged(fns.FieldNames.interior1.Neutral_Interior_Paint_Colors, $event); checkValidity()" [oldval]="interiorPaintColorsDefault" [formname]="interiorOne"
+  [opts]="neutralPaintColors" [qconfig]="interiorPaintColorsQuestionConfig"></select-option>
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

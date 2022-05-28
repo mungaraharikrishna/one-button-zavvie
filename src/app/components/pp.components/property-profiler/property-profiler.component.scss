@@ -1,0 +1,50 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.property-profiler {
+  margin: 0;
+  max-width: 1029px;
+}
+
+.get-offers-container {
+  display: flex;
+  justify-content: center;
+  margin: 2em 0;
+
+  .btn-wrap {
+    filter: drop-shadow(7px 7px 4px rgba(50, 50, 0, 0.5));
+    transition: filter 100ms;
+
+    &:hover {
+      filter: drop-shadow(1px 1px 1px rgba(50, 50, 0, 0.5));
+      transition: filter 300ms;
+    }
+
+    .get-offers {
+      background-color: $highlight;
+      clip-path: polygon(0 0, 100% 0%, 100% 81%, 50% 100%, 0 80%);
+      overflow: hidden;
+      border: 0;
+      color: $white;
+      display: flex;
+      flex-direction: column;
+      font-size: 1.5em;
+      height: 100px;
+      line-height: 1.1;
+      justify-content: center;
+      max-width: 240px;
+      padding: 0 1.5em .5em;
+      position: relative;
+      transition: all 0.2s ease-in-out;
+  
+      &:hover {
+        top: 1px;
+        transition: all 300ms;
+      }
+    }
+  }
+}

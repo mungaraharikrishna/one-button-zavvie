@@ -1,0 +1,48 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.submit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  color: $partner;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-left: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.input {
+  display: block;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  color: #666666;
+  max-width: 100%;
+  width: 100%;
+}
+
+.nextbackbtn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.loading-spinner {
+  align-self: flex-end;
+  margin-right: 3em;
+  min-height: 48px;
+  position: relative;
+  top: -25px;
+  transform: scale(.5);
+}

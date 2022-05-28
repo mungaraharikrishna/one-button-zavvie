@@ -1,0 +1,34 @@
+<pp-page-title label="Seller Solutions"></pp-page-title>
+<label class="label">
+  I’d like offers from the following selling solutions:
+</label>
+<form class="ss-form" [formGroup]="sellerSolutionsForm">
+  <div *ngFor="let ss of sellerSolutions; let i=index">
+    <div class="input-container multi-checkbox" [ngClass]="{ 'concierge': ss.id == 99 }">
+      <div class="multi-checkbox-container" [ngClass]="{ 'concierge': ss.id == 99 }">
+        <input type="checkbox" [checked]="sellerSolutionsSelection.indexOf(ss.value) > -1" [value]="ss.value" (change)="toggleSellerSolutionsSelection($event)"
+          [disabled]="ss.id == 99 && sellerSolutionsSelection.indexOf('Open Market') == -1" [ngClass]="{ 'concierge': ss.id == 99 }" />
+        <label>
+          <ul>
+            <li><span class="feature-heading">{{ ss.heading }}</span></li>
+            <li><span class="feature-subheading">{{ ss.subHeading }}</span></li>
+          </ul>
+        </label>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- CheckBoxes -->
+<div *ngIf="!prevBuyerOnly && showBuyerOBZ" class="form-group checkbox">
+  <!-- <input #radio type="checkbox" [checked]="isBuyer" (change)="buyerCheckbox($event)" [value]="userBuyervalue"/>
+  <label class="checkbox">Also show buyer solutions</label> -->
+  <div class="form-group">
+    <radio-true-false (newval)="formValueChanged(fns.FieldNames.sellerSolutions.HomeToBuy, $event); checkValidity()" [oldval]="homeToBuyDefault"
+      [qconfig]="homeToBuyQuestionConfig" [formname]="sellerSolutionsForm"></radio-true-false>
+  </div>
+</div>
+
+<div class="nextbackbtn-container">
+  <app-nextbackbtn *ngIf="!prevSellerOnly && isBuyer && isSeller" [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"> </app-nextbackbtn>
+</div>

@@ -1,0 +1,541 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$black: #000000;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.nextbackbtn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+input {
+  @media screen and (min-width: 992px) {
+    width: 50%;
+  }
+
+  &.state,
+  &.county {
+    padding: .5em .25em;
+    width: 100%;
+  }
+}
+
+.asterisk {
+  color: $red;
+  font-size: 1.5em;
+}
+
+// Prequalified
+.input-container {
+
+  &.checkbox {
+    position: relative;
+
+    label {
+      color: $partner;
+      font-size: 1.3em;
+
+      &.checkbox {
+        font-size: 1em;
+      }
+    }
+
+    input {
+      cursor: pointer;
+      font-weight: 400;
+      height: 25px;
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+    
+      & + label {
+        cursor: pointer;
+        margin: 0;
+        padding: 0;
+        pointer-events: none;
+        position: relative;
+      }
+
+      & + label:before {
+        border: 2px solid lightGray;
+        content: '';
+        margin-right: 10px;
+        display: inline-block;
+        vertical-align: text-top;
+        width: 25px;
+        height: 25px;
+      }
+    
+      &:checked + label:before {
+        background: $white;
+      }
+
+      &:checked + label::after {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 5px;
+        display: inline-block;
+        transform: rotate(39deg);
+        height: 15px;
+        width: 9px;
+        border-bottom: 3px solid $black;
+        border-right: 3px solid $black;
+      }
+    }
+  }
+
+  &.radio {
+    position: relative;
+  
+    input[type=radio]:checked,
+    input[type=radio]:not(:checked) {
+      height: 18px;
+      opacity: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 999;
+    }
+  
+    input[type=radio]:checked + label,
+    input[type=radio]:not(:checked) + label {
+      color: $partner;
+      cursor: pointer;
+      display: inline-block;
+      line-height: 20px;
+      position: relative;
+      padding-left: 28px;
+    }
+  
+    input[type=radio]:checked + label:before,
+    input[type=radio]:not(:checked) + label:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid $partner;
+      border-radius: 100%;
+      background: #fff;
+    }
+  
+    input[type=radio]:checked + label:before {
+      background: $partner;
+    }
+  
+    input[type=radio]:checked + label::after,
+    input[type=radio]:not(:checked) + label::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: $white;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      border-radius: 100%;
+      transition: all 0.2s ease;
+    }
+  
+    input[type=radio]:not(:checked) + label::after {
+      opacity: 0;
+      transform: scale(0);
+    }
+  
+    input[type=radio]:checked + label::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.name-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+
+  input {
+    width: 50%;
+  }
+
+  @media screen and (min-width: 992px) {
+    flex-direction: row;
+    width: 50%;
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
+.loading-spinner {
+  position: relative;
+  display: block;
+  top: -100px;
+  width: 100px;
+  transform: scale(.75);
+}
+
+.form-group label {
+  color: $partner;
+  font-family: Avenir;
+  font-size: 1.3em;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-left: 0;
+  text-align: left;
+  white-space: normal;
+}
+
+.location-input.location-button.form-control {
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+
+  @media screen and (min-width: 768px) {
+    width: 50%;
+  }
+
+  .suffix-bit {
+    background: $highlight;
+    color: $white;
+    cursor: pointer;
+    font-size: 1.1em;
+    padding: .7em .9em;
+    position: absolute;
+    margin-top: -1.1rem;
+    margin-right: -1.1rem;
+    right: 0.625em;
+    top: 0.375em;
+  }
+}
+
+.modal-wrapper {
+  display: flex;
+  justify-content: center;
+
+  .buyer-location-modal {
+    background: $white;
+    border-radius: $oo_border_radius;
+    overflow: hidden;
+    padding: 2.33em 2.6em 1em;
+    position: fixed;
+    top: 0;
+    width: 90vw;
+    z-index: 1000;
+
+    @media screen and (min-width: 768px) {
+      top: calc(50% - 25em);
+      width: 50vw;
+    }
+
+    .close-location-modal {
+      background: #f2f2f2;
+      border-radius: 50%;
+      color: $highlight;
+      cursor: pointer;
+      padding: 0.5em 1em;
+      position: absolute;
+      right: 1em;
+      top: 1em;
+    }
+
+    h4 {
+      font-size: 1em;
+      margin-bottom: 2em;
+    }
+
+    .location-displayer .state-container {
+      align-items: center;
+    }
+
+    .state-container {
+      align-self: flex-start;
+      display: flex;
+      flex-direction: row;
+
+      button {
+        background: none;
+        border: 0;
+      }
+    }
+    
+    .county-container {
+      align-self: flex-start;
+    }
+  
+    .location-label {
+      padding: .5em;
+    }
+
+    ul {
+      list-style: none;
+
+      li {
+        font-size: .9em;
+        list-style: none;
+        padding-left: .5em;
+      }
+    }
+
+    .location-input ul {
+      border-bottom: 1px solid #e6e6e6;
+      border-left: 1px solid #e6e6e6;
+      border-right: 1px solid #e6e6e6;
+      height: 20vh;
+      overflow: scroll;
+      padding-left: 0;
+
+      li {
+        color: $partner;
+        cursor: pointer;
+
+        &:hover {
+          color: #444444;
+          background: #f2f2f2;
+        }
+      }
+    }
+
+    .form-content.tag ul {
+      border: 0;
+      height: unset;
+
+      li {
+        background: $highlight;
+        border-radius: 3px;
+        color: $white;
+        float: left;
+        font-size: .8em;
+        margin: 0.25em;
+        padding: .25em .5em;
+      }
+    }
+
+    .buyer-location-modal {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      .form-content {
+        display: flex;
+        flex-direction: row;
+      }
+
+      .confirm-location {
+        background-color: $highlight;
+        border: 0;
+        border-radius: $oo_border_radius;
+        color: $white;
+        cursor: pointer;
+        margin: .5em;
+        padding: 0.5em 1em;
+
+        &.disabled {
+          background-color: #e2e2e2;
+          border: 0;
+          cursor: auto;
+        }
+      }
+    }
+  }
+
+  .display-locations {
+    clear: both;
+
+    .state-container {
+      clear: both;
+    }
+  }
+
+  .location-adder {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    .confirm-location {
+      background-color: $highlight;
+      border: 0;
+      border-radius: $oo_border_radius;
+      color: $white;
+      cursor: pointer;
+      margin: .5em;
+      max-width: 275px;
+      padding: 0.5em 1em;
+    }
+  }
+
+  .county-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.66em;
+  }
+
+  .remove-item {
+    cursor: pointer;
+  }
+
+  .add-new-location {
+    clear: both;
+    margin-bottom: 1.66em;
+    text-align: left;
+    width: 80%;
+
+    span {
+      cursor: pointer;
+    }
+  }
+
+  .confirm-done {
+    width: 100%;
+    text-align: center;
+
+    .confirm-location {
+      background-color: $highlight;
+      border: 0;
+      border-radius: $oo_border_radius;
+      color: $white;
+      cursor: pointer;
+      margin: .5em;
+      padding: 0.5em 1em;
+    }
+  }
+
+  .proceed-modal-body {
+    background: #f2f2f2;
+    border-radius: $oo_border_radius;
+    padding: 20px 0;
+
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 1em;
+      margin-top: 2em;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    .seller-details-text {
+      text-align: center;
+    }
+
+    .proceed-seller-modal {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .seller-details-btn {
+      align-self: flex-end;
+      display: flex;
+      margin-right: 2em;
+
+      button {
+        background-color: $highlight;
+        border: 0;
+        border-radius: $oo_border_radius;
+        color: $white;
+        cursor: pointer;
+        margin: 1em;
+        padding: 0.5em 1em;
+      }
+    }
+  }
+
+  .modal-background {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #000;
+    opacity: 0.75;
+    z-index: 900;
+  }
+
+  .buy-modal {
+    bottom: 0;
+    overflow: hidden;
+    position: fixed;
+    top: 10em;
+    z-index: 1000;
+
+    @media screen and (min-width: 768px) {
+      top: calc(50% - 15em);
+    }
+
+    .modal-body {
+      background: #f2f2f2;
+      border-radius: $oo_border_radius;
+      min-width: 55vw;
+      padding: 1em;
+      text-align: center;
+      z-index: 999;
+
+      @media screen and (min-width: 768px) {
+        padding: 1.25em;
+      }
+
+      .modal-content-container {
+        border-radius: $oo_border_radius;
+        border: 2px solid $highlight;
+        padding-bottom: 15px;
+
+        &.ribbon-info {
+          display: flex;
+          flex-direction: column;
+          padding-bottom: 2em;
+
+          button {
+            align-self: flex-end;
+            background: $highlight;
+            border: 1px solid $highlight;
+            border-radius: $oo_border_radius;
+            color: $white;
+            margin-right: 1em;
+            padding: .5em .75em;
+          }
+
+          a {
+            line-height: 1.4;
+            margin: 0 2em;
+          }
+        }
+      }
+
+      h3 {
+        color: $highlight;
+        font-size: 1.5em;
+        margin: .5em;
+      }
+    }
+  }
+
+  .loading-spinner {
+    min-height: 50px;
+    position: relative;
+    top: -30px;
+    transform: scale(.5);
+    width: unset;
+  }
+}
+
+.loading-spinner {
+  position: relative;
+  display: block;
+  top: -100px;
+  width: 100px;
+  transform: scale(.75);
+}

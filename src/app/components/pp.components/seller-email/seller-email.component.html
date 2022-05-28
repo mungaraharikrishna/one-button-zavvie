@@ -1,0 +1,69 @@
+<!-- Option 1 or Option 2 Modal -->
+<div class="modal-wrapper">
+  <div class="jw-modal" [ngClass]="{ 'email-to-client': confirmEmailToClient }">
+    <div class="modal-body" *ngIf="!confirmEmailToClient">
+      <div class="modal-content-container">
+        <h3>WE ARE READY TO COLLECT DETAILS!</h3>
+        <b><h4>Seller Solutions</h4></b>
+        <div class="details-container">
+          <div class="option1 col-12 col-md-6">
+            <div class="details-body" (click)="optionOneClicked()">
+              <h4 class="details-title">OPTION 1</h4>
+              <h5>Have your seller fill out the property details.</h5>
+              <p>Don't worry we will keep you in the loop throughout the process</p>
+              <button>Send Link to Client</button>
+            </div>
+          </div>
+          <div class="option2 col-12 col-md-6">
+            <div class="details-body" (click)="optionTwoClicked()">
+              <h4 class="details-title">OPTION 2</h4>
+              <h5>You fill out the property details.</h5>
+              <p>We will start submitting for offers right away</p>
+              <button *ngIf="!showLoader">Go to Property Details</button>
+              <div class="loading-spinner" [ngClass]="{ 'hide': !showLoader }">
+                <loading-spinner *ngIf="showLoader"></loading-spinner>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="modal-body" *ngIf="confirmEmailToClient">
+      <h3>Email Your Client</h3>
+      <div class="details-container">
+        <div class="option1 col-12">
+          <div class="details-body email-to-client">
+            <p style="margin-top: 0;">Send To: <span class="email-details-to-email">{{ pds.getUserData(fns.FieldNames.generalInfo.AgentClientEmail) }}</span></p>
+            <p>Name: <span class="email-details-to-name">{{ pds.getUserData(fns.FieldNames.generalInfo.AgentClientFirstName) }} {{ pds.getUserData(fns.FieldNames.generalInfo.AgentClientLastName) }}</span></p>
+            <p>Subject: <span class="email-details-to-subject">Submit Property Details: {{ pds.getUserData(fns.FieldNames.confirmAddress.Address) }}</span></p>
+            
+            <div class="mock-email">
+              <img src="{{ pds.getData('logo').url }}" alt="{{ pds.getData('logo').alt }}" />
+              <img *ngIf="hasAgentLogo" src="{{ pds.getData('agent_logo').url }}" alt="{{ pds.getData('agent_logo').alt }}" />
+              <p>Hello {{ clientname() }},</p>
+              <textarea class="email-message" type="textarea" cols="24" rows="4" wrap="soft"
+                (keyup)="emailMessageUpdated('EmailMessage', $event)"
+                [value]="body"></textarea>
+              <p>Let me know if you have any questions!</p>
+              <p>Sincerely,<br>{{ agentname() }}<br>
+                {{ agentphone() }}<br>
+                {{ agentemail() }}
+              </p>
+            </div>
+
+            <p class="pp-ps"><strong>A link to your client's Property Profile will be embedded in the email below your message.</strong></p>
+          </div>
+          <div class="btn-container">
+            <button class="cancel-btn" *ngIf="!showEmailLoader" (click)="emailToClientCanceled()">Cancel</button>
+            <button class="confirm-btn" *ngIf="!showEmailLoader" (click)="emailToClientConfirmed()">Send Email</button>
+            <div class="loading-spinner">
+              <loading-spinner *ngIf="showEmailLoader"></loading-spinner>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-background"></div>
+</div>

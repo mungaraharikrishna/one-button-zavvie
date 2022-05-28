@@ -1,0 +1,28 @@
+<pp-page-title label="Property 5 of 5"></pp-page-title>
+
+<radio-true-false (newval)="formValueChanged(fns.FieldNames.property4.Additions, $event); checkValidity()" [oldval]="additionsDefault"
+  [qconfig]="additionsQuestionConfig" [formname]="propertyFour"></radio-true-false>
+
+<div *ngIf="propertyFour.get('Additions')!.value == 'true'">
+  <!-- Yes Additions -->
+  <!-- Additions Permitted -->
+  <radio-true-false (newval)="formValueChanged(fns.FieldNames.property4.AdditionsType, $event)" [oldval]="additionsPermittedDefault"
+    [qconfig]="additionsPermittedQuestionConfig" [formname]="propertyFour"></radio-true-false>
+  
+  <!-- Additions Location -->
+  <simple-text (newval)="formValueChanged(fns.FieldNames.property4.AdditionsLocations, $event)" [oldval]="additionsLocationDefault"
+    [qconfig]="additionsLocationQuestionConfig" [formname]="propertyFour"></simple-text>
+</div>
+
+<!-- Master Bedroom Location -->
+<select-option (newval)="formValueChanged(fns.FieldNames.property4.MasterBedroomLocation, $event)" [oldval]="masterBedroomLocationDefault" [formname]="propertyFour"
+  [opts]="masterBedroomLocation" [qconfig]="masterBedroomLocationQuestionConfig"></select-option>
+
+<!-- Property Type -->
+<select-option (newval)="formValueChanged(fns.FieldNames.property4.BasementType, $event)" [oldval]="basementDefault" [formname]="propertyFour"
+  [opts]="basement" [qconfig]="basementQuestionConfig"></select-option>
+
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

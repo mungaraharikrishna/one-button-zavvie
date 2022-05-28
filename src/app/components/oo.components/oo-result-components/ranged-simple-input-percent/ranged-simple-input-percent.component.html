@@ -1,0 +1,19 @@
+<div class="ranged-simple-input-percent">
+  <div class="input-group">
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="lowperc" [dropSpecialCharacters]="false"
+      mask="percent" suffix="%" appValidateNumber />
+    <input type="hidden" class="ng-hide"
+      [(ngModel)]="highperc" [dropSpecialCharacters]="false"
+      mask="percent" suffix="%" appValidateNumber />
+    <input size="11" type="text" class="simple-input"
+      [(ngModel)]="lowdollar" [attr.disabled]="disabledollar ? true : null"
+      (keyup)="updateLowHiddenVal()"
+      placeholder="$0"  mask="separator" thousandSeparator="," prefix="$" />
+    <span class="arrow">&ndash;</span>
+    <input size="11" type="text" class="simple-input"
+      [(ngModel)]="highdollar" [attr.disabled]="disabledollar ? true : null"
+      (keyup)="updateHighHiddenVal()"
+      placeholder="$0" mask="separator" thousandSeparator="," prefix="$" />
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<pp-page-title label="Submit Photos"></pp-page-title>
+<form class="upload-form" *ngIf="!showUploaded">
+  <div class="upload-response"></div> 
+  <div id="upload-drop" class="col-12">
+    <label class="drop-text">Drop photos to UPLOAD:<br>or</label>
+    <div class="button-container">
+      <input id="fileEl" class="files-data" type="file" name="files[]" accept="image/*" multiple
+        (change)="handleFileClick($event)" />
+      <label class="selectbtn" for="fileEl">Select Photos</label>
+    </div>
+    <address class="drop-text"><em>Max file size 5Mb per photo. Allowed file types: jpg/jpeg, png, gif, bmp </em></address>
+  </div>
+  <div class="button-container">
+    <button class="upload-button" (click)="doneUploading()">DONE</button>
+  </div>
+</form>
+
+<div class="form-group" *ngIf="showUploaded">
+  <h2 class="successful-upload-msg">UPLOAD SUCCESSFUL  ({{ totalDone }} of {{ totalUploads }})</h2>
+  <p *ngIf="too_big_files.length > 0">
+    <span class="upload-error" *ngFor="let msg in too_big_files">{{ msg }}</span>
+  </p>
+  <!-- uploaded -->
+  <div *ngIf="file_info && file_info.length > 0">
+    <!-- <p>Uploading {{ (payloadSize * .000001).toFixed(2) }}Mb</p> -->
+    <ol class="file-list col-12"> 
+      <li *ngFor="let file of file_info; let indexOfelement=index" class="upload-wrapper col-3">
+        <div class="upload-box">
+          <span *ngIf="photoUploaded(file.name)" class="photo-delete" (click)="removeImg(getId(file.name)); file_info.splice(indexOfelement,1)"><span class="fal fa-trash-alt"></span>&nbsp;</span>
+          <span *ngIf="!photoUploaded(file.name)" class="photo-delete-icon"><span class="fal fa-trash-alt"></span>&nbsp;</span>
+          <div class="img-info">
+            <span *ngIf="photoUploaded(file.name)" class="fa fa-check" aria-hidden="true"></span>
+            <img style="width: 100px; height: auto; max-height: 100px;" [src]="file.src" />
+            <div class="file-loader">
+              <div class="file-info">
+                <span class="upload-info">{{ (file.size * .000001).toFixed(2) }}Mb</span>
+              </div>
+              <div class="file-progress">
+                <div class="progress-background">
+                  <div class="progress-foreground" [ngClass]="uploadStatus[file.name]" [ngStyle]="{ 'width': uploadProgress(progress[file.name]) }"></div>
+                </div>
+              </div>
+              <!-- upload fail -->
+              <span *ngIf="numUploading > 0 && progress[file.name] != 100 && !photoUploaded(file.name)" class="fas fa-spinner" aria-hidden="true"></span>
+              <span *ngIf="!photoUploaded(file.name) && uploadStatus[file.name] == 'not-uploaded'" class="fa fa-times" aria-hidden="true"></span>
+              <span *ngIf="!photoUploaded(file.name) && uploadStatus[file.name] == 'not-uploaded'" class="uploaded-msg reason" aria-hidden="true">{{ !loading && getReason(file.name) }}</span>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ol>
+  </div>
+  <div class="show-uploaded-buttons" *ngIf="numUploading == 0">
+    <button class="upload-button" (click)="doneUploading()">DONE</button>
+    <button class="upload-button" (click)="uploadMore()">Upload more photos</button>
+  </div>
+</div>

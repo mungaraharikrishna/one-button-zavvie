@@ -1,0 +1,19 @@
+<pp-page-title label="Interior 6 of 7"></pp-page-title>
+<form [formGroup]="interiorSixInfo" class="interior-form">
+    <!-- Bedroooms Flooring Type -->
+    <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior6.Bedroom_Flooring_Types, $event); checkValidity()" [oldval]="bedroomFlooringTypesDefault"
+    [opts]="flooringTypes" [qconfig]="bedroomFlooringTypesQuestionConfig" [formname]="interiorSixInfo"></multi-select-checkbox>
+    <!-- Bedroooms Flooring Condition -->
+    <select-option (newval)="formValueChanged(fns.FieldNames.interior6.Bedroom_Flooring_Condition, $event)" [oldval]="bedroomFlooringConditionDefault" [formname]="interiorSixInfo"
+    [opts]="bedroomFlooringCondition" [qconfig]="bedroomFlooringConditionQuestionConfig"></select-option>
+     <!-- Bathrooms Flooring Type -->
+     <multi-select-checkbox (newval)="formValueChanged(fns.FieldNames.interior6.Bathroom_Flooring_Types, $event); checkValidity()" [oldval]="bathroomFlooringTypesDefault"
+     [opts]="bathroomflooringTypes" [qconfig]="bathroomFlooringTypesQuestionConfig" [formname]="interiorSixInfo"></multi-select-checkbox>
+     <!-- Bathrooms Flooring Condition -->
+     <select-option (newval)="formValueChanged(fns.FieldNames.interior6.Bathroom_Flooring_Condition, $event)" [oldval]="bathroomFlooringConditionDefault" [formname]="interiorSixInfo"
+     [opts]="bathroomFlooringCondition" [qconfig]="bathroomFlooringConditionQuestionConfig"></select-option>
+</form>
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

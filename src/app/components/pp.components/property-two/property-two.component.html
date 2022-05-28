@@ -1,0 +1,34 @@
+<pp-page-title label="Property 3 of 5"></pp-page-title>
+
+<div class="question-container">
+  <div class="input-container">
+    <number-increment (newval)="formValueChanged(fns.FieldNames.property2.Number_Bedrooms, $event)" [oldval]="bedroomsDefault"
+      [qconfig]="bedroomsQuestionConfig" [formname]="propertyTwo"></number-increment>
+  </div>
+  
+  <div class="input-container">
+    <number-increment (newval)="formValueChanged(fns.FieldNames.property2.Number_FullBathrooms, $event)" [oldval]="fullBathsDefault"
+      [qconfig]="fullBathsQuestionConfig" [formname]="propertyTwo"></number-increment>
+  </div>
+  
+  <div class="input-container">
+    <number-increment (newval)="formValueChanged(fns.FieldNames.property2.Number_3QtrBathrooms, $event)" [oldval]="threeQtrBathsDefault"
+      [qconfig]="threeQtrBathsQuestionConfig" [formname]="propertyTwo"></number-increment>
+  </div>
+  
+  <div class="input-container">
+    <number-increment (newval)="formValueChanged(fns.FieldNames.property2.Number_HalfBathrooms, $event)" [oldval]="halfBathsDefault"
+      [qconfig]="halfBathsQuestionConfig" [formname]="propertyTwo"></number-increment>
+  </div>
+
+  <div class="input-container">
+    <number-increment (newval)="formValueChanged(fns.FieldNames.property2.Number_QtrBathrooms, $event)" [oldval]="oneQtrBathsDefault"
+      [qconfig]="oneQtrBathsQuestionConfig" [formname]="propertyTwo"></number-increment>
+  </div>
+      
+</div>
+
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

@@ -1,0 +1,128 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$white: #ffffff;
+$zavvie_green: #ccd67f;
+
+.pdf-loading-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  .spinner-container {
+    font-size: 1em;
+    position: relative;
+  }
+
+  .loading-msg {
+    font-size: 1em;
+    margin-left: 0.5em;
+    position: relative;
+
+    .msg {
+      padding: .5em;
+    }
+  }
+}
+
+.download-pdf {
+  background: $highlight;
+  color: $white;
+  cursor: pointer;
+  border: 0;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+  padding: .5em 1.5em;
+  width: unset;
+
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    max-width: 200px;
+  }
+}
+
+.fa-spinner {
+  background: $white;
+  color: $zavvie_green;
+  font-size: 1.15em;
+  margin: 0 1em 0 0;
+  position: absolute;
+  top: .15em;
+  left: -.75em;
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 4000ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-name: spin;
+  -moz-animation-duration: 4000ms;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -ms-animation-name: spin;
+  -ms-animation-duration: 4000ms;
+  -ms-animation-iteration-count: infinite;
+  -ms-animation-timing-function: linear;
+  
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.agent-prompt {
+  position: absolute;
+  top: -50px;
+  background: white;
+  border: 1px solid #e2e2e2;
+  border-radius: 5px;
+  box-shadow: 2px 3px 4px #999999;
+  padding: 1em;
+  max-width: 100%;
+  right: 0;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    max-width: 65%;
+  }
+
+  @media screen and (min-width: 992px) {
+    max-width: 50%;
+  }
+
+  h5 {
+    text-align: center;
+  }
+}
+
+.name-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+
+  input {
+    width: 50%;
+  }
+
+  @media screen and (min-width: 992px) {
+    flex-direction: row;
+
+    input {
+      width: 100%;
+    }
+  }
+  #agentID{
+    margin-top: 14px;
+  }
+}
+
+.text-input-container {
+  margin-left: 0;
+  width: 100%;
+
+  & + .text-input-container {
+    @media screen and (min-width: 992px) {
+      margin-left: 1em;
+    }
+  }
+    
+}

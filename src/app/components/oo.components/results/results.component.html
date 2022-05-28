@@ -1,0 +1,53 @@
+<div class="results page-width">
+
+  <!-- Buyer / Seller buttons -->
+  <div class="results-buttons">
+    <div class="btn-wrap" [ngClass]="{ 'disabled': showSellerResults }">
+      <button class="result-button seller-button" *ngIf="isSeller" (click)="toggleResults()"
+        [disabled]="showSellerResults" [ngClass]="{ 'disabled': showSellerResults }">Seller Solutions</button>
+    </div>
+    <div class="btn-wrap" [ngClass]="{ 'disabled': showBuyerResults }">
+      <button class="result-button buyer-button" *ngIf="isBuyer"  (click)="toggleResults()"
+        [disabled]="showBuyerResults" [ngClass]="{ 'disabled': showBuyerResults }">Buyer Solutions</button>
+    </div>
+  </div>
+
+  <div *ngIf="showSellerResults && configured && tooHigh()">
+    <h3 class="empty-result" style="display: block;">
+      At this time the national iBuyers are not purchasing properties at the price you entered. For other options, <a class="partner-link" href="{{ cta.aaCtaLink }}" target="_self">click here</a>.
+    </h3>
+  </div>
+
+  <div *ngIf="showSellerResults && configured && !tooHigh() && haveIos()">
+    <!-- Open market / Agent-assisted -->
+    <seller-result 
+      [market]="market"
+      [ibuyer]="aa"></seller-result>
+
+    <div class="io-wrapper">
+      <!-- IOs -->
+      <div class="io-container">
+        <div *ngIf="configured && !tooHigh() && haveIos() && !asIsSituation()">
+          <div class="io-container" *ngFor="let ibuyer of removeAsis()">
+            <seller-result 
+              [market]="market"
+              [ibuyer]="ibuyer"></seller-result>
+          </div>
+        </div>
+        <div *ngIf="configured && !tooHigh() && haveIos() && asIsSituation()">
+          <div class="io-container" *ngFor="let ibuyer of removeStd()">
+            <seller-result 
+              [market]="market"
+              [ibuyer]="ibuyer"></seller-result>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="configured && showBuyerResults">
+    <div class="io-container" *ngFor="let buyer of buyersolutions">
+      <buyer-result [buyersolution]="buyer"></buyer-result>
+    </div>
+  </div>
+</div>

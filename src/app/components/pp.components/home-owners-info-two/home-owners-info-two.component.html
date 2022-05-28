@@ -1,0 +1,37 @@
+<pp-page-title label="Seller Info 2 of 2"></pp-page-title>
+
+<span class="pp-bridge-heading">For {{ bridgeHeading }} we need to know a few more things:</span> <br />
+<span class="pp-bridge-subheading">Tell us about the property you are looking to buy</span>
+<hr>
+<form [formGroup]="homeOwnerTwoInfo" class="home-onwers-form">
+  <!-- Balance on Mortgage -->
+  <simple-number-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo2.Mortgage_Balance, $event)" [oldval]="mortgageBalanceDefault"
+    [qconfig]="mortgageBalanceQuestionConfig" [formname]="homeOwnerTwoInfo"></simple-number-text>
+
+  <!-- “HOA fees per month?”  -->
+  <simple-number-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo2.Monthly_HOA_Fees, $event)" [oldval]="monthlyHOAFeesDefault"
+    [qconfig]="monthlyHOAFeesQuestionConfig" [formname]="homeOwnerTwoInfo"></simple-number-text>
+
+  <!-- Home Equity -->
+  <radio-true-false (newval)="formValueChanged(fns.FieldNames.homeownerinfo2.Use_Equity, $event)" [oldval]="useEquityDefault"
+    [qconfig]="useEquityQuestionConfig" [formname]="homeOwnerTwoInfo"></radio-true-false>
+
+    <!-- Money Needed -->
+  <div *ngIf="homeOwnerTwoInfo.get(fns.FieldNames.homeownerinfo2.Use_Equity)!.value == 'true'">
+    <simple-number-text (newval)="formValueChanged('Money_Needed', $event)" [oldval]="moneyNeededDefault"
+    [qconfig]="moneyNeededQuestionConfig" [formname]="homeOwnerTwoInfo"></simple-number-text>
+  </div>
+
+  <!-- Additional Debt? -->
+  <simple-number-text (newval)="formValueChanged(fns.FieldNames.homeownerinfo2.Additional_Debt, $event)" [oldval]="additionalDebtDefault"
+    [qconfig]="additionalDebtQuestionConfig" [formname]="homeOwnerTwoInfo"></simple-number-text>
+
+    <div class="loading-spinner" *ngIf="showLoader">
+      <loading-spinner></loading-spinner>
+    </div> 
+</form>
+
+<div class="nextbackbtn-container" *ngIf="!showLoader">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="sendBtnConfig" (click)="sendToPb()"></app-nextbackbtn>
+</div>

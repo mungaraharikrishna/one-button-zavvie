@@ -1,0 +1,27 @@
+<pp-page-title label="Exterior 3 of 3"></pp-page-title>
+<form [formGroup]="exteriorThreeInfo">
+    <!-- Exterioir Paint Type -->
+    <select-option (newval)="formValueChanged(this.fns.FieldNames.exterior3.Exterior_Paint, $event)" [oldval]="exteriorPaintTypeDefault" [formname]="exteriorThreeInfo"
+        [opts]="exteriorPaintType" [qconfig]="exteriorPaintTypeQuestionConfig"></select-option>
+
+    <!-- Backyard Fence Type -->
+    <select-option (newval)="formValueChanged(this.fns.FieldNames.exterior3.Backyard_Fence, $event)" [oldval]="backyardFenceTypeDefault" [formname]="exteriorThreeInfo"
+        [opts]="backyardFenceType" [qconfig]="backyardFenceTypeQuestionConfig">
+    </select-option>
+    
+    <!-- Exterior Roof Conditions  -->
+    <select-option (newval)="formValueChanged(this.fns.FieldNames.exterior3.Roof_Condition, $event)" [oldval]="roofConditionDefault" [formname]="exteriorThreeInfo" 
+        [opts]="roofCondition" [qconfig]="roofConditionQuestionConfig">
+    </select-option>
+   
+    <!-- backs up to -->
+    <multi-select-checkbox (newval)="formValueChanged(this.fns.FieldNames.exterior3.Property_Backs_up_to, $event)" [opts]="backsUpTo" [qconfig]="backsUpToQuestionConfig"
+    [oldval]="backsUpToDefault" [formname]="exteriorThreeInfo"></multi-select-checkbox>
+    
+</form>
+
+<!-- Next and back Button -->
+<div class="nextbackbtn-container">
+  <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="next()"></app-nextbackbtn>
+</div>

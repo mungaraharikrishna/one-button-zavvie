@@ -1,0 +1,104 @@
+<pp-page-title label="General Info"></pp-page-title>
+<div class="inputs-container">
+  <form [formGroup]="generalInfo" autocomplete="off">
+
+    <div class="name-container">
+      <div class="text-input-container">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.generalInfo.AgentFirstName, $event)" [oldval]="agentFirstNameDefault"
+          [qconfig]="agentFirstNameQuestionConfig" [formname]="generalInfo"></simple-text>
+      </div>
+      <div class="text-input-container">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.generalInfo.AgentLastName, $event)" [oldval]="agentLastNameDefault"
+          [qconfig]="agentLastNameQuestionConfig" [formname]="generalInfo"></simple-text>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="label">Agent email address <span class="asterisk">*</span> </label>
+      <span class="extra-info">This email address will be used to create an account or add your client’s info to your pre-existing account for some solution providers</span>
+      <input type="email" class="form-control" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentEmail, generalInfo.get('AgentEmail')!.value); checkValidity()" placeholder="Enter email" formControlName="AgentEmail"
+        email required />
+    </div>
+
+    <div class="name-container">
+      <div class="text-input-container">
+        <div class="form-group">
+          <label class="label">Agent phone number <span class="asterisk">*</span></label>
+          <input type="tel" class="form-control" placeholder="Phone Number" formControlName="AgentPhone"
+            required mask="(000) 000-0000" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentPhone, generalInfo.get(fns.FieldNames.generalInfo.AgentPhone)!.value); checkValidity()" />
+        </div>
+      </div>
+      <div id ="agentID" class="text-input-container">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.generalInfo.AgentID, $event)" [oldval]="agentIDDefault"
+          [qconfig]="agentIDQuestionConfig" [formname]="generalInfo"></simple-text>
+      </div>
+    </div>
+
+
+
+    <div class="name-container">
+      <div class="text-input-container">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.generalInfo.AgentClientFirstName, $event); checkValidity()" [oldval]="agentClientFirstNameDefault"
+          [qconfig]="agentClientFirstNameQuestionConfig" [formname]="generalInfo"></simple-text>
+      </div>
+      <div class="text-input-container">
+        <simple-text (newval)="formValueChanged(fns.FieldNames.generalInfo.AgentClientLastName, $event); checkValidity()" [oldval]="agentClientLastNameDefault"
+          [qconfig]="agentClientLastNameQuestionConfig" [formname]="generalInfo"></simple-text>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="label">Client email address <span class="asterisk">*</span> </label>
+      <input type="email" class="form-control" value="agentClientEmailDefault" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentClientEmail, generalInfo.get(fns.FieldNames.generalInfo.AgentClientEmail)!.value); checkValidity()" placeholder="Enter email" formControlName="AgentClientEmail"
+        email required />
+    </div>
+
+    <div class="form-group">
+      <label class="label">Client phone number</label>
+      <input type="tel" class="form-control" placeholder="Phone Number" formControlName="ClientPhone"
+        mask="(000) 000-0000" (keyup)="formValueChanged(fns.FieldNames.generalInfo.ClientPhone, generalInfo.get(fns.FieldNames.generalInfo.ClientPhone)!.value)" />
+    </div>
+
+    <div class="form-group checkbox" *ngIf="isSeller">
+      <input #radio type="radio"
+        formControlName="SignedListingAgreement"
+        name="SignedListingAgreement"
+        [value]="true"
+        [checked]="haveSignedListingAgreement == true || stringSignedListingAgreement === 'true'"
+        (click)="toggleSignedAgreementSelection()" />
+      <label class="checkbox">I have a signed listing agreement</label>
+    </div>
+
+    <div class="nextbackbtn-container">
+      <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+      <app-nextbackbtn *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()"> </app-nextbackbtn>
+      <div class="loading-spinner" *ngIf="showBuyerPPLoader">
+        <loading-spinner></loading-spinner>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+
+<!-- <div class="modal-wrapper">
+  <div class="buy-modal">
+    <div class="modal-body" *ngIf="ribbon_waiting">
+      <div class="modal-content-container ribbon-info" *ngIf="ribbon_waiting && !showRibbonInfo">
+        <h3 *ngIf="!add_account">We're updating your agent account on Ribbon.com</h3>
+        <h3 *ngIf="add_account">We're creating your agent account on Ribbon.com</h3>
+        <div class="loading-spinner">
+          <loading-spinner></loading-spinner>
+        </div>
+      </div>
+      <div class="modal-content-container ribbon-info" *ngIf="showRibbonInfo"> 
+        <h3 *ngIf="add_account">We've created an account for you on Ribbon.com</h3>
+        <h3 *ngIf="!add_account">We've added a new buyer to your Ribbon.com account.</h3>
+        <a href="{{ ribbonUrl }}" title="Take the next steps and finish your buyer profile within Ribbon.com by uploading your buyer's pre-approval" target="_blank">Take the next steps and finish your buyer profile within Ribbon.com by uploading your buyer's pre-approval.</a>
+        <p>(link opens in a new tab)</p>
+        <button (click)="closeRibbon()">Continue</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-background" *ngIf="ribbon_waiting"></div>
+</div> -->

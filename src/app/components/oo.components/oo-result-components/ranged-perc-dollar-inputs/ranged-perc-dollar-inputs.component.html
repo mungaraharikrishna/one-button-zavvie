@@ -1,0 +1,14 @@
+<div class="ranged-perc-dollar-inputs-container">
+  <div class="input-group double ranged percent">
+    <input size="6" type="text" class="percent-input" placeholder="0" autocomplete="off" [(ngModel)]="perc" name="perc"
+      (keyup)="changeDollarAmt()" mask="percent" suffix="%" [dropSpecialCharacters]="false" appValidateNumber />
+  </div>
+  <span class="arrow">→</span>
+  <div class="input-group double">
+    <input size="5" type="text" placeholder="$0" class="disabled" autocomplete="off" [(ngModel)]="lowdollar"
+      name="lowdollar" [attr.disabled]="true" disabled  mask="separator" thousandSeparator="," prefix="$"/>
+    <span class="arrow">&ndash;</span>
+    <input size="5" type="text" placeholder="$0" class="disabled" autocomplete="off" [(ngModel)]="highdollar"
+      name="highdollar" [attr.disabled]="true" disabled  mask="separator" thousandSeparator="," prefix="$"/>
+  </div>
+</div>

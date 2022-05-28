@@ -1,0 +1,148 @@
+$partner: var(--partner);
+$highlight: var(--highlight);
+$oo_border: 2px solid $partner;
+$white: #ffffff;
+$oo_border_radius: 8px;
+$red: #fb4e30;
+
+.card {
+  background: $highlight;
+  color: $white;
+  font-size: 1.3em;
+  margin: 3em auto;
+  width: 90%;  
+
+  .card-title {
+    color: $white;
+  }
+
+  .closebtn {
+    background-color: $white;
+    color: $partner;
+    border: 2px solid #222222;
+    border-radius: 50%;
+  }
+
+  .thanksTitle {
+    color: $white;
+    text-align: center;
+  }
+
+  ul {
+    padding-left: 0;
+  }
+  
+  .congrats-text {
+    margin: 0 auto 1em;
+    max-width: 75%;
+
+    @media screen and (min-width: 768px) {
+      max-width: 443px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-bottom: 1em;
+      padding-left: 0;
+    }
+  }
+
+  .solution-type {
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 1em;
+  }
+  
+  a {
+    color: $white;
+    font-weight: normal;
+    font-size: 1em;
+    line-height: 1;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .vb-type {
+    font-size: .9em;
+    font-style: italic;
+  }
+
+  ul li {
+    color: $white;
+    list-style: none;
+  }
+
+  .confirm-container {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 768px) {
+      flex-direction: row;
+    }
+
+    .buyer-info, .seller-info {
+      flex-basis: 50%;
+      height: fit-content;
+      margin: 10px;
+    }
+
+    .seller-info {
+      padding: 0;
+    }
+
+    .buyer-info {
+      border-bottom: 2px solid $white;
+      border-right: 0;
+      height: fit-content;
+      padding-bottom: 1.33em;
+      padding-right: 0;
+
+      @media screen and (min-width: 768px) {
+        border-bottom: 0;
+        border-right: 2px solid $white;
+        padding-bottom: 0;
+        padding-right: 1.33em;
+      }
+  
+      ul {
+        list-style-type: none;
+        margin-left: 10px;
+      }
+    }
+  }
+  
+}
+
+.indented-content {
+  margin: 2em 3.5em;
+}
+
+.fas {
+  color: green;
+  border: 2px solid greenyellow;
+  border-radius: 60%;
+  margin: 0 .25em 0 0;
+}
+
+.fad,
+.far {
+  color: $white;
+  font-size: 1.5em;
+  position: relative;
+}
+
+.fad {
+  background: green;
+}
+
+.inline-p {
+  display: inline;
+  padding-left: .75em;
+}
+
+.nextbackbtn-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+}

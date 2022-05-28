@@ -1,0 +1,97 @@
+$partner: var(--partner);
+
+.ranged-perc-dollar-inputs-container {
+
+  .input-group {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+
+    @media screen and (min-width: 768px) {
+      justify-content: space-between;
+    }
+
+    input {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1.1em;
+      height: 34px;
+      line-height: 1;
+      padding: 0 .25em;
+      text-align: right;
+      width: 32.5%;
+      -webkit-user-select: text;
+
+      @media screen and (min-width: 768px) {
+        width: 45%;
+      }
+
+      &.disabled {
+        background: none;
+        border: none;
+      }
+    }
+  }
+
+  .arrow {
+    color: $partner;
+    margin-left: .5em;
+    margin-right: .5em;
+
+    @media screen and (min-width: 768px) {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  .arrow + .input-group {
+    justify-content: flex-end;
+  }
+}
+
+.ranged-perc-dollar-inputs-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  
+  .input-group {
+    width: 60%;
+
+    @media screen and (min-width: 768px) {
+      justify-content: flex-end;
+    }
+
+    &.percent {
+      width: calc(65% - 13px);
+
+      input {
+        text-align: left;
+      }
+
+      .arrow {
+        width: 13px;
+
+        @media screen and (min-width: 768px) {
+          padding: 0 .25rem;
+        }
+      }
+
+      @media screen and (min-width: 768px) {
+
+        input {
+          width: unset;
+        }
+      }
+    }
+  }
+
+  .arrow + .input-group {
+    justify-content: flex-end;
+
+    @media screen and (min-width: 768px) {
+      justify-content: space-between;
+    }
+  }
+}
