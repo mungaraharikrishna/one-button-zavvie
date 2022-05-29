@@ -19,7 +19,6 @@ import { LoginDataService } from 'src/app/services/login-data.service';
 export class OneButtonComponent implements OnInit {
   officerType!: string;
   show_lo: boolean = false;
-  hide_lo: boolean = false;
 
   constructor(
     private configService: ConfigService,
@@ -207,8 +206,10 @@ export class OneButtonComponent implements OnInit {
   changeShowLO = (status:boolean) => {
     this.show_lo = status;
     this.show_oo = !status;
+    this.show_pp = !status;
     this.show_cor = this.can_use_cor ? !status : false;
     this.pds.changeVisibilityLO(this.show_lo);
+    this.nav.goto.lostart();
   }
 
   can_use_cor:boolean = false;
@@ -243,7 +244,6 @@ export class OneButtonComponent implements OnInit {
       this.show_lo = true;
       this.show_pp = false;
       this.pds.changeVisibilityLO(this.show_lo);
-      this.hide_lo = true;
       this.nav.goto.lostart();
     }
 

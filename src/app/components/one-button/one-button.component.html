@@ -56,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="show_lo && !hide_lo">
+    <div *ngIf="show_lo">
       <div class="row">
         <div class="col-12">
           <div class="loan_officer_card">
@@ -74,7 +74,7 @@
                   </div>
                 </div>
                 <div class="info_btn_txt">
-                  <button class="configure disabled" disabled>Let's go</button>
+                  <button class="configure active_btn" (click)="changeShowLO(true)">Let's go</button>
                 </div>
               </div>
             </div>
