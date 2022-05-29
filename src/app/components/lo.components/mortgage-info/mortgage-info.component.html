@@ -1,0 +1,12 @@
+<app-lo-page-title label="Mortgage Info"></app-lo-page-title>
+<div class="inputs-container">
+    <p>mortgage-info works!</p>
+    <div class="nextbackbtn-container">
+        <app-next-back-buttons [buttonConfig]="backBtnConfig" (click)="back()"> </app-next-back-buttons>
+        <app-next-back-buttons *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()">
+        </app-next-back-buttons>
+        <div class="loading-spinner" *ngIf="showBuyerPPLoader">
+            <loading-spinner></loading-spinner>
+        </div>
+    </div>
+</div>

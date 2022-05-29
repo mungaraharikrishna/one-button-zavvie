@@ -19,6 +19,7 @@ import { LoginDataService } from 'src/app/services/login-data.service';
 export class OneButtonComponent implements OnInit {
   officerType!: string;
   show_lo: boolean = false;
+  hide_lo: boolean = false;
 
   constructor(
     private configService: ConfigService,
@@ -203,6 +204,13 @@ export class OneButtonComponent implements OnInit {
     this.show_oo = !status;
   }
 
+  changeShowLO = (status:boolean) => {
+    this.show_lo = status;
+    this.show_oo = !status;
+    this.show_cor = this.can_use_cor ? !status : false;
+    this.pds.changeVisibilityLO(this.show_lo);
+  }
+
   can_use_cor:boolean = false;
   loggedIn:boolean = false;
   ngOnInit(): void {
@@ -228,10 +236,15 @@ export class OneButtonComponent implements OnInit {
     this.pds.currentVisibilityStatusOO.subscribe(newstatus => this.show_oo = newstatus);
     this.pds.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
     this.pds.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
+    this.pds.currentVisibilityStatusLO.subscribe(newstatus => this.show_lo = newstatus);
 
     if (this.userPersona === 'loan-officer') {
       this.changeShowOO(false);
       this.show_lo = true;
+      this.show_pp = false;
+      this.pds.changeVisibilityLO(this.show_lo);
+      this.hide_lo = true;
+      this.nav.goto.lostart();
     }
 
     this.route.queryParamMap.subscribe((ParamMap => {
@@ -319,6 +332,7 @@ export class OneButtonComponent implements OnInit {
         this.pds.changeVisibilityOO(this.show_oo);
         this.show_pp = false;
         this.pds.changeVisibilityPP(this.show_pp);
+        this.pds.changeVisibilityLO(this.show_lo);
       }
 
     }));

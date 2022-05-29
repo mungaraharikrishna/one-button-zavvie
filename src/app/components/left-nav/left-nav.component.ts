@@ -11,22 +11,24 @@ import { NavService } from '../../services/nav.service';
 })
 export class LeftNavComponent implements OnInit {
 
-  @Input() showoo:boolean = false;
-  @Input() showpp:boolean = false;
-  @Input() showlo:boolean = false;
-  @Input() oo_configured:boolean = false;
-  @Input() can_use_cor:boolean = false;
-  @Input() showcor:boolean = false;
+  @Input() showoo: boolean = false;
+  @Input() showpp: boolean = false;
+  @Input() showlo: boolean = false;
+  @Input() oo_configured: boolean = false;
+  @Input() can_use_cor: boolean = false;
+  @Input() showcor: boolean = false;
   @Output() change_showoo = new EventEmitter<boolean>();
   @Output() change_showpp = new EventEmitter<boolean>();
   @Output() change_showcor = new EventEmitter<boolean>();
+  @Output() change_showclo = new EventEmitter<boolean>();
+  loVisible: boolean = false;
 
   constructor(
     public router: Router,
     public nav: NavService,
     private pds: PlatformDataService,
     private login: LoginDataService) {
-    
+
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;
@@ -35,14 +37,14 @@ export class LeftNavComponent implements OnInit {
   }
 
   currentRoute: string = this.router.url;
-  ppVisible:boolean = false;
-  ooVisible:boolean = false;
-  corVisible:boolean = false;
+  ppVisible: boolean = false;
+  ooVisible: boolean = false;
+  corVisible: boolean = false;
 
-  isSeller:boolean = false;
-  isBuyer:boolean = false;
+  isSeller: boolean = false;
+  isBuyer: boolean = false;
 
-  goToOO(e:any) {
+  goToOO(e: any) {
     e.preventDefault();
     this.pds.changeVisibilityOO(true);
     this.pds.changeVisibilityPP(false);
@@ -52,8 +54,8 @@ export class LeftNavComponent implements OnInit {
     this.nav.goto.home();
   }
 
-  local4200:boolean = window.location.origin == 'http://localhost:4200';
-  goToPP(e:any) {
+  local4200: boolean = window.location.origin == 'http://localhost:4200';
+  goToPP(e: any) {
     e.preventDefault();
     if (this.loggedIn) {
       this.pds.changeVisibilityPP(true);
@@ -69,7 +71,18 @@ export class LeftNavComponent implements OnInit {
     }
   }
 
-  goToCOR(e:any) {
+  goToLO(e: any) {
+    e.preventDefault();
+    this.pds.changeVisibilityLO(true);
+    this.pds.changeVisibilityPP(false);
+    this.pds.changeVisibilityOO(false);
+    this.pds.changeVisibilityCOR(false);
+    this.loVisible = true;
+    this.change_showclo.emit(true);
+    this.nav.goto.lostart();
+  }
+
+  goToCOR(e: any) {
     e.preventDefault();
     this.pds.changeVisibilityCOR(true);
     this.pds.changeVisibilityPP(false);
@@ -80,16 +93,17 @@ export class LeftNavComponent implements OnInit {
     this.nav.goto.home();
   }
 
-  userType:boolean = false;
-  loggedIn:boolean = false;
+  userType: boolean = false;
+  loggedIn: boolean = false;
 
-  express:boolean = false;
+  express: boolean = false;
   ngOnInit(): void {
     this.pds.activateExpressRouteStatus.subscribe(newstatus => this.express = newstatus);
     this.login.isLoggedIn.subscribe(agent => this.loggedIn = agent);
     this.pds.currentAddressStatus.subscribe(newstatus => this.ppVisible = newstatus);
     this.pds.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
     this.pds.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
+    this.pds.currentVisibilityStatusLO.subscribe(newstatus => this.loVisible = newstatus);
 
     // We need to know the userType before we can show them the PP
     this.userType = !this.isSeller && !this.isBuyer ? false : true;

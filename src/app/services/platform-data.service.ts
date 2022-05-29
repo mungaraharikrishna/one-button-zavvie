@@ -110,6 +110,12 @@ export class PlatformDataService {
     this.isSeller.next(newstatus);
   }
 
+  private isloanOfficer = new BehaviorSubject<boolean>(false);
+  currentLoanOfficerStatus = this.isloanOfficer.asObservable();
+  changeLoanOfficerStatus(newstatus:boolean) {
+    this.isloanOfficer.next(newstatus);
+  }
+
   private prevSellerOnly = new BehaviorSubject<boolean>(false);
   currentPrevSellerOnly = this.prevSellerOnly.asObservable();
   changePrevSellerOnlyStatus(newstatus:boolean) {
@@ -422,6 +428,15 @@ export class PlatformDataService {
   currentVisibilityStatusPP = this.ppVisible.asObservable();
   changeVisibilityPP(newstatus:boolean) {
     this.ppVisible.next(newstatus);
+  }
+
+  /////////////////////
+  // LO Visible
+  /////////////////////
+  private loVisible = new BehaviorSubject<boolean>(false);
+  currentVisibilityStatusLO = this.loVisible.asObservable();
+  changeVisibilityLO(newstatus:boolean) {
+    this.loVisible.next(newstatus);
   }
 
   /////////////////////

@@ -1,0 +1,34 @@
+<div class="bread-crumbs">
+    <ul *ngIf="!express">
+        <li [class.active]= "!currentUrl || currentUrl === 'client-contact-info'"> <span>Step 1</span> 
+            <a routerLink="#" (click)="contactInfo()">
+              <i *ngIf="firstRouteDone" class="fas fa-check-circle"></i> CONTACT INFO
+            </a>
+        </li>
+        <li [class.active]= "!currentUrl || currentUrl === 'mortgage-info'"> <span>Step 2</span> 
+            <a routerLink="#" (click)="mortGageInfo()">
+              <i *ngIf="secondRouteDone" class="fas fa-check-circle"></i> MORTGAGE INFO
+            </a>
+        </li>
+        <li [class.active]= "!currentUrl || currentUrl === 'financial-info'"> <span>Step 3</span> 
+            <a routerLink="#" (click)="financialInfo()">
+              <i *ngIf="thirdRouteDone" class="fas fa-check-circle"></i> FINANCIAL INFO
+            </a>
+        </li>
+        <li> <span>Step 4</span> 
+            <a routerLink="#" (click)="contactInfo()">
+              <i *ngIf="fourthRouteDone" class="fas fa-check-circle"></i> BUYERS INFO
+            </a>
+        </li>
+        <li> <span>Step 5</span> 
+            <a routerLink="#" (click)="contactInfo()">
+              <i *ngIf="fifthRouteDone" class="fas fa-check-circle"></i> CONFIRMATION
+            </a>
+        </li>
+    </ul>
+</div>
+
+<!-- container for all components  -->
+<div class="loContainer">
+    <router-outlet></router-outlet>
+</div>

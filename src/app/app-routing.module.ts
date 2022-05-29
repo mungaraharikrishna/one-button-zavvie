@@ -29,6 +29,8 @@ import { BuyerSolutionsComponent } from './components/pp.components/buyer-soluti
 import { BuyerInfoComponent } from './components/pp.components/buyer-info/buyer-info.component';
 import { ConfirmComponent } from './components/cor.components/confirm/confirm.component';
 import { ClientContactInfoComponent } from './components/lo.components/client-contact-info/client-contact-info.component';
+import { MortgageInfoComponent } from './components/lo.components/mortgage-info/mortgage-info.component';
+import { FinancialInfoComponent } from './components/lo.components/financial-info/financial-info.component';
 
 
 
@@ -111,7 +113,15 @@ const routes: Routes = [
   {
     path: (origin == 'http://localhost:4200') ? 'client-contact-info' : path + '/' + 'client-contact-info',
     component: ClientContactInfoComponent
-  }
+  },
+  {
+    path: (origin == 'http://localhost:4200') ? 'mortgage-info' : path + '/' + 'mortgage-info',
+    component: MortgageInfoComponent
+  },
+  {
+    path: (origin == 'http://localhost:4200') ? 'financial-info' : path + '/' + 'financial-info',
+    component: FinancialInfoComponent
+  },
 ];
 
 @NgModule({

@@ -4,6 +4,7 @@
       (change_showoo)="changeShowOO($event)"
       (change_showpp)="changeShowPP($event)"
       (change_showcor)="changeShowCOR($event)"
+      (change_showclo)="changeShowLO($event)"
       [showoo]="show_oo"
       [showpp]="show_pp"
       [showlo]="show_lo"
@@ -55,7 +56,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="show_lo">
+    <div *ngIf="show_lo && !hide_lo">
       <div class="row">
         <div class="col-12">
           <div class="loan_officer_card">
@@ -117,10 +118,11 @@
     <div class="pp" [ngClass]="show_pp ? 'show_pp' : ''">
       <property-profiler [ooconfigured]="ooconfigured" (change_showoo)="changeShowOO($event)"></property-profiler>
     </div>
+    <div class="lo" [ngClass]="show_lo ? 'show_lo' : ''">
+      <app-client-info-profile></app-client-info-profile>
+    </div>
     <div class="offer-report col-12 col-md-10" [ngClass]="{ 'show_cor': show_cor }">
       <app-confirm></app-confirm>
     </div>
   </div>
 </div>
-
-<router-outlet></router-outlet>

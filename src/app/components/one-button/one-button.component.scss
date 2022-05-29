@@ -68,11 +68,13 @@ $oo_border_radius: 8px;
 
 .oo,
 .pp,
+.lo,
 .offer-report {
   display: none;
 
   &.show_oo,
   &.show_pp,
+  &.show_lo,
   &.show_cor {
     display: block;
   }
