@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { ConfigService } from '../../services/config.service';
 import { PlatformDataService } from '../../services/platform-data.service';
 import { FieldNameService } from 'src/app/services/field-name.service';
@@ -29,7 +29,7 @@ export class OneButtonComponent implements OnInit {
     private buyerMarketService: BuyerMarketService,
     private route: ActivatedRoute,
     private config: ConfigComponent,
-    private login: LoginDataService) {
+    private login: LoginDataService, private elementRef: ElementRef) {
       this.configService.setPath();
   }
 
@@ -779,4 +779,12 @@ export class OneButtonComponent implements OnInit {
       this.pds.setMarketData('default_aa', this.default_aa);
     });
   }
+
+  selectOptions(element: HTMLDivElement) {
+    element.style.backgroundColor = '#7fffd4';
+    this.elementRef.nativeElement.querySelector('#lets_btn').classList.remove('disabled');
+    this.elementRef.nativeElement.querySelector('#lets_btn').classList.add('active_btn');
+  }
+
+  
 }
