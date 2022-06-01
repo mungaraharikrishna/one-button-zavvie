@@ -8,7 +8,7 @@
 <!-- Back Button -->
 <ng-template class="nextbackbtn" #back>
   <div class="btn-container">
-    <button class="backbtn pp-back" type="buttonConfig.type">
+    <button class="backbtn pp-back" [ngClass]="{'lo_btn': show_lo }" type="buttonConfig.type">
       <i class="far fa-angle-left"></i> {{buttonConfig.backtext}}
     </button>
   </div>
@@ -18,7 +18,7 @@
 <ng-template class="nextbackbtn" #next>
   <div class="btn-container disabled">
     <button class="nextbtn" type="buttonConfig.type" (click)="sendUpdate()"
-      [ngClass]="{ 'disabled': buttonConfig.disabledBtn }" [disabled]="buttonConfig.disabledBtn">
+      [ngClass]="{'lo_btn': show_lo, 'disabled': buttonConfig.disabledBtn }" [disabled]="buttonConfig.disabledBtn">
       {{buttonConfig.text}} <i class="far fa-angle-right"></i>
     </button>
   </div>

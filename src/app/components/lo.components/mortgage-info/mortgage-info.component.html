@@ -1,24 +1,55 @@
-<app-lo-page-title label="Mortgage Info"></app-lo-page-title>
+<pp-page-title label="Mortgage Info"></pp-page-title>
 <div class="inputs-container">
     <h4>To get started, tell us a little bit about your client's mortgage plans</h4>
-    <form>
+    <form [formGroup]="mortgageForm">
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
                     <label class="label">What type of mortgage is your client interested in? </label><br>
-                    <input type="radio" name="radio" [value]="true">
+                    <input type="radio" name="mortgage" [value]="'Conventional'" formControlName="mortgage">
                     Conventional<br>
-                    <input type="radio" name="radio" [value]="false">
+                    <input type="radio" name="mortgage" [value]="'VA loan'" formControlName="mortgage">
                     VA loan <br>
-                    <input type="radio" name="radio" [value]="false">
-                    N/A - Other
+                    <input type="radio" name="mortgage" [value]="'N/A - Other'" formControlName="mortgage">
+                    N/A - Other<br>
+                    <span *ngIf="showMortgagePlane">
+                        <label class="label">Please describe your client's mortgage plans. </label><br>
+                        <input type="text" name="mortgagePlan" class="form-control" placeholder="Example: cash buyer, etc." formControlName="mortgagePlan">
+                    </span>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="showMortgagePlane">
+                <div class="form-group">
+                    <label class="label">Dose Your client have a home to sell? </label><br>
+                    <input type="radio" name="clientSell" [value]="'Yes'" formControlName="clientSell">
+                    Yes<br>
+                    <input type="radio" name="clientSell" [value]="'No'" formControlName="clientSell">
+                    No
+                </div>
+            </div>
+            <div class="col-12" *ngIf="showMortgageSize">
+                <div class="form-group">
+                    <label class="label">What size mortgage is your client interested in? </label><br>
+                    <input type="radio" name="mortgageSize" [value]="'Conforming'" formControlName="mortgageSize">
+                    Conforming<br>
+                    <input type="radio" name="mortgageSize" [value]="'Jumbo'" formControlName="mortgageSize">
+                    Jumbo
+                </div>
+            </div>
+            <div class="col-12" *ngIf="showMortgageTBD">
+                <div class="form-group">
+                    <label class="label">Dose the client have TBD underwriting approval? </label><br>
+                    <input type="radio" name="mortgageTBD" [value]="'Yes'" formControlName="mortgageTBD">
+                    Yes, they have TBD underwriting approval<br>
+                    <input type="radio" name="mortgageTBD" [value]="'No'" formControlName="mortgageTBD">
+                    No, not yet
                 </div>
             </div>
         </div>
         <div class="nextbackbtn-container">
-            <app-next-back-buttons [buttonConfig]="backBtnConfig" (click)="back()"> </app-next-back-buttons>
-            <app-next-back-buttons *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()">
-            </app-next-back-buttons>
+            <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+            <app-nextbackbtn *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()">
+            </app-nextbackbtn>
             <div class="loading-spinner" *ngIf="showBuyerPPLoader">
                 <loading-spinner></loading-spinner>
             </div>

@@ -1,1 +1,49 @@
-<p>financial-info works!</p>
+<pp-page-title label="Financial Info"></pp-page-title>
+<div class="inputs-container">
+    <h4>To get started, tell us a little bit about your client's mortgage plans</h4>
+    <form>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="label">Client's max offer</label><br>
+                    <input type="text" placeholder="$650,000">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="label">Dose your client have appraisal gap coverage? </label><br>
+                    <input type="radio" name="radio" [value]="true">
+                    Yes &nbsp;&nbsp;
+                    <input type="radio" name="radio" [value]="false">
+                    No
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="label">Appraisal gap coverage amount</label><br>
+                    <input type="text" placeholder="Up to $10,000">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="label">To quality for our program, a 5% minimum down payment is required.</label><br>
+                    <input type="text" placeholder="Up to $10,000">
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label class="label">This is required by funding partners to fund deals.</label><br>
+                    <input type="text" placeholder="Up to $10,000">
+                </div>
+            </div>
+        </div>
+        <div class="nextbackbtn-container">
+            <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+            <app-nextbackbtn *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()">
+            </app-nextbackbtn>
+            <div class="loading-spinner" *ngIf="showBuyerPPLoader">
+                <loading-spinner></loading-spinner>
+            </div>
+        </div>
+    </form>
+</div>

@@ -48,6 +48,21 @@ export class ClientContactInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.platformDataService.currentSuccessMessage.subscribe(currentSuccessMessage => this.checkmsg = currentSuccessMessage);
+    let data = this.platformDataService.getData('contactInfo');
+    if (data) {
+      this.clientContactForm.patchValue({
+        'clientFirstName': data.clientFirstName,
+        'clientLastName': data.clientLastName,
+        'clientEmail': data.clientEmail,
+        'clientPhone': data.clientPhone,
+        'loanOfficerFirstName': data.loanOfficerFirstName,
+        'loanOfficerLastName': data.loanOfficerLastName,
+        'loanOfficerEmail': data.loanOfficerEmail,
+        'loanOfficerPhone': data.loanOfficerPhone,
+        'loanOfficerID': data.loanOfficerID,
+        'SignedListingAgreement': data.SignedListingAgreement
+      })
+    }
   }
 
   back = () => {
@@ -55,7 +70,7 @@ export class ClientContactInfoComponent implements OnInit {
   }
 
   next = () => {
-    console.log(this.clientContactForm.value);
+    this.platformDataService.setData('contactInfo', this.clientContactForm.value);
     this.nav.goto.clientContactInfo.next();
   }
 

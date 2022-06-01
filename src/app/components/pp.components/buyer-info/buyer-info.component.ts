@@ -14,6 +14,7 @@ import { EmailClientService } from 'src/app/services/email-client.service';
   styleUrls: ['./buyer-info.component.scss']
 })
 export class BuyerInfoComponent implements OnInit {
+  show_lo: boolean = false;
 
   constructor(
     private pds: PlatformDataService,
@@ -36,6 +37,7 @@ export class BuyerInfoComponent implements OnInit {
     this.pds.currentSellerStatus.subscribe(newstatus => this.isseller = newstatus);
     this.pds.currentBuyerStatus.subscribe(newstatus => this.isbuyer = newstatus);
     this.pds.currentVerifiedBuyers.subscribe(newbuyers => this.verified_buyers = newbuyers);
+    this.pds.currentVisibilityStatusLO.subscribe(newstatus => this.show_lo = newstatus);
     this.setBuyerInfoFormValidator();
     this.checkValidity();
   }

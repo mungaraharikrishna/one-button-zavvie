@@ -57,14 +57,8 @@ import { PreviewPdfComponent } from './components/cor.components/preview-pdf/pre
 import { PercAmountComponent } from './components/cor.components/perc-amount/perc-amount.component';
 import { DollarAmountComponent } from './components/cor.components/dollar-amount/dollar-amount.component';
 import { CorPdfComponent } from './components/cor.components/cor-pdf/cor-pdf.component';
-import { ClientInfoProfileComponent } from './components/lo.components/client-info-profile/client-info-profile.component';
-import { ClientInfoProfileTransbtnsComponent } from './components/lo.components/client-info-profile-transbtns/client-info-profile-transbtns.component';
-import { NextBackButtonsComponent } from './components/lo.components/next-back-buttons/next-back-buttons.component';
-import { LoPageTitleComponent } from './components/lo.components/lo-page-title/lo-page-title.component';
 import { MortgageInfoComponent } from './components/lo.components/mortgage-info/mortgage-info.component';
 import { FinancialInfoComponent } from './components/lo.components/financial-info/financial-info.component';
-import { BuyerInfoComponent } from './components/lo.components/buyer-info/buyer-info.component';
-import { ConfirmationComponent } from './components/lo.components/confirmation/confirmation.component';
 
 enableProdMode();
 declare global {
@@ -120,14 +114,8 @@ declare global {
     DollarAmountComponent,
     OrderByPipe,
     CorPdfComponent,
-    ClientInfoProfileComponent,
-    ClientInfoProfileTransbtnsComponent,
-    NextBackButtonsComponent,
-    LoPageTitleComponent,
     MortgageInfoComponent,
-    FinancialInfoComponent,
-    BuyerInfoComponent,
-    ConfirmationComponent,
+    FinancialInfoComponent
   ],
   imports: [
     SharedModule,

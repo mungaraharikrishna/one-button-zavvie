@@ -3,6 +3,7 @@ $highlight: var(--highlight);
 $oo_border: 2px solid $partner;
 $white: #ffffff;
 $oo_border_radius: 8px;
+$lo_active_color: #386099;
 
 .ppContainer {
   border: 2px solid #666;
@@ -60,7 +61,6 @@ a.disabled {
     display: inline;
     min-width: 85px;
     width: calc((100%/8) + 2em);
-
     span {
       color:#e2e2e2;
       font-size: 13px
@@ -141,6 +141,106 @@ a.disabled {
         right: 0px;
         width: 20px;
       }
+    }
+  }
+  ul.loan_officer_ul li {
+    display: inline;
+    min-width: 85px;
+    width: calc((100%/5) + 2em);
+    span {
+      color:#e2e2e2;
+      font-size: 13px
+    }
+
+    &:first-child a {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      // padding-left: 15px;
+
+      &::before {
+        display: none;
+      }
+    }
+
+    a {
+      align-items: center;
+      display: flex;
+      background-color: #f3f5fa;
+      color: #8093a7;
+      font-size: 8px;
+      line-height: 1.1;
+      margin: 0 3px 0 0;
+      min-height: 46px;
+      padding: 10px 15px 10px 30px;
+      position: relative;
+      text-align: left;
+      text-decoration: none;
+
+      @media screen and (min-width: 768px) {
+        font-size: 11px;
+      }
+
+      &::after {
+        content: "";
+        border-top: 23px solid transparent;
+        border-bottom: 23px solid transparent;
+        border-left: 20px solid #f3f5fa;
+        position: absolute;
+        right: -20px;
+        top: 0;
+        z-index: 1;
+      }
+
+      &:before {
+        content: "";
+        border-top: 23px solid transparent;
+        border-bottom: 23px solid transparent;
+        border-left: 20px solid $white;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      &:hover {
+        background-color: $highlight;
+
+        &::after {
+          border-left-color: $highlight;
+        }
+      }
+
+      i {
+        margin-right: .5em;
+      }
+    }
+
+    &:last-child {
+
+      a::after {
+        right: 0px;
+      }
+    
+      .arrow_bg {
+        background: $white;
+        height: 46px;
+        position: absolute;
+        right: 0px;
+        width: 20px;
+      }
+    }
+  }
+  ul.loan_officer_ul li.active {
+    a {
+      background-color: $lo_active_color !important;
+      color: $white !important;
+  
+      &::after {
+        border-left-color: $lo_active_color !important;
+      }
+    }
+  
+    span {
+      color: $lo_active_color !important;
     }
   }
 }

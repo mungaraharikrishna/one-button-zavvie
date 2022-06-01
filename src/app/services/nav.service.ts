@@ -180,7 +180,7 @@ export class NavService {
     },
     financialInfo: {
       back: () => this.router.navigate([this.BASEPATH() + '/mortgage-info'], { queryParamsHandling: 'preserve' }),
-      next: () => this.router.navigate([this.BASEPATH() + '/financial-info'], { queryParamsHandling: 'preserve' })
+      next: () => this.router.navigate([this.BASEPATH() + '/buyer-info/1'], { queryParamsHandling: 'preserve' })
     },
   }
   getNav = () => this.goto;

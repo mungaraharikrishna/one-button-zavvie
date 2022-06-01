@@ -21,12 +21,16 @@ button {
   cursor: pointer;
   padding: 0.5em 1em;
 
+  &.lo_btn {
+    background-color: #386099;
+  }
   &.disabled {
     background-color: #e2e2e2;
     border: 0;
     cursor: auto;
   }
 }
+
 
 .backbtn.pp-back {
   left: -5px;

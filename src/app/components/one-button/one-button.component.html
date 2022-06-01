@@ -115,11 +115,8 @@
         </div>
       </div>
     </div>
-    <div class="pp" [ngClass]="show_pp ? 'show_pp' : ''">
+    <div class="pp" [ngClass]="show_pp || show_lo ? 'show_pp' : ''">
       <property-profiler [ooconfigured]="ooconfigured" (change_showoo)="changeShowOO($event)"></property-profiler>
-    </div>
-    <div class="lo" [ngClass]="show_lo ? 'show_lo' : ''">
-      <app-client-info-profile></app-client-info-profile>
     </div>
     <div class="offer-report col-12 col-md-10" [ngClass]="{ 'show_cor': show_cor }">
       <app-confirm></app-confirm>

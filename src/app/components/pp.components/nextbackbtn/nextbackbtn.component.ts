@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./nextbackbtn.component.scss']
 })
 export class NextbackbtnComponent {
+  show_lo: boolean = false;
   
   constructor(
     private wpApiService: WpApiService,
@@ -16,6 +17,7 @@ export class NextbackbtnComponent {
     private router: Router) {
       this.platformDataService.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
       this.platformDataService.currentPPId.subscribe(currentPPId => this.ppvalue = currentPPId);
+      this.platformDataService.currentVisibilityStatusLO.subscribe(newstatus => this.show_lo = newstatus);
     }
 
   @Input() buttonConfig: any;

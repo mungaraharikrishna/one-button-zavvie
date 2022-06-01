@@ -36,6 +36,7 @@ export class TransbtnsComponent implements OnInit {
   sixthRouteDone: boolean = false;
   seventhRouteDone: boolean = false;
   eigthRouteDone: boolean = false;
+  isLoanOfficer: boolean = false;
 
   BASEPATH:string = this.platformDataService.getData('home');
   confirmAddress = () => this.router.navigate([this.BASEPATH + '/confirm-address']);
@@ -51,6 +52,10 @@ export class TransbtnsComponent implements OnInit {
   exterior = () => this.router.navigate([this.BASEPATH + '/exterior/1'], { queryParamsHandling: 'preserve' });
   homeowners = () => this.router.navigate([this.BASEPATH + '/seller-info/1'], { queryParamsHandling: 'preserve' });
   photos = () => this.router.navigate([this.BASEPATH + '/photos/1'], { queryParamsHandling: 'preserve' });
+  contactInfo = () => this.router.navigate([this.BASEPATH + '/client-contact-info'], { queryParamsHandling: 'preserve' });
+  mortGageInfo = () => this.router.navigate([this.BASEPATH + '/mortgage-info'], { queryParamsHandling: 'preserve' });
+  financialInfo = () => this.router.navigate([this.BASEPATH + '/financial-info'], { queryParamsHandling: 'preserve' });
+  confirmation = () => this.router.navigate([this.BASEPATH + '/success'], { queryParamsHandling: 'preserve' });
 
   constructor(public platformDataService: PlatformDataService,
     private router: Router) {
@@ -127,6 +132,7 @@ export class TransbtnsComponent implements OnInit {
   ngOnInit(): void {
     this.platformDataService.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
     this.platformDataService.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
+    this.platformDataService.currentVisibilityStatusLO.subscribe(newstatus => this.isLoanOfficer = newstatus);
     this.platformDataService.activateExpressRouteStatus.subscribe(newstatus => this.express = newstatus);
   }
 }

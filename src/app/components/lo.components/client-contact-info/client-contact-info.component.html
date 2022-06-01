@@ -1,11 +1,12 @@
-<app-lo-page-title label="Client Contact Info"></app-lo-page-title>
+<pp-page-title label="Client Contact Info"></pp-page-title>
 <div class="inputs-container">
     <form [formGroup]="clientContactForm" autocomplete="off">
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Client First Name <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="First name" formControlName="clientFirstName" />
+                    <input type="text" class="form-control" placeholder="First name"
+                        formControlName="clientFirstName" />
                 </div>
             </div>
             <div class="col-6">
@@ -40,13 +41,15 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer First Name <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer first name" formControlName="loanOfficerFirstName" />
+                    <input type="text" class="form-control" placeholder="Loan officer first name"
+                        formControlName="loanOfficerFirstName" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer Last Name <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="loan officer last name" formControlName="loanOfficerLastName" />
+                    <input type="text" class="form-control" placeholder="loan officer last name"
+                        formControlName="loanOfficerLastName" />
                 </div>
             </div>
         </div>
@@ -54,7 +57,8 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="label">loan Officer Email Address <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer email" email formControlName="loanOfficerEmail" />
+                    <input type="text" class="form-control" placeholder="Loan officer email" email
+                        formControlName="loanOfficerEmail" />
                 </div>
             </div>
         </div>
@@ -62,32 +66,36 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer Phone Number <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer number" formControlName="loanOfficerPhone" />
+                    <input type="text" class="form-control" placeholder="Loan officer number"
+                        formControlName="loanOfficerPhone" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer NMLS ID <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer NMLS ID" formControlName="loanOfficerID" />
+                    <input type="text" class="form-control" placeholder="Loan officer NMLS ID"
+                        formControlName="loanOfficerID" />
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="label">Is this client working with an agent? <span class="asterisk">*</span> </label><br>
+                    <label class="label">Is this client working with an agent? <span class="asterisk">*</span>
+                    </label><br>
                     <input type="radio" name="radio" [value]="true" formControlName="SignedListingAgreement">
-                   Yes<br>
+                    Yes<br>
                     <input type="radio" name="radio" [value]="false" formControlName="SignedListingAgreement">
-                   No
+                    No
                 </div>
             </div>
         </div>
         <div class="nextbackbtn-container">
-            <app-next-back-buttons [buttonConfig]="backBtnConfig" (click)="back()"> </app-next-back-buttons>
-            <app-next-back-buttons *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()"> </app-next-back-buttons>
+            <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
+            <app-nextbackbtn *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()">
+            </app-nextbackbtn>
             <div class="loading-spinner" *ngIf="showBuyerPPLoader">
-              <loading-spinner></loading-spinner>
+                <loading-spinner></loading-spinner>
             </div>
         </div>
     </form>
