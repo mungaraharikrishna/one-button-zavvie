@@ -21,6 +21,7 @@ export class OneButtonComponent implements OnInit {
   show_lo: boolean = false;
   isCashOffer: boolean = false;
   isBridge: boolean = false;
+  hide_lo: boolean = false;
 
   constructor(
     private configService: ConfigService,
@@ -207,6 +208,7 @@ export class OneButtonComponent implements OnInit {
 
   changeShowLO = (status:boolean) => {
     this.show_lo = status;
+    this.hide_lo = true;
     this.show_oo = !status;
     this.show_pp = !status;
     this.show_cor = this.can_use_cor ? !status : false;
@@ -221,6 +223,7 @@ export class OneButtonComponent implements OnInit {
 
   gotoLoanOfficerFlow(status:boolean) {
     this.show_lo = status;
+    this.hide_lo = true;
     this.show_oo = !status;
     this.show_pp = !status;
     this.show_cor = this.can_use_cor ? !status : false;
