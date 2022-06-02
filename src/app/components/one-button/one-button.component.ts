@@ -227,7 +227,7 @@ export class OneButtonComponent implements OnInit {
     this.show_oo = !status;
     this.show_pp = !status;
     this.show_cor = this.can_use_cor ? !status : false;
-    this.pds.changeVisibilityLO(true);
+    this.pds.changeVisibilityLO(this.show_lo);
     if (this.isCashOffer) {
       this.pds.changeVisibilityCashOffer(this.isCashOffer);
     } 
