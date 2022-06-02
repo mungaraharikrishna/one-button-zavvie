@@ -19,6 +19,8 @@ import { LoginDataService } from 'src/app/services/login-data.service';
 export class OneButtonComponent implements OnInit {
   officerType!: string;
   show_lo: boolean = false;
+  isCashOffer: boolean = false;
+  isBridge: boolean = false;
 
   constructor(
     private configService: ConfigService,
@@ -209,7 +211,26 @@ export class OneButtonComponent implements OnInit {
     this.show_pp = !status;
     this.show_cor = this.can_use_cor ? !status : false;
     this.pds.changeVisibilityLO(this.show_lo);
-    this.nav.goto.lostart();
+    if (this.isCashOffer) {
+      this.pds.changeVisibilityCashOffer(this.isCashOffer);
+    } 
+    if (this.isBridge) {
+      this.pds.changeVisibilitybridge(this.isBridge);
+    }
+  }
+
+  gotoLoanOfficerFlow(status:boolean) {
+    this.show_lo = status;
+    this.show_oo = !status;
+    this.show_pp = !status;
+    this.show_cor = this.can_use_cor ? !status : false;
+    this.pds.changeVisibilityLO(this.show_lo);
+    if (this.isCashOffer) {
+      this.pds.changeVisibilityCashOffer(this.isCashOffer);
+    } 
+    if (this.isBridge) {
+      this.pds.changeVisibilitybridge(this.isBridge);
+    }
   }
 
   can_use_cor:boolean = false;
@@ -243,8 +264,8 @@ export class OneButtonComponent implements OnInit {
       this.changeShowOO(false);
       this.show_lo = true;
       this.show_pp = false;
-      this.pds.changeVisibilityLO(this.show_lo);
-      this.nav.goto.lostart();
+      // this.pds.changeVisibilityLO(this.show_lo);
+      // this.nav.goto.lostart();
     }
 
     this.route.queryParamMap.subscribe((ParamMap => {
@@ -780,10 +801,48 @@ export class OneButtonComponent implements OnInit {
     });
   }
 
-  selectOptions(element: HTMLDivElement) {
-    element.style.backgroundColor = '#7fffd4';
+  selectOptions(element: HTMLDivElement, type: string) {
+    let cashElm = <HTMLDivElement>document.querySelector('.info_image');
+    let bridgeElm = <HTMLDivElement>document.querySelector('.info_image1');
+    if (type == 'cashOffer') {
+      this.isCashOffer = true;
+      this.isBridge = false;
+      this.setBackground(cashElm);
+      this.removeBackground(bridgeElm);
+    } else {
+      this.isCashOffer = false;
+      this.isBridge = true;
+      this.removeBackground(cashElm);
+      this.setBackground(bridgeElm);
+    }
     this.elementRef.nativeElement.querySelector('#lets_btn').classList.remove('disabled');
     this.elementRef.nativeElement.querySelector('#lets_btn').classList.add('active_btn');
+  }
+
+  setBackground(element: HTMLDivElement) {
+    element.style.backgroundColor = '#386099';
+    let svgElm = (<SVGSVGElement>element.querySelector('svg'));
+    let pElm = (<HTMLParagraphElement>element.querySelector('p'));
+    pElm.style.color = '#FFFFFF';
+    let path = svgElm.querySelectorAll('path');
+    path.forEach(elm => {
+      if (elm) {
+        elm.setAttribute('fill', '#FFFFFF')
+      }
+    });
+  }
+
+  removeBackground(element: HTMLDivElement) {
+    element.style.backgroundColor = '#FFFFFF';
+    let svgElm = (<SVGSVGElement>element.querySelector('svg'));
+    let pElm = (<HTMLParagraphElement>element.querySelector('p'));
+    pElm.style.color = '#386099';
+    let path = svgElm.querySelectorAll('path');
+    path.forEach(elm => {
+      if (elm) {
+        elm.setAttribute('fill', '#386099')
+      }
+    });
   }
 
   

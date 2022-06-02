@@ -4,5 +4,5 @@
   <li *ngIf="can_use_cor"><button (click)="goToCOR($event)" [ngClass]="{ 'active': showcor }" [disabled]="showcor">Collect Offers</button></li>
 </ul>
 <ul *ngIf="showlo" class="lo_list">
-  <li><button type="button" (click)="goToLO($event)" [ngClass]="{ 'active': showlo }" [disabled]="showlo">Add a client</button></li>
+  <li><button type="button" (click)="goToLO($event)" [ngClass]="{ 'active': showlo }">Add a client</button></li>
 </ul>

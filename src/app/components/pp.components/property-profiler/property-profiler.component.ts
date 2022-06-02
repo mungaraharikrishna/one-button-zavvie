@@ -18,6 +18,7 @@ export class PropertyProfilerComponent implements OnInit {
   loVisible:boolean = false;
   isSeller:boolean = false;
   isBuyer:boolean = false;
+  isCashoffer: boolean = false;
   
   constructor(
     public configService: ConfigService,
@@ -39,6 +40,10 @@ export class PropertyProfilerComponent implements OnInit {
     this.platformDataService.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
     this.platformDataService.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
     this.platformDataService.currentVisibilityStatusLO.subscribe(newstatus => this.loVisible = newstatus);
+    this.platformDataService.currentVisibilityStatusCashOffer.subscribe(newstatus => this.isCashoffer = newstatus);
+    if (this.loVisible) {
+      this.nav.goto.lostart();
+    }
   }
 
 }

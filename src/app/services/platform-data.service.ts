@@ -440,6 +440,24 @@ export class PlatformDataService {
   }
 
   /////////////////////
+  // Cash Offer Visible
+  /////////////////////
+  private cashOfferVisible = new BehaviorSubject<boolean>(false);
+  currentVisibilityStatusCashOffer = this.cashOfferVisible.asObservable();
+  changeVisibilityCashOffer(newstatus:boolean) {
+    this.cashOfferVisible.next(newstatus);
+  }
+
+  /////////////////////
+  // Bridge Visible
+  /////////////////////
+  private bridgeVisible = new BehaviorSubject<boolean>(false);
+  currentVisibilityStatusbridge = this.bridgeVisible.asObservable();
+  changeVisibilitybridge(newstatus:boolean) {
+    this.bridgeVisible.next(newstatus);
+  }
+
+  /////////////////////
   // OO Visible
   /////////////////////
   private ooVisible = new BehaviorSubject<boolean>(true);
