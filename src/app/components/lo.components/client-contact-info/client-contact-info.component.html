@@ -5,14 +5,13 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Client First Name <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="First name"
-                        formControlName="clientFirstName" />
+                    <input type="text" class="form-control" placeholder="First name" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.ClientFirstName, clientContactForm.get(fns.FieldNames.clientContactInfo.ClientFirstName)!.value);" formControlName="ClientFirstName" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Client Last Name <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Last name" formControlName="clientLastName" />
+                    <input type="text" class="form-control" placeholder="Last name" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.ClientLastName, clientContactForm.get(fns.FieldNames.clientContactInfo.ClientLastName)!.value);" formControlName="ClientLastName" />
                 </div>
             </div>
         </div>
@@ -20,7 +19,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="label">Client Email Address <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="email" email formControlName="clientEmail" />
+                    <input type="text" class="form-control" placeholder="email" email (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.ClientEmail, clientContactForm.get(fns.FieldNames.clientContactInfo.ClientEmail)!.value);" formControlName="ClientEmail" />
                 </div>
             </div>
         </div>
@@ -28,28 +27,62 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="label">Client Phone Number <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Phone number" formControlName="clientPhone" />
+                    <input type="tel" class="form-control" mask="(000) 000-0000" placeholder="Phone number" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.ClientPhone, clientContactForm.get(fns.FieldNames.clientContactInfo.ClientPhone)!.value);" formControlName="ClientPhone" />
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <a href="javascript:void(0);">Add Additional Client Contact</a>
+                <a href="#" (click)="addClientContacts($event)"><i class="fa fa-plus" aria-hidden="true"></i> Add Additional Client Contact</a>
             </div>
         </div>
+        <ng-container formArrayName="AdditionalClientContacts">
+            <div *ngFor="let item of clientContacts.controls; index as i" [formGroupName]="i" class="additional_client_contact">
+                <i class="fa fa-times float-right close_btn" role="button" aria-label="remove contact" title="Remove" (click)="removeClientContact(i)"></i>
+                <div class="row clearfix">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="label">Additional Client First Name <span class="asterisk">*</span> </label>
+                            <input type="text" class="form-control" placeholder="First name" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.AdditionalclientFirstName, item.get(fns.FieldNames.clientContactInfo.AdditionalclientFirstName)!.value);" formControlName="AdditionalclientFirstName" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="label">Additional Client Last Name <span class="asterisk">*</span> </label>
+                            <input type="text" class="form-control" placeholder="Last name" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.AdditionalclientLastName, item.get(fns.FieldNames.clientContactInfo.AdditionalclientLastName)!.value);" formControlName="AdditionalclientLastName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="label">Additional Client Email Address <span class="asterisk">*</span> </label>
+                            <input type="text" class="form-control" placeholder="email" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.AdditionalclientEmail, item.get(fns.FieldNames.clientContactInfo.AdditionalclientEmail)!.value);" email formControlName="AdditionalclientEmail" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="label">Additional Client Phone Number </label>
+                            <input type="tel" class="form-control" mask="(000) 000-0000" placeholder="Phone number" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.AdditionalclientPhone, item.get(fns.FieldNames.clientContactInfo.AdditionalclientPhone)!.value);" formControlName="AdditionalclientPhone" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer First Name <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer first name"
-                        formControlName="loanOfficerFirstName" />
+                    <input type="text" class="form-control" placeholder="Loan officer first name" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.LoanOfficerFirstName, clientContactForm.get(fns.FieldNames.clientContactInfo.LoanOfficerFirstName)!.value);" formControlName="LoanOfficerFirstName" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer Last Name <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="loan officer last name"
-                        formControlName="loanOfficerLastName" />
+                    <input type="text" class="form-control" placeholder="loan officer last name" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.LoanOfficerLastName, clientContactForm.get(fns.FieldNames.clientContactInfo.LoanOfficerLastName)!.value);" formControlName="LoanOfficerLastName" />
                 </div>
             </div>
         </div>
@@ -57,8 +90,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <label class="label">loan Officer Email Address <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer email" email
-                        formControlName="loanOfficerEmail" />
+                    <input type="text" class="form-control" placeholder="Loan officer email" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.LoanOfficerEmail, clientContactForm.get(fns.FieldNames.clientContactInfo.LoanOfficerEmail)!.value);" email formControlName="LoanOfficerEmail" />
                 </div>
             </div>
         </div>
@@ -66,15 +98,13 @@
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer Phone Number <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer number"
-                        formControlName="loanOfficerPhone" />
+                    <input type="tel" class="form-control" mask="(000) 000-0000" placeholder="Loan officer number" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.LoanOfficerPhone, clientContactForm.get(fns.FieldNames.clientContactInfo.LoanOfficerPhone)!.value);" formControlName="LoanOfficerPhone" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label class="label">Loan Officer NMLS ID <span class="asterisk">*</span> </label>
-                    <input type="text" class="form-control" placeholder="Loan officer NMLS ID"
-                        formControlName="loanOfficerID" />
+                    <input type="text" class="form-control" placeholder="Loan officer NMLS ID" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.LoanOfficerID, clientContactForm.get(fns.FieldNames.clientContactInfo.LoanOfficerID)!.value);" formControlName="LoanOfficerID" />
                 </div>
             </div>
         </div>
@@ -83,13 +113,51 @@
                 <div class="form-group">
                     <label class="label">Is this client working with an agent? <span class="asterisk">*</span>
                     </label><br>
-                    <input type="radio" name="radio" [value]="true" formControlName="SignedListingAgreement">
+                    <input type="radio" name="clientAgent" [value]="'true'" (change)="formValueChanged(fns.FieldNames.generalInfo.SignedListingAgreement, clientContactForm.get(fns.FieldNames.generalInfo.SignedListingAgreement)!.value);" formControlName="SignedListingAgreement">
                     Yes<br>
-                    <input type="radio" name="radio" [value]="false" formControlName="SignedListingAgreement">
+                    <input type="radio" name="clientAgent" [value]="'false'" (change)="formValueChanged(fns.FieldNames.generalInfo.SignedListingAgreement, clientContactForm.get(fns.FieldNames.generalInfo.SignedListingAgreement)!.value);" formControlName="SignedListingAgreement">
                     No
                 </div>
             </div>
         </div>
+        <ng-container *ngIf="showAgentFields">
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="label">Agent First Name <span class="asterisk">*</span> </label>
+                        <input type="text" class="form-control" placeholder="Agent first name" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentFirstName, clientContactForm.get('AgentFirstName')!.value);" formControlName="AgentFirstName" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="label">Agent Last Name <span class="asterisk">*</span> </label>
+                        <input type="text" class="form-control" placeholder="Agent last name" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentLastName, clientContactForm.get('AgentLastName')!.value);" formControlName="AgentLastName" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="label">Agent Email Address <span class="asterisk">*</span> </label>
+                        <input type="text" class="form-control" placeholder="Agent email" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentEmail, clientContactForm.get('AgentEmail')!.value);" email formControlName="AgentEmail" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="label">Agent Phone Number </label>
+                        <input type="tel" class="form-control" mask="(000) 000-0000" placeholder="Agent phone number" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentPhone, clientContactForm.get('AgentPhone')!.value);" formControlName="AgentPhone" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label class="label">Agent MLS ID </label>
+                        <input type="text" class="form-control" placeholder="Agent MLS ID" (keyup)="formValueChanged(fns.FieldNames.generalInfo.AgentID, clientContactForm.get('AgentID')!.value);" formControlName="AgentID" />
+                    </div>
+                </div>
+            </div>
+        </ng-container>
         <div class="nextbackbtn-container">
             <app-nextbackbtn [buttonConfig]="backBtnConfig" (click)="back()"> </app-nextbackbtn>
             <app-nextbackbtn *ngIf="!showBuyerPPLoader" [buttonConfig]="nextBtnConfig" (click)="next()">

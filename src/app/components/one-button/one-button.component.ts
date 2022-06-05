@@ -21,6 +21,7 @@ export class OneButtonComponent implements OnInit {
   show_lo: boolean = false;
   isCashOffer: boolean = false;
   isBridge: boolean = false;
+  isLoStart: boolean = false;
 
   constructor(
     private configService: ConfigService,
@@ -32,76 +33,76 @@ export class OneButtonComponent implements OnInit {
     private route: ActivatedRoute,
     private config: ConfigComponent,
     private login: LoginDataService, private elementRef: ElementRef) {
-      this.configService.setPath();
+    this.configService.setPath();
   }
 
   post_meta: any;
   platform_meta: any;
 
-  ooconfigured:boolean = false;
-  url_params:any;
-  have_params:boolean = false;
-  show_oo:boolean = true;
-  show_pp:boolean = false;
-  show_cor:boolean = false;
+  ooconfigured: boolean = false;
+  url_params: any;
+  have_params: boolean = false;
+  show_oo: boolean = true;
+  show_pp: boolean = false;
+  show_cor: boolean = false;
 
-  offerData:object = this.pds.getHomeValueData('offerData');
-  values:object = this.pds.getHomeValueData('values');
-  homeValue:string = this.pds.getHomeValueData('homeValue');
+  offerData: object = this.pds.getHomeValueData('offerData');
+  values: object = this.pds.getHomeValueData('values');
+  homeValue: string = this.pds.getHomeValueData('homeValue');
 
   // Initial variables
-  formLoaded:boolean = false;
-  isDisabled:boolean = true;
-  disabled:string = 'disabled';
+  formLoaded: boolean = false;
+  isDisabled: boolean = true;
+  disabled: string = 'disabled';
 
-  pId:any = this.configService.getPlatformIds().partnerId;
-  platformType:string = 'broker';
+  pId: any = this.configService.getPlatformIds().partnerId;
+  platformType: string = 'broker';
 
-  partnerId:any = this.pId;
-  pbPartnerId:string = '';
-  logo:any;
-  agent_logo:any;
-  aa_logo:any;
+  partnerId: any = this.pId;
+  pbPartnerId: string = '';
+  logo: any;
+  agent_logo: any;
+  aa_logo: any;
 
-  partner:string = '';
-  partnerName:string = '';
-  locales:any = [];
-  mkt_locales:any = [];
-  text_standard:string = '';
-  text_major_repairs:string = '';
-  text_bridge:string = '';
-  text_open_market:string = '';
-  text_cash_offer:string = '';
-  text_lease_to_own:string = '';
-  oo_text:any;
+  partner: string = '';
+  partnerName: string = '';
+  locales: any = [];
+  mkt_locales: any = [];
+  text_standard: string = '';
+  text_major_repairs: string = '';
+  text_bridge: string = '';
+  text_open_market: string = '';
+  text_cash_offer: string = '';
+  text_lease_to_own: string = '';
+  oo_text: any;
 
-  arv_mod:any = 0.2;
-  arv_alt:any = 0.2;
+  arv_mod: any = 0.2;
+  arv_alt: any = 0.2;
 
-  showPoweredByZavvie:boolean = false;
-  enable_cash_buyer:boolean = false;
-  enable_lease_buyer:boolean = false;
-  hideBridge:any;
+  showPoweredByZavvie: boolean = false;
+  enable_cash_buyer: boolean = false;
+  enable_lease_buyer: boolean = false;
+  hideBridge: any;
 
-  showBuyerOBZ:boolean = false;
+  showBuyerOBZ: boolean = false;
 
-  hideEmailToClient:any;
-  showConcierge:any;
-  showConciergeImage:boolean = false;
-  showMortgageLogo:boolean = false;
-  showCashOffersLogo:boolean = false;
-  showHomeWarranty:boolean = false;
-  showHomeWarrantyImage:boolean = false;
-  showHomeWarrantyImage_two:boolean = false;
-  conciergePlatformName:string = '';
-  conciergeServiceFee:any;
-  conciergeMultiplier:any;
-  res_links:string = '';
-  offers_link:string = '';
-  pp_link:string = '';
-  cta:object = {};
+  hideEmailToClient: any;
+  showConcierge: any;
+  showConciergeImage: boolean = false;
+  showMortgageLogo: boolean = false;
+  showCashOffersLogo: boolean = false;
+  showHomeWarranty: boolean = false;
+  showHomeWarrantyImage: boolean = false;
+  showHomeWarrantyImage_two: boolean = false;
+  conciergePlatformName: string = '';
+  conciergeServiceFee: any;
+  conciergeMultiplier: any;
+  res_links: string = '';
+  offers_link: string = '';
+  pp_link: string = '';
+  cta: object = {};
 
-  labels:any = {
+  labels: any = {
     aaHeading: '',
     aaTerm: '',
     ioHeading: '',
@@ -111,48 +112,48 @@ export class OneButtonComponent implements OnInit {
     bridgeTerm: '',
   }
 
-  national_aa:any;
-  national_bridge:any;
-  national_standard:any;
-  national_asis:any;
-  default_market:any;
-  default_aa:any;
+  national_aa: any;
+  national_bridge: any;
+  national_standard: any;
+  national_asis: any;
+  default_market: any;
+  default_aa: any;
 
-  mkt_location_counties:any;
-  mkt_states:any;
-  mkt_counties:any;
-  userAddress:any = null;
+  mkt_location_counties: any;
+  mkt_states: any;
+  mkt_counties: any;
+  userAddress: any = null;
 
-  homeCondition:any;
+  homeCondition: any;
 
-  response_waiting:boolean = false;
+  response_waiting: boolean = false;
 
-  info_items_aa:any;
-  info_items_bridge:any;
-  info_items_standard:any;
-  info_items_asis:any;
-  best_fit_aa:any;
-  best_fit_bridge:any;
-  best_fit_standard:any;
-  best_fit_asis:any;
+  info_items_aa: any;
+  info_items_bridge: any;
+  info_items_standard: any;
+  info_items_asis: any;
+  best_fit_aa: any;
+  best_fit_bridge: any;
+  best_fit_standard: any;
+  best_fit_asis: any;
 
-  best_fit_open_market:any;
-  best_fit_cash_offer:any;
-  best_fit_lease:any;
-  info_items_open_market:any;
-  info_items_cash_offer:any;
-  info_items_lease:any;
+  best_fit_open_market: any;
+  best_fit_cash_offer: any;
+  best_fit_lease: any;
+  info_items_open_market: any;
+  info_items_cash_offer: any;
+  info_items_lease: any;
 
-  isSeller:boolean = false;
-  isBuyer:boolean = false;
-  userPersona:string = '';
+  isSeller: boolean = false;
+  isBuyer: boolean = false;
+  userPersona: string = '';
   configuredStatus = () => this.ooconfigured;
 
-  changeConfigured = (status:boolean) => {
+  changeConfigured = (status: boolean) => {
     this.ooconfigured = status;
   }
 
-  next = (e:any) => {
+  next = (e: any) => {
     e.preventDefault();
     if (this.loggedIn) {
       this.pds.changeVisibilityPP(true);
@@ -166,7 +167,7 @@ export class OneButtonComponent implements OnInit {
     }
   }
 
-  back = (e:any) => {
+  back = (e: any) => {
     e.preventDefault();
 
     this.pds.changeAddress(false);
@@ -185,21 +186,21 @@ export class OneButtonComponent implements OnInit {
     this.nav.goto.home();
   }
 
-  ppaddress:string = '';
-  changeShowOO = (status:boolean) => {
+  ppaddress: string = '';
+  changeShowOO = (status: boolean) => {
     this.show_oo = status;
     this.show_pp = !status;
     this.show_cor = this.can_use_cor ? !status : false;
     this.ppaddress = this.pds.getAddressData('formattedAddress');
   }
 
-  changeShowPP = (status:boolean) => {
+  changeShowPP = (status: boolean) => {
     this.show_pp = status;
     this.show_oo = !status;
     this.show_cor = this.can_use_cor ? !status : false;
   }
 
-  changeShowCOR = (status:boolean) => {
+  changeShowCOR = (status: boolean) => {
     this.show_cor = this.can_use_cor ? status : false;
     this.show_pp = !status;
     this.show_oo = !status;
@@ -209,7 +210,7 @@ export class OneButtonComponent implements OnInit {
     this.show_lo = true;
     if (this.isCashOffer) {
       this.pds.changeLoFlow('cash');
-    } 
+    }
     if (this.isBridge) {
       this.pds.changeLoFlow('bridge');
     }
@@ -217,17 +218,17 @@ export class OneButtonComponent implements OnInit {
     this.nav.goto.lostart();
   }
 
-  can_use_cor:boolean = false;
-  loggedIn:boolean = false;
+  can_use_cor: boolean = false;
+  loggedIn: boolean = false;
   ngOnInit(): void {
 
-    let origin:string = window.location.origin;
+    let origin: string = window.location.origin;
     (origin == 'http://localhost:4200')
       ? document.documentElement.style.setProperty('--top-position', '0')
       : document.documentElement.style.setProperty('--top-position', '-20vh');
 
-    let body:any = document.getElementsByTagName('body')[0];
-    let user_id:string = body.dataset.user;
+    let body: any = document.getElementsByTagName('body')[0];
+    let user_id: string = body.dataset.user;
 
     this.login.isLoggedIn.subscribe(agent => this.loggedIn = agent);
 
@@ -242,6 +243,13 @@ export class OneButtonComponent implements OnInit {
     this.pds.currentVisibilityStatusOO.subscribe(newstatus => this.show_oo = newstatus);
     this.pds.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
     this.pds.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
+    this.pds.currentLoFlow.subscribe(newstatus => {
+      this.isLoStart = newstatus ? true : false;
+      if (!this.isLoStart) {
+        this.show_lo = true;
+        this.show_pp = false;
+      }
+    });
 
     if (this.userPersona === 'loan-officer') {
       this.changeShowOO(false);
@@ -303,7 +311,7 @@ export class OneButtonComponent implements OnInit {
           let agent_phone = this.url_params.params.agent_phone;
           this.pds.addUserData(this.fns.FieldNames.generalInfo.AgentPhone, agent_phone);
 
-          let sla:boolean = this.url_params.params.listing_agreement == 'true' ? true : false;
+          let sla: boolean = this.url_params.params.listing_agreement == 'true' ? true : false;
           this.pds.addUserData(this.fns.FieldNames.generalInfo.SignedListingAgreement, sla);
 
           // console.log('url params: ', this.url_params);
@@ -349,11 +357,11 @@ export class OneButtonComponent implements OnInit {
 
     this.pds.setData('platformType', this.platformType);
 
-    this.configService.getPlatforms(user_id).subscribe((data:any) => {
+    this.configService.getPlatforms(user_id).subscribe((data: any) => {
       // console.log('data: ', data);
 
-      let bar:any = document.querySelector('.progress-bar');
-      let msg:any = document.querySelector('.progress-msg');
+      let bar: any = document.querySelector('.progress-bar');
+      let msg: any = document.querySelector('.progress-msg');
 
       if (bar && msg) {
         bar.style.display = 'none';
@@ -372,7 +380,7 @@ export class OneButtonComponent implements OnInit {
       this.pds.changeShowBuyerOneBtnStatus(this.showBuyerOBZ);
       this.pds.changeSellerStatus(status_seller);
 
-      let do_ribbon:boolean = platform_meta.ribbon_active && platform_meta.ribbon_active[0] == 1 ? true : false;
+      let do_ribbon: boolean = platform_meta.ribbon_active && platform_meta.ribbon_active[0] == 1 ? true : false;
       this.pds.setData('do_ribbon', do_ribbon);
 
       // Enable Cash and/or Lease Buyer
@@ -642,7 +650,7 @@ export class OneButtonComponent implements OnInit {
 
       this.pds.setMarketData('values', this.values);
 
-      let assignNssAaValues = (val:any) => {
+      let assignNssAaValues = (val: any) => {
         val['con_io_type'] = this.national_aa['nss_io_type'];
         val['con_buyer_commission'] = this.national_aa['nss_aa_buyer_commission'];
         val['con_closing_costs'] = this.national_aa['nss_aa_closing_costs'];
@@ -656,7 +664,7 @@ export class OneButtonComponent implements OnInit {
         val['con_service_fee'] = this.national_aa['nss_aa_service_fee'];
       }
 
-      let assignNssValues = (val:any, nss:any) => {
+      let assignNssValues = (val: any, nss: any) => {
         val['con_io_type'] = nss['nss_io_type'];
         val['con_arv'] = nss['nss_arv'];
         val['con_arv_alt'] = nss['nss_arv_alt'];
@@ -684,18 +692,18 @@ export class OneButtonComponent implements OnInit {
         // in case both types of SS Co. exist, we'll call it bridge_hybrid,
         // and make both calculations using the lowest for low and highest for high
         if (val['con_io_type'] == 'bridge') {
-          if (val["con_ibuyers"] ) {
-            let bridge_sf_type = ( val["con_ibuyers"].indexOf('EasyKnock') > -1 && val["con_ibuyers"].length == 1 ) // Only EasyKnock
+          if (val["con_ibuyers"]) {
+            let bridge_sf_type = (val["con_ibuyers"].indexOf('EasyKnock') > -1 && val["con_ibuyers"].length == 1) // Only EasyKnock
               ? 'bridge_std'
-              : ( val["con_ibuyers"].indexOf('EasyKnock') == -1 // No EasyKnock AND
-                && ( val["con_ibuyers"].indexOf('Knock') > -1 // Knock
+              : (val["con_ibuyers"].indexOf('EasyKnock') == -1 // No EasyKnock AND
+                && (val["con_ibuyers"].indexOf('Knock') > -1 // Knock
                   || val["con_ibuyers"].indexOf('Homeward') > -1 // or Homeward
-                  || val["con_ibuyers"].indexOf('Ribbon') > -1 ) ) // or Ribbon
+                  || val["con_ibuyers"].indexOf('Ribbon') > -1)) // or Ribbon
                 ? 'bridge_alt'
-                : ( val["con_ibuyers"].indexOf('EasyKnock') > -1 // EasyKnock AND
-                  && ( val["con_ibuyers"].indexOf('Knock') > -1 // Knock
+                : (val["con_ibuyers"].indexOf('EasyKnock') > -1 // EasyKnock AND
+                  && (val["con_ibuyers"].indexOf('Knock') > -1 // Knock
                     || val["con_ibuyers"].indexOf('Homeward') > -1 // or Homeward
-                    || val["con_ibuyers"].indexOf('Ribbon') > -1 ) ) // or Ribbon
+                    || val["con_ibuyers"].indexOf('Ribbon') > -1)) // or Ribbon
                   ? 'bridge_hybrid'
                   : '';
 
@@ -769,7 +777,7 @@ export class OneButtonComponent implements OnInit {
             : offer.con_io_type == 'asis' ? 88 : 77;
 
           if (offer.con_io_type == 'asis') {
-            this.arv_mod = offer.con_arv && (100-offer.con_arv);
+            this.arv_mod = offer.con_arv && (100 - offer.con_arv);
             this.arv_alt = offer.con_arv_alt && offer.con_arv_alt;
             this.pds.setHomeValueData('arv_mod', this.arv_mod);
             this.pds.setHomeValueData('arv_alt', this.arv_alt);
@@ -826,5 +834,5 @@ export class OneButtonComponent implements OnInit {
     });
   }
 
-  
+
 }

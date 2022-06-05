@@ -417,6 +417,24 @@ export class WpApiService {
     return this.httpClient.get(this.REST_API_UPDATE_BUYER_SERVER).pipe(catchError(this.handleError));
   }
 
+  public updateClientContactLO = (lo: any) => {
+    console.log(lo);
+    let agent_first = this.platformDataService.getUserData(this.fns.FieldNames.generalInfo.AgentFirstName) || '';
+    let agent_last = this.platformDataService.getUserData(this.fns.FieldNames.generalInfo.AgentLastName) || '';
+    let agent_email = this.platformDataService.getUserData(this.fns.FieldNames.generalInfo.AgentEmail) || '';
+    let agent_phone = this.platformDataService.getUserData(this.fns.FieldNames.generalInfo.AgentPhone) || '';
+    let agent_id = this.platformDataService.getUserData(this.fns.FieldNames.generalInfo.AgentID) || '';
+    let client_first = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.ClientFirstName) || '';
+    let client_last = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.ClientLastName) || '';
+    let client_email = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.ClientEmail) || '';
+    let client_phone = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.ClientPhone) || '';
+    let lo_first = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerFirstName) || '';
+    let lo_last = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerLastName) || '';
+    let lo_email = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerEmail) || '';
+    let lo_phone = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerPhone) || '';
+    let lo_NMLS_ID = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerID) || '';
+  }
+
   public buyerSendToPb = (pp:any) => {
     let buysell = this.isseller && this.isbuyer
       ? 'Buy and Sell'

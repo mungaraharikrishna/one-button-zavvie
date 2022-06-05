@@ -240,3 +240,17 @@ input {
     top: 5px;
   }
 }
+
+.additional_client_contact {
+  background-color: #dfdbdb94;
+  padding: 20px;
+  margin-bottom: 10px;
+
+  & .close_btn {
+    font-size: 18px !important;
+  }
+
+  & .clearfix {
+    clear: both !important;
+  }
+}

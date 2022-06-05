@@ -158,7 +158,23 @@ export class FieldNameService {
       Prequalify_Me: 'Prequalify_Me',
       Monthly_Income: 'Monthly_Income',
       Additional_Income: 'Additional_Income'
-    }
+    },
+
+    clientContactInfo: {
+      ClientFirstName: 'ClientFirstName',
+      ClientLastName: 'ClientLastName',
+      ClientEmail: 'ClientEmail',
+      ClientPhone: 'ClientPhone',
+      LoanOfficerFirstName: 'LoanOfficerFirstName',
+      LoanOfficerLastName: 'LoanOfficerLastName',
+      LoanOfficerEmail: 'LoanOfficerEmail',
+      LoanOfficerPhone: 'LoanOfficerPhone',
+      LoanOfficerID: 'LoanOfficerID',
+      AdditionalclientFirstName: 'AdditionalclientFirstName',
+      AdditionalclientLastName: 'AdditionalclientLastName',
+      AdditionalclientEmail: 'AdditionalclientEmail',
+      AdditionalclientPhone: 'AdditionalclientPhone',
+    },
 
   }
   getFieldName() {
