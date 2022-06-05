@@ -1,47 +1,47 @@
 <pp-page-title label="Mortgage Info"></pp-page-title>
 <div class="inputs-container">
     <h4>To get started, tell us a little bit about your client's mortgage plans</h4>
-    <form [formGroup]="mortgageForm">
+    <form [formGroup]="mortgageForm" autocomplete="off">
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="label">What type of mortgage is your client interested in? </label><br>
-                    <input type="radio" name="mortgage" [value]="'Conventional'" formControlName="mortgage">
+                    <label class="label">What type of mortgage is your client interested in? <span class="asterisk">*</span> </label><br>
+                    <input type="radio" name="MortgageType" [value]="'Conventional'" formControlName="MortgageType" (change)="formValueChanged(fns.FieldNames.clientContactInfo.MortgageType, mortgageForm.get(fns.FieldNames.clientContactInfo.MortgageType)!.value);">
                     Conventional<br>
-                    <input type="radio" name="mortgage" [value]="'VA loan'" formControlName="mortgage">
+                    <input type="radio" name="MortgageType" [value]="'VA loan'" formControlName="MortgageType" (change)="formValueChanged(fns.FieldNames.clientContactInfo.MortgageType, mortgageForm.get(fns.FieldNames.clientContactInfo.MortgageType)!.value);">
                     VA loan <br>
-                    <input type="radio" name="mortgage" [value]="'N/A - Other'" formControlName="mortgage">
+                    <input type="radio" name="MortgageType" [value]="'N/A - Other'" formControlName="MortgageType" (change)="formValueChanged(fns.FieldNames.clientContactInfo.MortgageType, mortgageForm.get(fns.FieldNames.clientContactInfo.MortgageType)!.value);">
                     N/A - Other<br>
                     <span *ngIf="showMortgagePlane">
-                        <label class="label">Please describe your client's mortgage plans. </label><br>
-                        <input type="text" name="mortgagePlan" class="form-control" placeholder="Example: cash buyer, etc." formControlName="mortgagePlan">
+                        <label class="label">Please describe your client's mortgage plans. <span class="asterisk">*</span> </label><br>
+                        <input type="text" name="mortgagePlan" class="form-control" placeholder="Example: cash buyer, etc." formControlName="MortgagePlan" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.MortgagePlan, mortgageForm.get(fns.FieldNames.clientContactInfo.MortgagePlan)!.value);">
                     </span>
                 </div>
             </div>
             <div class="col-12" *ngIf="showMortgagePlane">
                 <div class="form-group">
-                    <label class="label">Dose Your client have a home to sell? </label><br>
-                    <input type="radio" name="clientSell" [value]="'Yes'" formControlName="clientSell">
+                    <label class="label">Dose Your client have a home to sell? <span class="asterisk">*</span> </label><br>
+                    <input type="radio" name="clientSell" [value]="'Yes'" formControlName="HomeToSell" (change)="formValueChanged(fns.FieldNames.buyerSolutions.HomeToSell, mortgageForm.get(fns.FieldNames.buyerSolutions.HomeToSell)!.value);">
                     Yes<br>
-                    <input type="radio" name="clientSell" [value]="'No'" formControlName="clientSell">
+                    <input type="radio" name="clientSell" [value]="'No'" formControlName="HomeToSell" (change)="formValueChanged(fns.FieldNames.buyerSolutions.HomeToSell, mortgageForm.get(fns.FieldNames.buyerSolutions.HomeToSell)!.value);">
                     No
                 </div>
             </div>
             <div class="col-12" *ngIf="showMortgageSize">
                 <div class="form-group">
-                    <label class="label">What size mortgage is your client interested in? </label><br>
-                    <input type="radio" name="mortgageSize" [value]="'Conforming'" formControlName="mortgageSize">
+                    <label class="label">What size mortgage is your client interested in? <span class="asterisk">*</span> </label><br>
+                    <input type="radio" name="mortgageSize" [value]="'Conforming'" formControlName="MortgageSize" (change)="formValueChanged(fns.FieldNames.clientContactInfo.MortgageSize, mortgageForm.get(fns.FieldNames.clientContactInfo.MortgageSize)!.value);">
                     Conforming<br>
-                    <input type="radio" name="mortgageSize" [value]="'Jumbo'" formControlName="mortgageSize">
+                    <input type="radio" name="mortgageSize" [value]="'Jumbo'" formControlName="MortgageSize" (change)="formValueChanged(fns.FieldNames.clientContactInfo.MortgageSize, mortgageForm.get(fns.FieldNames.clientContactInfo.MortgageSize)!.value);">
                     Jumbo
                 </div>
             </div>
-            <div class="col-12" *ngIf="showMortgageTBD">
+            <div class="col-12" *ngIf="showMortgageTBD && showMortgageSize">
                 <div class="form-group">
-                    <label class="label">Dose the client have TBD underwriting approval? </label><br>
-                    <input type="radio" name="mortgageTBD" [value]="'Yes'" formControlName="mortgageTBD">
+                    <label class="label">Dose the client have TBD underwriting approval? <span class="asterisk">*</span> </label><br>
+                    <input type="radio" name="mortgageTBD" [value]="true" formControlName="Underwritingapproval" (change)="formValueChanged(fns.FieldNames.clientContactInfo.Underwritingapproval, mortgageForm.get(fns.FieldNames.clientContactInfo.Underwritingapproval)!.value);">
                     Yes, they have TBD underwriting approval<br>
-                    <input type="radio" name="mortgageTBD" [value]="'No'" formControlName="mortgageTBD">
+                    <input type="radio" name="mortgageTBD" [value]="false" formControlName="Underwritingapproval" (change)="formValueChanged(fns.FieldNames.clientContactInfo.Underwritingapproval, mortgageForm.get(fns.FieldNames.clientContactInfo.Underwritingapproval)!.value);">
                     No, not yet
                 </div>
             </div>

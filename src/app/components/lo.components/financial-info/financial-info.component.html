@@ -1,39 +1,53 @@
 <pp-page-title label="Financial Info"></pp-page-title>
 <div class="inputs-container">
-    <h4>To get started, tell us a little bit about your client's mortgage plans</h4>
-    <form>
+    <h4>Now, we just need to collect a few more details about your client's financial situation.</h4>
+    <form [formGroup]="financialInfoForm" autocomplete="off">
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label class="label">Client's max offer</label><br>
-                    <input type="text" placeholder="$650,000">
+                    <label class="label">Client's max offer <span class="asterisk">*</span></label><br>
+                    <input type="number" placeholder="$650,000" class="form-control" formControlName="MaxRange" (keyup)="formValueChanged(fns.FieldNames.buyerInfo.MaxRange, financialInfoForm.get(fns.FieldNames.buyerInfo.MaxRange)!.value);">
                 </div>
             </div>
             <div class="col-12">
-                <div class="form-group">
-                    <label class="label">Dose your client have appraisal gap coverage? </label><br>
-                    <input type="radio" name="radio" [value]="true">
-                    Yes &nbsp;&nbsp;
-                    <input type="radio" name="radio" [value]="false">
-                    No
+                <h5>Dose your client have appraisal gap coverage?</h5>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <input type="radio" name="radio" [value]="true" formControlName="AppraisalGapCoverage" (change)="formValueChanged(fns.FieldNames.clientContactInfo.AppraisalGapCoverage, financialInfoForm.get(fns.FieldNames.clientContactInfo.AppraisalGapCoverage)!.value);">
+                            Yes &nbsp;&nbsp;
+                            <input type="radio" name="radio" [value]="false" formControlName="AppraisalGapCoverage" (change)="formValueChanged(fns.FieldNames.clientContactInfo.AppraisalGapCoverage, financialInfoForm.get(fns.FieldNames.clientContactInfo.AppraisalGapCoverage)!.value);">
+                            No
+                        </div>
+                    </div>
+                    <div class="col-12" *ngIf="showgapCoverageAmount">
+                        <div class="form-group">
+                            <label class="label">Appraisal gap coverage amount <span class="asterisk">*</span></label><br>
+                            <input type="number" placeholder="Up to $10,000" class="form-control" formControlName="AppraisalGapCoverageAmount" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.AppraisalGapCoverageAmount, financialInfoForm.get(fns.FieldNames.clientContactInfo.AppraisalGapCoverageAmount)!.value);">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-12">
+                <h5>Client's Down Payment</h5>
                 <div class="form-group">
-                    <label class="label">Appraisal gap coverage amount</label><br>
-                    <input type="text" placeholder="Up to $10,000">
+                    <label class="label">To quality for our program, a 5% minimum down payment is required. <span class="asterisk">*</span></label><br>
+                    <div class="input-group">
+                        <input type="number" placeholder="Up to $10,000" class="form-control" formControlName="DownPaymentAmount" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.DownPaymentAmount, financialInfoForm.get(fns.FieldNames.clientContactInfo.DownPaymentAmount)!.value);">
+                        <input type="number" placeholder="%" class="form-control" formControlName="DownPaymentPrecent" (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.DownPaymentPrecent, financialInfoForm.get(fns.FieldNames.clientContactInfo.DownPaymentPrecent)!.value);">
+                    </div>
                 </div>
             </div>
             <div class="col-12">
+                <h5>Client's Credit Score</h5>
                 <div class="form-group">
-                    <label class="label">To quality for our program, a 5% minimum down payment is required.</label><br>
-                    <input type="text" placeholder="Up to $10,000">
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    <label class="label">This is required by funding partners to fund deals.</label><br>
-                    <input type="text" placeholder="Up to $10,000">
+                    <label class="label">This is required by funding partners to fund deals. <span class="asterisk">*</span></label><br>
+                    <div class="input-group">
+                        <input type="{{showHideText ? 'password' : 'number'}}" placeholder="Up to $10,000" class="form-control" formControlName="CreditScore" #creditScore (keyup)="formValueChanged(fns.FieldNames.clientContactInfo.CreditScore, financialInfoForm.get(fns.FieldNames.clientContactInfo.CreditScore)!.value);" (keypress)="numberPatternValidation($event)">
+                        <div class="input-group-btn inline_form_group">
+                            <button class="btn btn-default" type="button" (click)="changeShowHide(creditScore)">{{showHideText ? 'Show' : 'Hide'}}</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -433,6 +433,16 @@ export class WpApiService {
     let lo_email = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerEmail) || '';
     let lo_phone = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerPhone) || '';
     let lo_NMLS_ID = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.LoanOfficerID) || '';
+    let mortgage_type = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.MortgageType) || '';
+    let mortgage_zize = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.MortgageSize) || '';
+    let underwriting_approval = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.Underwritingapproval) || '';
+    let mortgage_plan = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.MortgagePlan) || '';
+    let maxRange = this.platformDataService.getUserData(this.fns.FieldNames.buyerInfo.MaxRange) || '';
+    let appraisalGapCoverage = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.AppraisalGapCoverage) || '';
+    let appraisalGapCoverageAmount = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.AppraisalGapCoverageAmount) || '';
+    let downPaymentAmount = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.DownPaymentAmount) || '';
+    let downPaymentPrecent = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.DownPaymentPrecent) || '';
+    let creditScore = this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.CreditScore) || '';
   }
 
   public buyerSendToPb = (pp:any) => {

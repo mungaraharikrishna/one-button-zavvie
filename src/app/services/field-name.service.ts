@@ -174,6 +174,17 @@ export class FieldNameService {
       AdditionalclientLastName: 'AdditionalclientLastName',
       AdditionalclientEmail: 'AdditionalclientEmail',
       AdditionalclientPhone: 'AdditionalclientPhone',
+      MortgageType: 'MortgageType',
+      MortgageSize: 'MortgageSize',
+      MortgagePlan: 'MortgagePlan',
+      Underwritingapproval: 'Underwritingapproval',
+      AppraisalGapCoverage: 'AppraisalGapCoverage',
+      AppraisalGapCoverageAmount: 'AppraisalGapCoverageAmount',
+      DownPaymentAmount: 'DownPaymentAmount',
+      DownPaymentPrecent: 'DownPaymentPrecent',
+      CreditScore: 'CreditScore',
+      BuyingAddress: 'BuyingAddress',
+      ClientNotes: 'ClientNotes'
     },
 
   }

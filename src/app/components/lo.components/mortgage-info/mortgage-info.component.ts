@@ -25,17 +25,18 @@ export class MortgageInfoComponent implements OnInit {
   showMortgageSize: boolean = false;
   showMortgageTBD: boolean = false;
   showMortgagePlane: boolean = false;
+  newval: any;
   constructor( public fns: FieldNameService,
     private wpApiService: WpApiService,
     public platformDataService: PlatformDataService,
     private scrollDownService: ScrollDownService,
     private nav: NavService, private fb: FormBuilder) { 
       this.mortgageForm = this.fb.group({
-        mortgage: ['', [Validators.required]],
-        mortgageSize: [''],
-        mortgageTBD: [''],
-        mortgagePlan: [''],
-        clientSell: ['']
+        MortgageType: ['', [Validators.required]],
+        MortgageSize: [''],
+        Underwritingapproval: [''],
+        MortgagePlan: [''],
+        HomeToSell: ['']
       })
     }
 
@@ -43,44 +44,53 @@ export class MortgageInfoComponent implements OnInit {
     this.mortgageForm.valueChanges.subscribe(val => {
       this.nextBtnConfig.disabledBtn = this.mortgageForm.invalid;
     })
-    this.mortgageForm.get('mortgage')?.valueChanges.subscribe(val => {
+    this.mortgageForm.get('MortgageType')?.valueChanges.subscribe(val => {
       this.showMortgageSize = val == 'VA loan' ? true : false;
       this.showMortgagePlane = val == 'N/A - Other' ? true : false;
       if (this.showMortgageSize) {
-        this.mortgageForm.get('mortgageSize')?.setValidators([Validators.required]);
+        this.mortgageForm.get('MortgageSize')?.setValidators([Validators.required]);
       } else {
-        this.mortgageForm.get('mortgageSize')?.clearValidators();
+        this.mortgageForm.get('MortgageSize')?.setValue('');
+        this.mortgageForm.get('MortgageSize')?.clearValidators();
       }
-      this.mortgageForm.get('mortgageSize')?.updateValueAndValidity();
+      this.mortgageForm.get('MortgageSize')?.updateValueAndValidity();
       if (this.showMortgagePlane) {
-        this.mortgageForm.get('mortgagePlan')?.setValidators([Validators.required]);
-        this.mortgageForm.get('clientSell')?.setValidators([Validators.required]);
+        this.mortgageForm.get('MortgagePlan')?.setValidators([Validators.required]);
+        this.mortgageForm.get('HomeToSell')?.setValidators([Validators.required]);
       } else {
-        this.mortgageForm.get('mortgagePlan')?.clearValidators();
-        this.mortgageForm.get('clientSell')?.clearValidators();
+        this.mortgageForm.get('MortgagePlan')?.setValue('');
+        this.mortgageForm.get('HomeToSell')?.setValue('');
+        this.mortgageForm.get('MortgagePlan')?.clearValidators();
+        this.mortgageForm.get('HomeToSell')?.clearValidators();
       }
-      this.mortgageForm.get('mortgagePlan')?.updateValueAndValidity();
-      this.mortgageForm.get('clientSell')?.updateValueAndValidity();
+      this.mortgageForm.get('MortgagePlan')?.updateValueAndValidity();
+      this.mortgageForm.get('HomeToSell')?.updateValueAndValidity();
     })
-    this.mortgageForm.get('mortgageSize')?.valueChanges.subscribe(val => {
+    this.mortgageForm.get('MortgageSize')?.valueChanges.subscribe(val => {
       this.showMortgageTBD = val == 'Conforming' ? true : false;
       if (this.showMortgageTBD) {
-        this.mortgageForm.get('mortgageTBD')?.setValidators([Validators.required]);
+        this.mortgageForm.get('Underwritingapproval')?.setValidators([Validators.required]);
       } else {
-        this.mortgageForm.get('mortgageTBD')?.clearValidators();
+        this.mortgageForm.get('Underwritingapproval')?.setValue('');
+        this.mortgageForm.get('Underwritingapproval')?.clearValidators();
       }
-      this.mortgageForm.get('mortgageTBD')?.updateValueAndValidity();
+      this.mortgageForm.get('Underwritingapproval')?.updateValueAndValidity();
     })
-    let data = this.platformDataService.getData('morrtgageData');
+    let data = this.platformDataService.getData('mortgageData');
     if (data) {
       this.mortgageForm.patchValue({
-        'mortgage': data.mortgage,
-        'mortgageSize': data.mortgageSize,
-        'mortgageTBD': data.mortgageTBD,
-        'mortgagePlan': data.mortgagePlan,
-        'clientSell': data.clientSell,
+        'MortgageType': this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.MortgageType),
+        'MortgageSize': this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.MortgageSize),
+        'Underwritingapproval': this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.Underwritingapproval),
+        'MortgagePlan': this.platformDataService.getUserData(this.fns.FieldNames.clientContactInfo.MortgagePlan),
+        'HomeToSell': this.platformDataService.getUserData(this.fns.FieldNames.buyerSolutions.HomeToSell),
       })
     }
+  }
+
+  formValueChanged = (name:string, e:any) => {
+    this.newval = e;
+    this.platformDataService.addUserData(name, e);
   }
 
   back = () => {
@@ -88,8 +98,9 @@ export class MortgageInfoComponent implements OnInit {
   }
 
   next = () => {
-    this.platformDataService.setData('morrtgageData', this.mortgageForm.value);
+    this.platformDataService.setData('mortgageData', this.mortgageForm.value);
     this.nav.goto.mortgageInfo.next();
+    this.wpApiService.updateClientContactLO(this.mortgageForm.value);
   }
 
 }
