@@ -3,17 +3,29 @@
     I'd like offers from the following buying solutions:
 </label>
 <form class="ss-form" [formGroup]="buyerSolutionsForm">
-    <div *ngFor="let bs of buyerSolutions; let i=index">
+    <div *ngFor="let bs of buyerSolutions">
         <div class="input-container multi-checkbox {{ bs.id == 6 ? 'warranty-6' : '' }}" [ngClass]="{ 'warranty': bs.id == 5 }">
             <div class="multi-checkbox-container" [ngClass]="{ 'warranty': bs.id == 5 || bs.id == 6 }">
                 <input type="checkbox" [checked]="buyerSolutionsSelection.indexOf(bs.value) > -1" [value]="bs.value" (change)="toggleBuyerSolutionsSelection($event)" 
-                 [ngClass]="{ 'warranty': bs.id == 5 }" />
+                  [ngClass]="{ 'warranty': bs.id == 5 }" />
                 <label>
+                  <ul>
+                    <li><span class="feature-heading">{{ bs.heading }}</span></li>
+                    <li><span class="feature-subheading" *ngIf="!bs.sp_affinity">{{ bs.subHeading }}</span></li>
+                    <li><span class="feature-subheading" *ngIf="bs.sp_affinity" [innerHTML]="bs.subHeading"></span></li>
+                  </ul>
+                </label>
+                <div class="sp-affinity" *ngIf="bs.sp_affinity">
+                  <img [src]="bs.logo" [alt]="bs.heading" />
+                  <div class="sp-affinity-features">
                     <ul>
-                      <li><span class="feature-heading">{{ bs.heading }}</span></li>
-                      <li><span class="feature-subheading">{{ bs.subHeading }}</span></li>
+                      <li *ngFor="let item of sp_features_1">{{ item }}</li>
                     </ul>
-                  </label>
+                    <ul>
+                      <li *ngFor="let item of sp_features_2">{{ item }}</li>
+                    </ul>
+                  </div>
+                </div>
             </div>
         </div>
     </div>

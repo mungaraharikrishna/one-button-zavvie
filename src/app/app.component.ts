@@ -19,7 +19,7 @@ export class AppComponent {
     private data: LoginDataService,
     private api: LoginApiService,
     private pds: PlatformDataService) {
-      console.log('zavvie One Button v12.12');
+      console.log('zavvie One Button v12.15 [sp-affinity]');
 
       this.platform_id = el.nativeElement.getAttribute('brid');
       this.platform_api_key = environment.overridePlatformApiKey ?? el.nativeElement.getAttribute('brapikey');
@@ -30,6 +30,26 @@ export class AppComponent {
       data.setData('logo', this.platform_logo);
       data.setData('color', '#' + this.platform_color);
       pds.setData('highlight', '#' + this.platform_color);
+
+      // Determine Solution Provider Affinity and details
+      const sp_affinity = el.nativeElement.getAttribute('spaffinity');
+      pds.setData('sp_affinity', sp_affinity);
+      if (sp_affinity === "1") {
+        const sp_affinity_type = el.nativeElement.getAttribute('spaffinity_type');
+        const sp_affinity_id = el.nativeElement.getAttribute('spaffinity_id');
+        const sp_affinity_name = el.nativeElement.getAttribute('spaffinity_name');
+        const sp_affinity_logo = el.nativeElement.getAttribute('spaffinity_logo');
+        const sp_affinity_description = el.nativeElement.getAttribute('spaffinity_description');
+        const sp_affinity_features = el.nativeElement.getAttribute('spaffinity_features');
+        const sp_affinity_nextsteps = el.nativeElement.getAttribute('spaffinity_nextsteps');
+        pds.setData('sp_affinity_type', sp_affinity_type);
+        pds.setData('sp_affinity_id', sp_affinity_id);
+        pds.setData('sp_affinity_name', sp_affinity_name);
+        pds.setData('sp_affinity_logo', sp_affinity_logo);
+        pds.setData('sp_affinity_description', sp_affinity_description);
+        pds.setData('sp_affinity_features', sp_affinity_features);
+        pds.setData('sp_affinity_nextsteps', sp_affinity_nextsteps);
+      }
 
       const jwt = this.api.getJwtToken();
       if (jwt === null) {

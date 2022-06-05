@@ -2,9 +2,9 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { PlatformDataService } from '../../../services/platform-data.service';
 import { ScrollDownService } from '../../../services/scroll-down.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { WpApiService } from 'src/app/services/wp-api.service';
-import { NavService } from 'src/app/services/nav.service';
-import { LoginDataService } from 'src/app/services/login-data.service';
+import { WpApiService } from '../../../services/wp-api.service';
+import { NavService } from '../../../services/nav.service';
+import { LoginDataService } from '../../../services/login-data.service';
 
 
 @Component({
@@ -524,6 +524,25 @@ export class ResultBuyerComponent implements OnInit {
   buyerVisited:boolean = false;
 
   loggedIn:boolean = false;
+  sp_affinity:string = '';
+  sp_affinity_type:string = '';
+  sp_affinity_id:string = '';
+  sp_affinity_name:string = '';
+  sp_affinity_logo:any = '';
+  sp_affinity_description:string = '';
+  use_sp_content:boolean = false;
+  sp_affinity_features:any = '';
+  sp_features:Array<any> = [];
+  sp_features_1:Array<any> = [];
+  sp_features_2:Array<any> = [];
+
+  spanHeading() {
+    return this.buyersolution.id == 99 ? this.use_sp_content ? this.sp_affinity_name : this.labels.aaTerm
+      : this.buyersolution.id == 88 ? this.use_sp_content ? this.sp_affinity_name : this.labels.asIsTerm
+        : this.buyersolution.id == 77 ? this.use_sp_content ? this.sp_affinity_name : this.labels.bridgeTerm
+          : this.use_sp_content ? this.sp_affinity_name : this.labels.ioTerm;
+  }
+
   ngOnInit(): void {
     this.login.isLoggedIn.subscribe(agent => this.loggedIn = agent);
 
@@ -538,6 +557,33 @@ export class ResultBuyerComponent implements OnInit {
     this.buyerVisited = true;
     this.pds.currentBuyerVisitedStatus.subscribe(newstatus => this.buyerVisited = newstatus);
     this.pds.changeBuyerVisitedStatus(true);
+    
+    this.sp_affinity = this.pds.getData('sp_affinity');
+    if (this.sp_affinity === "1") {
+      this.sp_affinity_type = this.pds.getData('sp_affinity_type');
+      this.sp_affinity_name = this.pds.getData('sp_affinity_name');
+      this.sp_affinity_logo = this.pds.getData('sp_affinity_logo');
+      this.sp_affinity_description = this.pds.getData('sp_affinity_description');
+      const sp_affinity_features = this.pds.getData('sp_affinity_features');
+
+      this.use_sp_content = this.sp_affinity
+        ? this.buyersolution.con_buyer_type === "cash" && this.sp_affinity_type === "cash" || this.buyersolution.con_buyer_type === "lease_to_own" && this.sp_affinity_type === "lease"
+          ? true : false
+        : false;
+
+      if (this.pds.hasJsonStructure(sp_affinity_features)) {
+        let parsed_features = JSON.parse(sp_affinity_features);
+        let sp_index:number = 0;
+        for (let feature of parsed_features) {
+          if (sp_index < 3) {
+            this.sp_features_1.push(feature.feature_item)
+          } else if (sp_index < 6) {
+            this.sp_features_2.push(feature.feature_item);
+          }
+          sp_index++;
+        }
+      }
+    }
 
     // Tab label headings
     this.labels = this.pds.getData('labels');

@@ -1,9 +1,5 @@
 <div class="row col-12 offer-bar offer-bar-{{ buyersolution.id }}">
-  <span class="tab col-12">{{
-    buyersolution.id == 99 ? labels.openMarketBuyerHeading
-      : buyersolution.id == 555
-        ? labels.cashHeading
-        : labels.leaseToOwnHeading }}</span>
+  <span class="tab col-12">{{ spanHeading() }}</span>
   <form class="row io-row col-12" [formGroup]="formNamer()">
     <div class="price col-12 col-md-235">
       <div class="heading">
@@ -72,8 +68,21 @@
 
     <div id="collapseContent_{{ buyersolution.id }}" class="col-12 collapse">
       <div class="expanded-content col-12">
-        <div class="price-expanded col-12 col-md-235">
-    
+
+        <div class="price-expanded col-12 col-md-235" *ngIf="use_sp_content">
+          <div class="sp_description" [innerHTML]="sp_affinity_description"></div>
+          <img [src]="sp_affinity_logo" [alt]="sp_affinity_name" />
+          <div class="offer-features sp-features">
+            <ul class="seller-elig">
+              <li *ngFor="let item of sp_features_1">{{ item }}</li>
+            </ul>
+            <ul class="seller-elig">
+              <li *ngFor="let item of sp_features_2">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="price-expanded col-12 col-md-235" *ngIf="!use_sp_content">
           <div class="explainer-heading">
             <span>{{ explainerText() }}</span>
           </div>

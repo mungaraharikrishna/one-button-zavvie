@@ -66,12 +66,12 @@ export class ClientContactInfoComponent implements OnInit {
   }
 
   back = () => {
-    this.nav.goto.clientContactInfo.back();
+    this.nav.goto.contactInfo.back();
   }
 
   next = () => {
     this.platformDataService.setData('contactInfo', this.clientContactForm.value);
-    this.nav.goto.clientContactInfo.next();
+    this.nav.goto.contactInfo.next();
   }
 
 }

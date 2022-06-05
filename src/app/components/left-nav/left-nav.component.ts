@@ -13,15 +13,12 @@ export class LeftNavComponent implements OnInit {
 
   @Input() showoo: boolean = false;
   @Input() showpp: boolean = false;
-  @Input() showlo: boolean = false;
   @Input() oo_configured: boolean = false;
   @Input() can_use_cor: boolean = false;
   @Input() showcor: boolean = false;
   @Output() change_showoo = new EventEmitter<boolean>();
   @Output() change_showpp = new EventEmitter<boolean>();
   @Output() change_showcor = new EventEmitter<boolean>();
-  @Output() change_showclo = new EventEmitter<boolean>();
-  loVisible: boolean = false;
 
   constructor(
     public router: Router,
@@ -40,7 +37,7 @@ export class LeftNavComponent implements OnInit {
   ppVisible: boolean = false;
   ooVisible: boolean = false;
   corVisible: boolean = false;
-
+  isLoanOfficer: boolean = false;
   isSeller: boolean = false;
   isBuyer: boolean = false;
 
@@ -57,7 +54,7 @@ export class LeftNavComponent implements OnInit {
   local4200: boolean = window.location.origin == 'http://localhost:4200';
   goToPP(e: any) {
     e.preventDefault();
-    if (this.loggedIn) {
+    if (this.loggedIn || window.location.origin == 'http://localhost:4200') {
       this.pds.changeVisibilityPP(true);
       this.pds.changeVisibilityOO(false);
       this.pds.changeVisibilityCOR(false);
@@ -69,17 +66,6 @@ export class LeftNavComponent implements OnInit {
       this.login.setGoToPP(true);
       this.login.showApp();
     }
-  }
-
-  goToLO(e: any) {
-    e.preventDefault();
-    this.pds.changeVisibilityLO(true);
-    this.pds.changeVisibilityPP(false);
-    this.pds.changeVisibilityOO(false);
-    this.pds.changeVisibilityCOR(false);
-    this.loVisible = true;
-    this.change_showclo.emit(true);
-    this.nav.goto.lostart();
   }
 
   goToCOR(e: any) {
@@ -100,10 +86,12 @@ export class LeftNavComponent implements OnInit {
   ngOnInit(): void {
     this.pds.activateExpressRouteStatus.subscribe(newstatus => this.express = newstatus);
     this.login.isLoggedIn.subscribe(agent => this.loggedIn = agent);
+    this.login.userPersona.subscribe((persona:string) => {
+      this.isLoanOfficer = persona === 'loan-officer';
+    });
     this.pds.currentAddressStatus.subscribe(newstatus => this.ppVisible = newstatus);
     this.pds.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
     this.pds.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
-    this.pds.currentVisibilityStatusLO.subscribe(newstatus => this.loVisible = newstatus);
 
     // We need to know the userType before we can show them the PP
     this.userType = !this.isSeller && !this.isBuyer ? false : true;

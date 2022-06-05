@@ -15,13 +15,13 @@ $red: #fb4e30;
   margin-bottom: 1em;
   padding-left: 0;
   text-align: left;
-  white-space: normal;
 }
 
 .ss-form {
   max-width: 550px;
   position: relative;
 }
+
 .form-group.checkbox {
   align-items: center;
   display: flex;
@@ -194,6 +194,33 @@ $red: #fb4e30;
     }
   }
 }
+
+.sp-affinity {
+  padding: 0 0 0 2.5em;
+
+  img {
+    float: left;
+    max-width: 150px;
+  }
+
+  .sp-affinity-features {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    ul {
+      float: left;
+      font-size: .85em;
+      padding: 0 2em;
+
+      & + ul {
+        padding-left: 0;
+      }
+    }
+  }
+}
+
+
 .nextbackbtn-container {
   display: flex;
   flex-direction: row;

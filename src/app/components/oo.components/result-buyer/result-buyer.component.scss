@@ -15,6 +15,12 @@ $dark_gray: #e0e0e0;
 $oo_border_radius: 8px;
 $oo_border: 2px solid $partner;
 
+img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
 .offer-bar {
   background: $white;
   border-radius: $oo_border_radius;
@@ -904,6 +910,11 @@ $oo_border: 2px solid $partner;
     font-size: .8em;
   }
 
+  .sp_description + img {
+    margin: 0 auto 1em;
+    max-width: 150px;
+  }
+
   .label {
     color: #666;
     display: block;
@@ -1137,6 +1148,17 @@ $oo_border: 2px solid $partner;
 
   @media screen and (min-width: 425px) {
     padding: 0 1%;
+  }
+
+  &.sp-features {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    ul {
+      font-size: .85em;
+      width: 50%;
+    }
   }
 
   ul {

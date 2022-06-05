@@ -11,9 +11,21 @@
         <label>
           <ul>
             <li><span class="feature-heading">{{ ss.heading }}</span></li>
-            <li><span class="feature-subheading">{{ ss.subHeading }}</span></li>
+            <li><span class="feature-subheading" *ngIf="!ss.sp_affinity">{{ ss.subHeading }}</span></li>
+            <li><span class="feature-subheading" *ngIf="ss.sp_affinity" [innerHTML]="ss.subHeading"></span></li>
           </ul>
         </label>
+        <div class="sp-affinity" *ngIf="ss.sp_affinity">
+          <img [src]="ss.logo" [alt]="ss.heading" />
+          <div class="sp-affinity-features">
+            <ul>
+              <li *ngFor="let item of sp_features_1">{{ item }}</li>
+            </ul>
+            <ul>
+              <li *ngFor="let item of sp_features_2">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

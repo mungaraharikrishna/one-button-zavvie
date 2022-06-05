@@ -431,30 +431,12 @@ export class PlatformDataService {
   }
 
   /////////////////////
-  // LO Visible
+  // LO Flow
   /////////////////////
-  private loVisible = new BehaviorSubject<boolean>(false);
-  currentVisibilityStatusLO = this.loVisible.asObservable();
-  changeVisibilityLO(newstatus:boolean) {
-    this.loVisible.next(newstatus);
-  }
-
-  /////////////////////
-  // Cash Offer Visible
-  /////////////////////
-  private cashOfferVisible = new BehaviorSubject<boolean>(false);
-  currentVisibilityStatusCashOffer = this.cashOfferVisible.asObservable();
-  changeVisibilityCashOffer(newstatus:boolean) {
-    this.cashOfferVisible.next(newstatus);
-  }
-
-  /////////////////////
-  // Bridge Visible
-  /////////////////////
-  private bridgeVisible = new BehaviorSubject<boolean>(false);
-  currentVisibilityStatusbridge = this.bridgeVisible.asObservable();
-  changeVisibilitybridge(newstatus:boolean) {
-    this.bridgeVisible.next(newstatus);
+  private loFlow = new BehaviorSubject<string>('');
+  currentLoFlow = this.loFlow.asObservable();
+  changeLoFlow(newflow:string) {
+    this.loFlow.next(newflow);
   }
 
   /////////////////////
@@ -497,6 +479,18 @@ export class PlatformDataService {
   isReconfigured = this.reconfigureOO.asObservable();
   changeReconfigured(newstatus:boolean) {
     this.reconfigureOO.next(newstatus);
+  }
+
+  hasJsonStructure = (str:string) => {
+    if (typeof str !== 'string') return false;
+    try {
+      const result = JSON.parse(str);
+      const type = Object.prototype.toString.call(result);
+      return type === '[object Object]' 
+          || type === '[object Array]';
+    } catch (err) {
+      return false;
+    }
   }
 
 }

@@ -52,8 +52,8 @@ const routes: Routes = [
   {
     path: (origin == 'http://localhost:4200') ? 'solutions' : path + '/' + 'solutions',
     children:[
-      {path: '1', component: BuyerSolutionsComponent},
-      {path: '2', component: SellerSolutionsComponent}
+      { path: '1', component: BuyerSolutionsComponent },
+      { path: '2', component: SellerSolutionsComponent }
     ]
   },{
     path: (origin == 'http://localhost:4200') ? 'general-info' : path + '/' + 'general-info',
@@ -61,12 +61,12 @@ const routes: Routes = [
   },{
     path: (origin == 'http://localhost:4200') ? 'buyer-info' : path + '/' + 'buyer-info',
     children:[
-      { path: '1', component: BuyerInfoComponent},
+      { path: '1', component: BuyerInfoComponent },
     ]
   },{
     path: (origin == 'http://localhost:4200') ? 'property' : path + '/' + 'property',
     children: [
-      { path: '1', component: AddressComponent},
+      { path: '1', component: AddressComponent },
       { path: '2', component: PropertyComponent },
       { path: '3', component: PropertyTwoComponent },
       { path: '4', component: PropertyThreeComponent },
@@ -100,7 +100,7 @@ const routes: Routes = [
   },{
     path: (origin == 'http://localhost:4200') ? 'photos' : path + '/' + 'photos',
     children:[
-      { path: '1', component: PhotosComponent},
+      { path: '1', component: PhotosComponent },
       { path: '2', component: CongratulationsComponent }
     ]
   },{
@@ -111,7 +111,7 @@ const routes: Routes = [
     component: ConfirmComponent
   },
   {
-    path: (origin == 'http://localhost:4200') ? 'client-contact-info' : path + '/' + 'client-contact-info',
+    path: (origin == 'http://localhost:4200') ? 'contact-info' : path + '/' + 'contact-info',
     component: ClientContactInfoComponent
   },
   {

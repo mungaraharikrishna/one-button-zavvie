@@ -6,6 +6,7 @@ import { CurrencyPipe } from '@angular/common';
 import { PlatformDataService } from '../../../services/platform-data.service';
 import { FieldNameService } from '../../../services/field-name.service';
 import { Router } from '@angular/router';
+import { NavService } from 'src/app/services/nav.service';
 
 @Component({
   providers: [ConfigComponent],
@@ -99,14 +100,14 @@ export class ConfigComponent implements OnInit {
 
   BASEPATH:string = this.platformDataService.getData('home');
 
-
   constructor(
     private configService: ConfigService,
     private fns: FieldNameService,
     private platformDataService: PlatformDataService,
     public fb: FormBuilder,
     private currencyPipe: CurrencyPipe,
-    private router: Router) {
+    private router: Router,
+    private nav: NavService) {
   }
 
   showSellerDummies:boolean = true;
@@ -809,7 +810,7 @@ export class ConfigComponent implements OnInit {
       this.platformDataService.changeVerifiedBuyers(data);
       this.configService.getBuyerLinks([]).subscribe((links_data:any) => {
         this.platformDataService.setMarketData('Verified Buyers', links_data);
-        console.log('VBS:', this.platformDataService.getMarketData('Verified Buyers'));
+        // console.log('VBS:', this.platformDataService.getMarketData('Verified Buyers'));
       });
     });
 
@@ -844,83 +845,60 @@ export class ConfigComponent implements OnInit {
     this.generatePdfImgs();
   }
 
-  generatePdfImgs = () => {
+  sp_affinity:string = '';
+  sp_affinity_name:string = '';
+  sp_affinity_logo:any = '';
+  sp_affinity_nextsteps:any = '';
+
+  embed_pdf_img = (img_url:string, img_alt:string, img_txt:string) => {
     let env = this.configService.getEnv();
+    let pdfImg = document.createElement("img");
+    env === 'production' || window.location.origin === 'http://localhost:8888' // Production or Local MAMP
+      ? pdfImg.setAttribute('src', img_url)
+      : env === 'staging' // Staging
+        ? pdfImg.setAttribute('src', img_url.replace('//zavvie.com/', '//staging.zavvie.com/'))
+        : pdfImg.setAttribute('src', 'assets/img/BHHS-Perrie-Mundie-Cab-NO-SEAL-1.png'); // Local non-MAMP
+    pdfImg.setAttribute('id', img_txt);
+    pdfImg.setAttribute('alt', img_alt);
+    pdfImg.setAttribute('style', 'display: none');
+    document.body.appendChild(pdfImg);
+  }
+
+  generatePdfImgs = () => {
 
     let showMortgageImg = this.platformDataService.getData('showMortgageLogo');
     let showConciergeImage = this.platformDataService.getData('showConciergeImage');
     let showHomeWarrantyImage = this.platformDataService.getData('showHomeWarrantyImage');
     let showHomeWarrantyImage_two = this.platformDataService.getData('showHomeWarrantyImage_two');
+    this.sp_affinity = this.platformDataService.getData('sp_affinity');
 
     if (!this.pdfImagesFinished) {
-      let logoImg = document.createElement("img");
+      this.embed_pdf_img(this.platformDataService.getData('logo').url, this.platformDataService.getData('logo').alt, 'hidden');
 
-      env === 'production' || 'local' // pdf images CANNOT live cross-environment
-        ? logoImg.setAttribute('src', this.platformDataService.getData('logo').url)
-        : env === 'staging' // Staging
-          ? logoImg.setAttribute('src', this.platformDataService.getData('logo').url.replace('//zavvie.com/', '//staging.zavvie.com/'))
-          : logoImg.setAttribute('src', 'assets/img/BHHS-Perrie-Mundie-Cab-NO-SEAL-1.png'); // Local non-MAMP
-    
-      logoImg.setAttribute('id', 'hidden');
-      logoImg.setAttribute('alt', this.platformDataService.getData('logo').alt);
-      logoImg.setAttribute('style', 'display: none');
-      document.body.appendChild(logoImg);
-
-      const hasAgentLogo = this.platformDataService.getData('agent_logo');
-
-      if (hasAgentLogo) {
-        let agentLogoImg = document.createElement("img");
-        
-        env === 'production' || 'local' // Production -- for MAMP local use || 'local'
-          ? agentLogoImg.setAttribute('src', this.platformDataService.getData('agent_logo').url)
-          : env === 'staging' // Staging
-            ? agentLogoImg.setAttribute('src', this.platformDataService.getData('agent_logo').url.replace('//zavvie.com/', '//staging.zavvie.com/'))
-            : agentLogoImg.setAttribute('src', 'assets/img/BHHS-Perrie-Mundie-Cab-NO-SEAL-1.png'); // Local non-MAMP
-      
-        agentLogoImg.setAttribute('id', 'hidden_agent');
-        agentLogoImg.setAttribute('alt', this.platformDataService.getData('agent_logo').alt);
-        agentLogoImg.setAttribute('style', 'display: none');
-        document.body.appendChild(agentLogoImg);
+      if (this.sp_affinity === "1") {
+        this.sp_affinity_name = this.platformDataService.getData('sp_affinity_name');
+        this.sp_affinity_logo = this.platformDataService.getData('sp_affinity_logo');
+        this.embed_pdf_img(this.sp_affinity_logo, this.sp_affinity_name, 'hidden_sp_affinity_img');
       }
 
       if (showMortgageImg) {
         let mortgage_img:any = this.platformDataService.getData('mortgageImage');
-        let mortgageImg = document.createElement("img");
-        mortgageImg.setAttribute('src', mortgage_img.url);
-        mortgageImg.setAttribute('id', 'mortgage_img');
-        mortgageImg.setAttribute('alt', mortgage_img.alt);
-        mortgageImg.setAttribute('style', 'display: none');
-        document.body.appendChild(mortgageImg);
+        this.embed_pdf_img(mortgage_img.url, mortgage_img.alt, 'mortgage_img');
       }
 
       if (showHomeWarrantyImage) {
         let homewarranty_image:any = this.platformDataService.getData('homeWarrantyImage');
-        let homeWarrantyImg_1 = document.createElement("img");
-        homeWarrantyImg_1.setAttribute('src', homewarranty_image.url);
-        homeWarrantyImg_1.setAttribute('id', 'hidden_home_warranty_1');
-        homeWarrantyImg_1.setAttribute('alt', homewarranty_image.alt);
-        homeWarrantyImg_1.setAttribute('style', 'display: none');
-        document.body.appendChild(homeWarrantyImg_1);
+        this.embed_pdf_img(homewarranty_image.url, homewarranty_image.alt, 'hidden_home_warranty_1');
       }
 
       if (showHomeWarrantyImage_two) {
         let homewarranty_image_two:any = this.platformDataService.getData('homeWarrantyImage_two');
-        let homeWarrantyImg_2 = document.createElement("img");
-        homeWarrantyImg_2.setAttribute('src', homewarranty_image_two.url);      
-        homeWarrantyImg_2.setAttribute('id', 'hidden_home_warranty_2');
-        homeWarrantyImg_2.setAttribute('alt', homewarranty_image_two.alt);
-        homeWarrantyImg_2.setAttribute('style', 'display: none');
-        document.body.appendChild(homeWarrantyImg_2);
+        this.embed_pdf_img(homewarranty_image_two.url, homewarranty_image_two.alt, 'hidden_home_warranty_2');
       }
 
       if (showConciergeImage) {
         let concierge_img = this.platformDataService.getData('conciergeImage');
-        let conciergeLogoImg = document.createElement("img");
-        conciergeLogoImg.setAttribute('src', concierge_img.url);
-        conciergeLogoImg.setAttribute('id', 'hidden_concierge');
-        conciergeLogoImg.setAttribute('alt', concierge_img.alt);
-        conciergeLogoImg.setAttribute('style', 'display: none');
-        document.body.appendChild(conciergeLogoImg);
+        this.embed_pdf_img(concierge_img.url, concierge_img.alt, 'hidden_concierge');
       }
   
       if (this.market) {
@@ -931,25 +909,11 @@ export class ConfigComponent implements OnInit {
         let ioImgAlt = this.platformDataService.getData('io_program_img_alt') && this.platformDataService.getData('io_program_img_alt');
   
         if (aaImgSrc) {
-          let aa_img_src = this.environment === 'staging'
-            ? aaImgSrc.replace('//zavvie.com/', '//staging.zavvie.com/') : aaImgSrc;
-          let mm_img = document.createElement("img");
-          mm_img.setAttribute('src', aa_img_src);
-          mm_img.setAttribute('id', 'open_mkt_img');
-          mm_img.setAttribute('alt', aaImgAlt);
-          mm_img.setAttribute('style', 'display: none');
-          document.body.appendChild(mm_img);
+          this.embed_pdf_img(aaImgSrc, aaImgAlt, 'open_mkt_img');
         }
   
         if (ioImgSrc) {
-          let io_img_src = this.environment === 'staging'
-            ? ioImgSrc.replace('//zavvie.com/', '//staging.zavvie.com/') : ioImgSrc;
-          let im_img = document.createElement("img");
-          im_img.setAttribute('src', io_img_src);
-          im_img.setAttribute('id', 'io_mkt_img');
-          im_img.setAttribute('alt', ioImgAlt);
-          im_img.setAttribute('style', 'display: none');
-          document.body.appendChild(im_img);
+          this.embed_pdf_img(ioImgSrc, ioImgAlt, 'io_mkt_img');
         }
       }
     }

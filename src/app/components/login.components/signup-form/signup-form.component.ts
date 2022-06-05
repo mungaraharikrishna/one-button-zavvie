@@ -23,6 +23,7 @@ export class SignupFormComponent implements OnInit {
   form_submitted:boolean = false;
   logo:string = this.data.getData('logo');
   forgotPasswordError = '';
+  persona:string = 'agent';
 
   // https://stackoverflow.com/questions/48350506/how-to-validate-password-strength-with-angular-5-validator-pattern
   // TODO: Might refactor these custom validators into a service instead of component.
@@ -49,6 +50,7 @@ export class SignupFormComponent implements OnInit {
     LastName: ['', [Validators.required, Validators.minLength(1)]],
     PhoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
     MLS_ID: [''],
+    NMLS_ID: [''],
     EmailAddress: ['', [Validators.required, Validators.email, Validators.pattern(this.data.emailRegexp())]],
     Password: ['', [
       Validators.required,
@@ -103,6 +105,38 @@ export class SignupFormComponent implements OnInit {
       this.data.setData('EmailAddress', this.signupForm.value.EmailAddress);
       this.sendForgotPassword.emit();
     }
+  }
+
+  personaForm = this.fb.group({
+    persona: ['']
+  });
+
+  agentPersonaEl:any;
+  loanOfficerPersonaEl:any;
+  togglePersona = (persona:string) => {
+    this.persona = persona;
+    this.personaForm.setValue({ persona: this.persona });
+    this.agentPersonaEl = document.getElementsByClassName('persona-agent')[0];
+    this.loanOfficerPersonaEl = document.getElementsByClassName('persona-lo')[0];
+    this.setSignupFieldValidation();
+  }
+
+  setSignupFieldValidation = () => {
+    const NMLS_ID = this.signupForm.get('NMLS_ID');
+    this.personaForm.get('persona')!.valueChanges.subscribe(persona => {
+      if (persona == 'agent') {
+        // persona === 'agent'
+        NMLS_ID!.setValidators(null);
+        this.loanOfficerPersonaEl.classList.remove('active');
+        this.agentPersonaEl.classList.add('active');
+      } else {
+        // persona === 'loan-officer'
+        NMLS_ID!.setValidators([Validators.required, Validators.minLength(1)]);
+        this.agentPersonaEl.classList.remove('active');
+        this.loanOfficerPersonaEl.classList.add('active');
+      }
+    });
+    NMLS_ID!.updateValueAndValidity();
   }
 
   formValueChanged(name: string, e: any): void {
@@ -236,11 +270,13 @@ export class SignupFormComponent implements OnInit {
     // this.data.setData('LastName', 'Jones');
     // this.data.setData('PhoneNumber', '3035550494'),
     // this.data.setData('MLS_ID', '12345_laksd');
-    // this.data.setData('EmailAddress', 'robertjones001@aol.org');
-    // this.data.setData('Password', 'passw0rd1245');
+    // this.data.setData('EmailAddress', 'robertjones001@aol.or');
+    // this.data.setData('Password', 'pa$$w0rd');
     // DEV DEV DEV
     // DEV DEV DEV
     // DEV DEV DEV
+    this.togglePersona('agent');
+    this.setSignupFieldValidation();
 
     this.signupForm.patchValue({
       FirstName: this.data.getData('FirstName') || '',

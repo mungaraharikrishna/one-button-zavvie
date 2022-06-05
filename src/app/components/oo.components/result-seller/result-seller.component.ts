@@ -1,12 +1,12 @@
 import { Component, OnInit, Input,
   AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { PlatformDataService } from '../../../services/platform-data.service';
-import { FieldNameService } from 'src/app/services/field-name.service';
+import { FieldNameService } from '../../../services/field-name.service';
 import { ScrollDownService } from '../../../services/scroll-down.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { WpApiService } from 'src/app/services/wp-api.service';
-import { NavService } from 'src/app/services/nav.service';
-import { LoginDataService } from 'src/app/services/login-data.service';
+import { WpApiService } from '../../../services/wp-api.service';
+import { NavService } from '../../../services/nav.service';
+import { LoginDataService } from '../../../services/login-data.service';
 
 @Component({
   selector: 'seller-result',
@@ -63,8 +63,6 @@ export class ResultSellerComponent implements OnInit, AfterViewInit {
 
   collapseContentId:string = '';
   collapseContentEl:string = '';
-  // svgStyle:string = '';
-  // eligibleWidth:string = '';
 
   showIbuyerModal:boolean = false;
   showHideIbuyerModal = (e:any) => {
@@ -512,8 +510,54 @@ export class ResultSellerComponent implements OnInit, AfterViewInit {
   ibuyer_vbs:any = [];
 
   loggedIn:boolean = false;
+  sp_affinity:string = '';
+  sp_affinity_type:string = '';
+  sp_affinity_id:string = '';
+  sp_affinity_name:string = '';
+  sp_affinity_logo:any = '';
+  sp_affinity_description:string = '';
+  use_sp_content:boolean = false;
+  sp_features_1:Array<any> = [];
+  sp_features_2:Array<any> = [];
+  spanHeading() {
+    return this.ibuyer.id == 99 ? this.use_sp_content ? this.sp_affinity_name : this.labels.aaTerm
+      : this.ibuyer.id == 88 ? this.use_sp_content ? this.sp_affinity_name : this.labels.asIsTerm
+        : this.ibuyer.id == 77 ? this.use_sp_content ? this.sp_affinity_name : this.labels.bridgeTerm
+          : this.use_sp_content ? this.sp_affinity_name : this.labels.ioTerm;
+  }
+
   ngOnInit(): void {
-    this.login.isLoggedIn.subscribe(agent => this.loggedIn = agent);
+    this.login.isLoggedIn.subscribe((agent: boolean) => this.loggedIn = agent);
+
+    this.sp_affinity = this.platformDataService.getData('sp_affinity');
+    
+    if (this.sp_affinity === "1") {
+      this.sp_affinity_type = this.platformDataService.getData('sp_affinity_type');
+      this.sp_affinity_id = this.platformDataService.getData('sp_affinity_id');
+      this.sp_affinity_name = this.platformDataService.getData('sp_affinity_name');
+      this.sp_affinity_logo = this.platformDataService.getData('sp_affinity_logo');
+      this.sp_affinity_description = this.platformDataService.getData('sp_affinity_description');
+      const sp_affinity_features = this.platformDataService.getData('sp_affinity_features');
+
+      this.use_sp_content = this.sp_affinity
+        ? this.ibuyer.con_io_type === "bridge" && this.sp_affinity_type === "bridge" || this.ibuyer.con_io_type === "standard" && this.sp_affinity_type === "ibuyer"
+          ? true : false
+        : false;
+
+      if (this.platformDataService.hasJsonStructure(sp_affinity_features)) {
+        let parsed_features = JSON.parse(sp_affinity_features);
+        
+        let sp_index:number = 0;
+        for (let feature of parsed_features) {
+          if (sp_index < 3) {
+            this.sp_features_1.push(feature.feature_item)
+          } else if (sp_index < 6) {
+            this.sp_features_2.push(feature.feature_item);
+          }
+          sp_index++;
+        }
+      }
+    }
 
     this.platformDataService.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
     this.platformDataService.currentConciergeStatus.subscribe(newstatus => this.useConcierge = newstatus);

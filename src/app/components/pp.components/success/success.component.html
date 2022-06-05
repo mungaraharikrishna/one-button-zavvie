@@ -9,11 +9,14 @@
       </div>
     </div>
     <h2 class="card-title"><i class="fas fa-check-circle"></i>SUCCESS </h2>
-    <p class="success-subhead">Confirmation code: <strong>{{ confirmation }}</strong></p>
-    <p class="success-msg">We have all the information we need to collect your offers from your marketplace.</p>
-    <p class="success-msg-block">Submitting photos with {{ ioPlatformName }} generates more accurate offers.</p>
-    <p class="success-msg-block">Don’t have photos? No worries! If we do not receive photos in 24 hours, we will request offers without photos.</p>
-    <a routerLinkActive="active" (click)="photos()">SUBMIT PHOTOS</a>
+    <ul>
+      <li class="congrats-text">Confirmation code: <strong>{{ confirmation }}</strong></li>
+      <li class="congrats-text"><i class="fad fa-check-square"></i> <span class="li-block"><p class="inline-p">We have all the information we need to collect your offers from your marketplace.</p></span></li>
+      <li *ngIf="!sp_affinity_sell" class="congrats-text"><i class="fad fa-check-square"></i> <span class="li-block"><p class="inline-p">Please check your inbox for a confirmation email. Our team will reach out to you with next steps, or if any additional information is required.</p></span></li>
+      <li *ngIf="sp_affinity_sell" class="congrats-text sp-affinity"><i class="far fa-square"></i> <span class="li-block" [innerHTML]="sp_affinity_nextsteps"></span></li>
+      <li class="congrats-text"><i class="far fa-square"></i> <span class="li-block"><p class="inline-p">Submit photos of the property to generate more accurate {{ ioPlatformName }} offers. Don’t have photos? No worries! If we do not receive photos in 24 hours, we will request offers without photos.</p></span></li>
+      <li class="congrats-text"><span class="li-block"><a routerLinkActive="active" (click)="photos()">SUBMIT PHOTOS</a></span></li>
+    </ul>
   </div>
 </div>
 
@@ -22,8 +25,10 @@
   <div class="card">
     <div class="card-body">
       <h2 class="thanksTitle">Congratulations!</h2>
-      <p class="congrats-text">You’ve successfully shared the property questionnaire with your client at <strong>{{ formattedAddress }}</strong>.</p>
-      <p class="congrats-text">We’ll reach out via email when your client submits property details.</p>
+      <ul>
+        <li><i class="fad fa-check-square"></i> <span class="li-block"><p class="inline-p congrats-text">You’ve successfully shared the property questionnaire with your client at <strong>{{ formattedAddress }}</strong>.</p></span></li>
+        <li><i class="far fa-square"></i> <span class="li-block"><p class="inline-p congrats-text">We’ll reach out via email when your client submits property details.</p></span></li>
+      </ul>
     </div>
   </div>
   <app-nextbackbtn [buttonConfig]="nextBtnConfig"(click)="startOver()"></app-nextbackbtn>
@@ -39,14 +44,16 @@
         </div>
       </div>
       <h2 class="thanksTitle">Congratulations!</h2>
-      <p class="congrats-text">You've successfully requested real offers for <strong>{{ formattedAddress }}</strong>.</p>
-      <p class="congrats-text">We'll reach out via email with the next steps or if we have any follow up questions.</p>
+      <ul>
+        <li class="congrats-text"><i class="fad fa-check-square"></i> <span class="li-block"><p class="inline-p">You've successfully requested real offers for <strong>{{ formattedAddress }}</strong>.</p></span></li>
+        <li class="congrats-text"><i class="far fa-square"></i> <span class="li-block"><p class="inline-p">We'll reach out via email with the next steps or if we have any follow up questions.</p></span></li>
+      </ul>
     </div>
   </div>
-  <app-nextbackbtn [buttonConfig]="nextBtnConfig"(click)="startOver()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="startOver()"></app-nextbackbtn>
 </div>
 
-<!-- BUYER only email to client card -->
+<!-- BUYER only success -->
 <div *ngIf="buyerEmailToClientMsg && isBuyer && !isSeller">
   <div class="card">
     <ng-template [ngTemplateOutlet]="BuyerSuccess"></ng-template>
@@ -61,17 +68,18 @@
       <div class="confirm-container">
         <div class="buyer-info">
           <h2 class="card-title"><i class="fas fa-check-circle"></i>Confirmation</h2>
-          <p class="success-subhead">Confirmation code: <strong>{{ confirmation }}</strong></p>
-          <p class="success-msg">We have all the information we need to collect your offers from your marketplace.</p>
-          <p class="success-msg-block">Submitting photos with {{ ioPlatformName }} generates more accurate offers.</p>
-          <p class="success-msg-block">Don’t have photos? No worries! If we do not receive photos in 24 hours, we will request offers without photos.</p>
-          <a routerLinkActive="active" (click)="photos()">SUBMIT PHOTOS</a>
+          <ul>
+            <li class="congrats-text"><span class="li-block"><p class="inline-p">Confirmation code: <strong>{{ confirmation }}</strong></p></span></li>
+            <li class="congrats-text"><i class="fad fa-check-square"></i> <span class="li-block"><p class="inline-p">We have all the information we need to collect your offers from your marketplace.</p></span></li>
+            <li class="congrats-text"><i class="far fa-square"></i> <span class="li-block"><p class="inline-p">Submit photos of the property to generate more accurate {{ ioPlatformName }} offers. Don’t have photos? No worries! If we do not receive photos in 24 hours, we will request offers without photos.Don’t have photos? No worries! If we do not receive photos in 24 hours, we will request offers without photos.</p></span></li>
+            <li class="congrats-text"><span class="li-block"><p class="inline-p"><a routerLinkActive="active" (click)="photos()">SUBMIT PHOTOS</a></p></span></li>
+          </ul>
         </div>
         <ng-template [ngTemplateOutlet]="BuyerSuccess"></ng-template>
       </div>
     </div>
   </div>
-  <app-nextbackbtn [buttonConfig]="nextBtnConfig"(click)="startOver()"></app-nextbackbtn>
+  <app-nextbackbtn [buttonConfig]="nextBtnConfig" (click)="startOver()"></app-nextbackbtn>
 </div>
 
 <!-- Both Buyer and Seller confirmation Card if emailed to seller -->

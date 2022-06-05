@@ -22,6 +22,27 @@ h3 {
   }
 }
 
+.persona-toggle {
+  display: flex;
+  font-size: .8em;
+  justify-content: center;
+  line-height: 1.1;
+  margin: 1.5em auto;
+
+  .persona {
+    background: $white;
+    border: 1px solid $zavvie_blue;
+    color: $text_color;
+    cursor: pointer;
+    padding: .5em .75em;
+
+    &.active {
+      background: $zavvie_blue;
+      color: $white;
+    }
+  }
+}
+
 .signup-form {
 
   p {

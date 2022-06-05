@@ -12,8 +12,7 @@ export class NavService {
   isseller:boolean = false;
   prevSellerOnly: boolean = false;
   express:boolean = false;
-  loLoanOfficer: boolean = false;
-
+  loFlow:string = '';
 
   constructor(private pds: PlatformDataService,
   private fns: FieldNameService,
@@ -22,7 +21,7 @@ export class NavService {
     this.pds.currentSellerStatus.subscribe(newstatus => this.isseller = newstatus);
     this.pds.currentPrevSellerOnly.subscribe(newstatus => this.prevSellerOnly = newstatus);
     this.pds.activateExpressRouteStatus.subscribe(newstatus => this.express = newstatus);
-    this.pds.currentVisibilityStatusLO.subscribe(newstatus => this.loLoanOfficer = newstatus);
+    this.pds.currentLoFlow.subscribe(newstatus => this.loFlow = newstatus);
   }
 
   //////////////////////////////////////////
@@ -85,12 +84,16 @@ export class NavService {
         : this.router.navigate([this.BASEPATH() + '/success'], { queryParamsHandling: 'preserve' })
     },
     confirmAddress: { // /property/1
-      back: () => (this.isbuyer) // Buyer too?
-        ? this.bridgeSS()
-          ? this.router.navigate([this.BASEPATH() + '/buyer-info/2'], { queryParamsHandling: 'preserve' }) // Bridge SS
-          : this.router.navigate([this.BASEPATH() + '/buyer-info/1'], { queryParamsHandling: 'preserve' }) // No Bridge SS
-        : this.router.navigate([this.BASEPATH() + '/general-info'], { queryParamsHandling: 'preserve' }),
-      next: () => this.router.navigate([this.BASEPATH() + '/property/2'], { queryParamsHandling: 'preserve' })
+      back: () => this.loFlow === 'bridge' // If User is LO Persona
+        ? this.router.navigate([this.BASEPATH() + '/contact-info'], { queryParamsHandling: 'preserve' })
+        : (this.isbuyer) // Buyer too?
+          ? this.bridgeSS()
+            ? this.router.navigate([this.BASEPATH() + '/buyer-info/2'], { queryParamsHandling: 'preserve' }) // Bridge SS
+            : this.router.navigate([this.BASEPATH() + '/buyer-info/1'], { queryParamsHandling: 'preserve' }) // No Bridge SS
+          : this.router.navigate([this.BASEPATH() + '/general-info'], { queryParamsHandling: 'preserve' }),
+      next: () => this.loFlow === 'bridge' // If User is LO Persona
+        ? this.router.navigate([this.BASEPATH() + '/mortgage-info'], { queryParamsHandling: 'preserve' })
+        : this.router.navigate([this.BASEPATH() + '/property/2'], { queryParamsHandling: 'preserve' })
     },
     property1: { // /property/2
       back: () => this.router.navigate([this.BASEPATH() + '/property/1'], { queryParamsHandling: 'preserve' }),
@@ -164,24 +167,24 @@ export class NavService {
     },
 
     //start loan officer flow
-    lostart: () => this.express
-      ? this.router.navigate([this.BASEPATH() + '/property/1'], { queryParamsHandling: 'preserve' })
-      : (this.loLoanOfficer)
-        ? this.router.navigate([this.BASEPATH() + '/client-contact-info'], { queryParamsHandling: 'preserve' })
-        : this.router.navigate([this.BASEPATH() + '/solutions/1'], { queryParamsHandling: 'preserve' }),
+    lostart: () => this.router.navigate([this.BASEPATH() + '/contact-info'], { queryParamsHandling: 'preserve' }),
     
-    clientContactInfo: {
-      back: () => this.router.navigate([this.BASEPATH() + '/client-contact-info'], { queryParamsHandling: 'preserve' }),
-      next: () => this.router.navigate([this.BASEPATH() + '/mortgage-info'], { queryParamsHandling: 'preserve' })
+    contactInfo: { // /contact-info
+      back: () => this.router.navigate([this.BASEPATH() + '/contact-info'], { queryParamsHandling: 'preserve' }),
+      next: () => this.loFlow == 'cash'
+        ? this.router.navigate([this.BASEPATH() + '/mortgage-info'], { queryParamsHandling: 'preserve' })
+        : this.router.navigate([this.BASEPATH() + '/property/1'], { queryParamsHandling: 'preserve' })
     },
-    mortgageInfo: {
-      back: () => this.router.navigate([this.BASEPATH() + '/client-contact-info'], { queryParamsHandling: 'preserve' }),
+    mortgageInfo: { // /mortgage-info
+      back: () => this.loFlow == 'cash'
+        ? this.router.navigate([this.BASEPATH() + '/contact-info'], { queryParamsHandling: 'preserve' })
+        : this.router.navigate([this.BASEPATH() + '/property/1'], { queryParamsHandling: 'preserve' }),
       next: () => this.router.navigate([this.BASEPATH() + '/financial-info'], { queryParamsHandling: 'preserve' })
     },
-    financialInfo: {
+    financialInfo: { // financial-info
       back: () => this.router.navigate([this.BASEPATH() + '/mortgage-info'], { queryParamsHandling: 'preserve' }),
       next: () => this.router.navigate([this.BASEPATH() + '/buyer-info/1'], { queryParamsHandling: 'preserve' })
-    },
+    }
   }
   getNav = () => this.goto;
 }

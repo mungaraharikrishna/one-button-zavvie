@@ -200,6 +200,15 @@ export class PdfComponent {
     changePdfMsg();
   }
 
+  sp_affinity:string = '';
+  sp_affinity_type:string = '';
+  sp_affinity_name:string = '';
+  sp_affinity_logo:any = '';
+  sp_affinity_description:string = '';
+  sp_affinity_features:any = '';
+  sp_features_1:Array<any> = [];
+  sp_features_2:Array<any> = [];
+
   printPdf = (e:any) => {
 
     e.preventDefault();
@@ -221,6 +230,29 @@ export class PdfComponent {
       // then result-buyer comp hasn't initialized, so no Buyer values yet...
       // this func sets all the Buyer values in that case
       this.buyer.runBuyer();
+    }
+
+    // Solution Provider Affinity
+    this.sp_affinity = this.platformDataService.getData('sp_affinity');
+    if (this.sp_affinity === "1") {
+      this.sp_affinity_type = this.platformDataService.getData('sp_affinity_type');
+      this.sp_affinity_name = this.platformDataService.getData('sp_affinity_name');
+      this.sp_affinity_logo = this.platformDataService.getData('sp_affinity_logo');
+      this.sp_affinity_description = this.platformDataService.getData('sp_affinity_description');
+      this.sp_affinity_description = this.sp_affinity_description.replace('<p>', '').replace('</p>', '');
+      const sp_affinity_features = this.platformDataService.getData('sp_affinity_features');
+      if (this.platformDataService.hasJsonStructure(sp_affinity_features)) {
+        let parsed_features = JSON.parse(sp_affinity_features);
+        let sp_index:number = 0;
+        for (let feature of parsed_features) {
+          if (sp_index < 3) {
+            this.sp_features_1.push(feature.feature_item)
+          } else if (sp_index < 6) {
+            this.sp_features_2.push(feature.feature_item);
+          }
+          sp_index++;
+        }
+      }
     }
 
     let buyersolutions = this.platformDataService.getMarketData('buyersolutions');
@@ -305,6 +337,7 @@ export class PdfComponent {
             buyersToShow.push(buyer);
           }
         }
+        console.log(buyersToShow);
       }
     }
 
@@ -328,6 +361,10 @@ export class PdfComponent {
       }
 
     } // if isSeller
+
+    if (this.sp_affinity === "1") {
+      this.sp_affinity_logo = getBase64Image(document.querySelector("#hidden_sp_affinity_img"));
+    }
 
     if (extraImagesExist) {
       this.aa_img = getBase64Image(document.querySelector("#open_mkt_img"));
@@ -482,7 +519,21 @@ export class PdfComponent {
           width: buyer_price_width,
           body: [
             [
-              { text: sym + item, margin: [0, 1, 0, 0], alignment: 'left', style: 'tableSubHeading' }
+              { text: sym + item, margin: [0, 1, 0, 0], alignment: 'left', style: 'tableSubHeading', fontSize: 7 }
+            ]
+          ]
+        },
+        layout: 'noBorders'
+      }
+    }
+
+    let spDescription = () => {
+      return {
+        table: {
+          width: buyer_price_width,
+          body: [
+            [
+              { text: this.sp_affinity_description, margin: [0, 1, 0, 0], alignment: 'left', style: 'tableSubHeading' }
             ]
           ]
         },
@@ -636,7 +687,6 @@ export class PdfComponent {
                   width: buyer_price_width,
                   body: [
                     [
-                      // showMortgageImg ? { image: 'data:image/png;base64,' + this.mortgage_img, fit: [120, 45], alignment: 'center', marginTop: 0 } : { text: '' }
                       buyerInfoItems(buyer)
                     ],
                     [
@@ -862,6 +912,12 @@ export class PdfComponent {
 
     // Buyer
     let lumpy_buyerTemplate = (buyer:any, isLast:boolean) => {
+
+      const use_sp_content = this.sp_affinity
+        ? buyer.con_buyer_type === "cash" && this.sp_affinity_type === "cash" || buyer.con_buyer_type === "lease_to_own" && this.sp_affinity_type === "lease"
+          ? true : false
+        : false;
+
       return [
         pageHead,
         pageHeadColoredLine,
@@ -900,7 +956,11 @@ export class PdfComponent {
                 ioLine(1, this.gray)
               ],
               [
-                buyer.con_buyer_type == 'cash' ? ioRowHeading(labels.cashHeading, this.gray, false) : ioRowHeading(labels.leaseToOwnHeading, this.gray, false)
+                use_sp_content
+                  ? ioRowHeading(this.sp_affinity_name, this.gray, false)
+                  : buyer.con_buyer_type == 'cash'
+                    ? ioRowHeading(labels.cashHeading, this.gray, false)
+                    : ioRowHeading(labels.leaseToOwnHeading, this.gray, false)
               ],
               [
                 ioLine(1, this.gray)
@@ -1002,6 +1062,12 @@ export class PdfComponent {
     }
   
     let buyer_template_buyerDataTable_tables = (buyer:any) => {
+
+      const use_sp_content = this.sp_affinity
+        ? buyer.con_buyer_type === "cash" && this.sp_affinity_type === "cash" || buyer.con_buyer_type === "lease_to_own" && this.sp_affinity_type === "lease"
+          ? true : false
+        : false;
+
       return {
         table: {
           widths: [page_margin, buyer_price_column_width, buyer_cost_column_width, buyer_monthly_column_width, buyer_extra_column_width, page_margin],
@@ -1013,14 +1079,18 @@ export class PdfComponent {
                   width: buyer_price_width,
                   body: [
                     [
-                      buyerInfoItems(buyer)
+                      use_sp_content ? spDescription() : buyerInfoItems(buyer)
                     ],
                     [
                       {
                         table: {
-                          widths: [50, '*'],
+                          widths: [90, '*'],
                           body: [
+                            use_sp_content ?
                             [
+                              { image: 'data:image/png;base64,' + this.sp_affinity_logo, margins: [3, 0, 0, 0], fit: [90, 35], marginTop: 0 },
+                              { }
+                            ] : [
                               { text: 'Best Fit For:', margin: [0, 0, 0, 5], bold: true, style: 'tableSubHeading', alignment: 'right', color: this.gray },
                               { text: bestFitTextBuyer(buyer), margin: [0, 0, 0, 5], style: 'tableSubHeading', alignment: 'left', color: this.gray }
                             ]
@@ -1030,7 +1100,7 @@ export class PdfComponent {
                       }
                     ],
                     [
-                      {
+                      use_sp_content ? {} : {
                         table: {
                           width: buyer_price_width,
                           body: [
@@ -1043,7 +1113,20 @@ export class PdfComponent {
                       }
                     ],
                     [
-                      infoItems(buyer.con_eligibility)
+                      use_sp_content
+                      ? {
+                        table: {
+                          widths: [90, '*'],
+                          body: [
+                            [
+                              infoItems(this.sp_features_1),
+                              infoItems(this.sp_features_2)
+                            ]
+                          ]
+                        },
+                        layout: 'noBorders'
+                      }
+                      : infoItems(buyer.con_eligibility),
                     ]
                   ]
                 },
@@ -1234,25 +1317,25 @@ export class PdfComponent {
     }
 
     // Seller
-    const showHouseSvg = (width:number, height:number, color:string) => {
-      return { 
-        svg: `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-            viewBox="0 25 200 88"
-            x="75px" y="0px"
-            style="fill: ` + color + `;"
-            xml:space="preserve">
-            <g id="AI_home_1_">
-              <path id="Path_307_1_" class="svg" d="M141.87,69.86l-10.46-30.86c-0.39-1.06-1.42-1.75-2.54-1.7h-9.47l-0.85-7.93
-                c-0.14-1.53-1.43-2.7-2.97-2.68l0,0c-1.54-0.02-2.84,1.15-2.97,2.69l-0.85,7.93H70.65c-1.09,0.09-2.05,0.73-2.54,1.7
-                c0,0.14,0,0.14-0.14,0.27c0,0.14,0,0.14-0.14,0.27L57.37,70.42v0.85c-0.09,1.62,1.08,3.03,2.68,3.26h7.91v31.85
-                c0,2.97,2.4,5.37,5.37,5.38c0,0,0,0,0,0h52.99c2.97,0,5.37-2.41,5.37-5.38c0,0,0,0,0,0V74.53h7.63c1.8-0.23,3.07-1.88,2.84-3.67
-                C142.12,70.51,142.02,70.17,141.87,69.86z M126.32,106.38H73.33V74.53h52.99V106.38z M126.32,69.15H83.35l-9.03-26.47h36.88
-                l-0.85,7.93l9.89-6.09l-0.14-1.84h7.07l8.9,26.47L126.32,69.15z"/>
-            </g>
-          </svg>`,
-        fit: [width, height]
-      }
-    }
+    // const showHouseSvg = (width:number, height:number, color:string) => {
+    //   return { 
+    //     svg: `<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    //         viewBox="0 25 200 88"
+    //         x="75px" y="0px"
+    //         style="fill: ` + color + `;"
+    //         xml:space="preserve">
+    //         <g id="AI_home_1_">
+    //           <path id="Path_307_1_" class="svg" d="M141.87,69.86l-10.46-30.86c-0.39-1.06-1.42-1.75-2.54-1.7h-9.47l-0.85-7.93
+    //             c-0.14-1.53-1.43-2.7-2.97-2.68l0,0c-1.54-0.02-2.84,1.15-2.97,2.69l-0.85,7.93H70.65c-1.09,0.09-2.05,0.73-2.54,1.7
+    //             c0,0.14,0,0.14-0.14,0.27c0,0.14,0,0.14-0.14,0.27L57.37,70.42v0.85c-0.09,1.62,1.08,3.03,2.68,3.26h7.91v31.85
+    //             c0,2.97,2.4,5.37,5.37,5.38c0,0,0,0,0,0h52.99c2.97,0,5.37-2.41,5.37-5.38c0,0,0,0,0,0V74.53h7.63c1.8-0.23,3.07-1.88,2.84-3.67
+    //             C142.12,70.51,142.02,70.17,141.87,69.86z M126.32,106.38H73.33V74.53h52.99V106.38z M126.32,69.15H83.35l-9.03-26.47h36.88
+    //             l-0.85,7.93l9.89-6.09l-0.14-1.84h7.07l8.9,26.47L126.32,69.15z"/>
+    //         </g>
+    //       </svg>`,
+    //     fit: [width, height]
+    //   }
+    // }
   
     // Seller
     let lumpy_iBuyerTemplate_aaDataTable_headings = () => {
@@ -1426,6 +1509,11 @@ export class PdfComponent {
 
     // Seller
     let lumpy_iBuyerTemplate_ioDataTable_tables = (io:any) => {
+      const use_sp_content = this.sp_affinity
+        ? io.con_io_type === "bridge" && this.sp_affinity_type === "bridge" || io.con_io_type === "standard" && this.sp_affinity_type === "ibuyer"
+          ? true : false
+        : false;
+  
       return {
         table: {
           widths: [page_margin, price_column_width, cost_column_width, net_column_width, page_margin],
@@ -1437,21 +1525,39 @@ export class PdfComponent {
                   width: price_column_width,
                   body: [
                     [
-                      sellerInfoItems(io)
+                      use_sp_content ? spDescription() : sellerInfoItems(io)
                     ],
                     [
                       {
                         table: {
-                          widths: [50, '*'],
+                          widths: [90, '*'],
                           body: [
+                          use_sp_content ?
                             [
+                              { image: 'data:image/png;base64,' + this.sp_affinity_logo, margins:[3, 0, 0, 5], fit: [90, 35], marginTop: 0 },
+                              {}
+                            ] : [
                               { text: 'Best Fit For:', margin: 0, bold: true, style: 'tableSubHeading', alignment: 'right', color: this.gray },
                               { text: bestFitTextSeller(io.con_io_type), margin: 0, style: 'tableSubHeading', alignment: 'left', color: this.gray }
+                            ]
+                          ],
+                        },
+                        layout: 'noBorders'
+                      }
+                    ],
+                    [
+                      use_sp_content ? {
+                        table: {
+                          widths: [90, '*'],
+                          body: [
+                            [
+                              infoItems(this.sp_features_1),
+                              infoItems(this.sp_features_2)
                             ]
                           ]
                         },
                         layout: 'noBorders'
-                      }
+                      } : {},
                     ]
                   ]
                 },
@@ -1544,6 +1650,11 @@ export class PdfComponent {
 
     // Seller
     let lumpy_iBuyerTemplate = (ibuyer:any, isBridge:boolean) => {
+      const use_sp_content = this.sp_affinity
+        ? ibuyer.con_io_type === "bridge" && this.sp_affinity_type === "bridge" || ibuyer.con_io_type === "standard" && this.sp_affinity_type === "ibuyer"
+          ? true : false
+        : false;
+
       return [
         pageHead,
         pageHeadColoredLine,
@@ -1582,11 +1693,13 @@ export class PdfComponent {
                 ioLine(3, this.gray),
               ],
               [
-                isBridge
-                  ? ioRowHeading(labels.bridgeTerm, this.gray, false)
-                  : ibuyer.con_io_type == 'asis'
-                    ? ioRowHeading(labels.asIsTerm, this.gray, false)
-                    : ioRowHeading(labels.ioTerm, this.gray, false)
+                use_sp_content
+                  ? ioRowHeading(this.sp_affinity_name, this.gray, false)
+                  : isBridge
+                    ? ioRowHeading(labels.bridgeTerm, this.gray, false)
+                    : ibuyer.con_io_type == 'asis'
+                      ? ioRowHeading(labels.asIsTerm, this.gray, false)
+                      : ioRowHeading(labels.ioTerm, this.gray, false)
               ],
               [
                 ioLine(1, this.gray)
@@ -1604,7 +1717,7 @@ export class PdfComponent {
           },
           layout: 'noBorders'
         },
-        sellerPageDisclaimer()
+        sellerPageDisclaimer(use_sp_content ? 25 : 50)
       ]
     }
   
@@ -1666,7 +1779,7 @@ export class PdfComponent {
           },
           layout: 'noBorders'
         },
-        sellerPageDisclaimer()
+        sellerPageDisclaimer(50)
       ]
     }
 
@@ -1691,10 +1804,10 @@ export class PdfComponent {
     }
   
     // Seller
-    const sellerPageDisclaimer = () => {
+    const sellerPageDisclaimer = (topmargin:number) => {
       return {
           fontSize: 6,
-          margin: [page_margin, 50, page_margin, 0],
+          margin: [page_margin, topmargin, page_margin, 0],
           text: '*These offers, selling processes, and cost estimates are representative of market specific internal and publicly available industry data. This report is a tool designed for comparison purposes only. OFFER OPTIMIZER™ IS NOT AFFILIATED WITH, SPONSORED BY, OR ENDORSED BY ANY OF THE NATIONAL IBUYERS WHOSE OFFERS ARE REFERENCED IN THIS REPORT. THIS REPORT GATHERS AND COMPILES PUBLICLY AVAILABLE INFORMATION ABOUT OFFERS AND SALES FROM DIFFERENT, UNAFFILIATED COMPETITORS FOR COMPARISON PURPOSES ONLY, AND CONSUMERS MAY INDEPENDENTLY EVALUATE AND VERIFY DIFFERENT OFFERS FROM DIFFERENT NATIONAL IBUYERS BEFORE MAKING A DECISION.',
           alignment: 'justify'
         }

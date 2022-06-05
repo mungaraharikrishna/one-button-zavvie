@@ -128,6 +128,15 @@ export class SellerSolutionsComponent implements OnInit {
     this.nextBtnConfig.disabledBtn = !this.showBuyerOBZ || this.isBuyer && this.isSeller ? false : this.platformDataService.getUserData(hasHomeTobuy) != undefined ? false : true;
   }
 
+  sp_affinity:string = '';
+  sp_affinity_type:string = '';
+  sp_affinity_name:string = '';
+  sp_affinity_logo:any = '';
+  sp_affinity_description:string = '';
+  sp_affinity_features:any = '';
+  sp_features_1:Array<any> = [];
+  sp_features_2:Array<any> = [];
+
   ngOnInit(): void {
     //Check for either seller, buyer, or both is sellected form the OO
     this.platformDataService.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
@@ -142,33 +151,66 @@ export class SellerSolutionsComponent implements OnInit {
     this.platformDataService.currentConciergeStatus.subscribe(newstatus => this.conciergeSelected = newstatus);
     this.oldSS = this.platformDataService.getUserData(this.fns.FieldNames.sellerSolutions.SellerSolutions);
 
+    // Solution Provider Affinity
+    this.sp_affinity = this.platformDataService.getData('sp_affinity');
+    if (this.sp_affinity === "1") {
+      this.sp_affinity_type = this.platformDataService.getData('sp_affinity_type');
+      this.sp_affinity_name = this.platformDataService.getData('sp_affinity_name');
+      this.sp_affinity_logo = this.platformDataService.getData('sp_affinity_logo');
+      this.sp_affinity_description = this.platformDataService.getData('sp_affinity_description');
+      const sp_affinity_features = this.platformDataService.getData('sp_affinity_features');
+
+      if (this.platformDataService.hasJsonStructure(sp_affinity_features)) {
+        let parsed_features = JSON.parse(sp_affinity_features);
+        let sp_index:number = 0;
+        for (let feature of parsed_features) {
+          if (sp_index < 3) {
+            this.sp_features_1.push(feature.feature_item)
+          } else if (sp_index < 6) {
+            this.sp_features_2.push(feature.feature_item);
+          }
+          sp_index++;
+        }
+      }
+    }
+
     this.sellerSolutions.push({ // push each SS optionally with conditions
       id: 1,
       value: "Open Market",
       heading: this.aaPlatformName,
-      subHeading: "Sell for maximum market value - Expose your home to the greatest number of buyers."
+      subHeading: "Sell for maximum market value - Expose your home to the greatest number of buyers.",
+      sp_affinity: false
     });
     if (this.showConcierge) { // Treat concierge as an SS and push optionally with conditions
       this.sellerSolutions.push({
         id: 99,
         value: "Concierge",
         heading: this.conciergePlatformName || 'Concierge',
-        subHeading: ""
+        subHeading: "",
+        sp_affinity: false
       });
     }
     if (!this.hideBridge) { // push each SS optionally with conditions
       this.sellerSolutions.push({
         id: 2,
         value: "Bridge",
-        heading: this.bridgePlatformName || "Bridge",
-        subHeading: "Enables a homeowner to buy their next house before selling and moving out of their current home."
+        heading: this.sp_affinity === "1" && this.sp_affinity_type === "bridge" ? this.sp_affinity_name : this.bridgePlatformName || "Bridge",
+        subHeading: this.sp_affinity === "1" && this.sp_affinity_type === "bridge" ? this.sp_affinity_description : "Enables a homeowner to buy their next house before selling and moving out of their current home.",
+        sp_affinity: this.sp_affinity === "1" && this.sp_affinity_type === "bridge",
+        logo: this.sp_affinity === "1" && this.sp_affinity_type === "bridge" ? this.sp_affinity_logo : null,
+        features_1: this.sp_affinity === "1" && this.sp_affinity_type === "bridge" ? this.sp_features_1 : null,
+        features_2: this.sp_affinity === "1" && this.sp_affinity_type === "bridge" ? this.sp_features_2 : null
       });
     }
     this.sellerSolutions.push({ // push each SS optionally with conditions
       id: 3,
       value: "Instant Offers",
-      heading: this.ioPlatformName,
-      subHeading: "Sell quickly, with minimal hassle. Receive cash offers close to market value, but with a higher service fee."
+      heading: this.sp_affinity === "1" && this.sp_affinity_type === "ibuyer" ? this.sp_affinity_name : this.ioPlatformName,
+      subHeading: this.sp_affinity === "1" && this.sp_affinity_type === "ibuyer" ? this.sp_affinity_description : "Sell quickly, with minimal hassle. Receive cash offers close to market value, but with a higher service fee.",
+      sp_affinity: this.sp_affinity === "1" && this.sp_affinity_type === "ibuyer",
+      logo: this.sp_affinity === "1" && this.sp_affinity_type === "ibuyer" ? this.sp_affinity_logo : null,
+      features_1: this.sp_affinity === "1" && this.sp_affinity_type === "ibuyer" ? this.sp_features_1 : null,
+      features_2: this.sp_affinity === "1" && this.sp_affinity_type === "ibuyer" ? this.sp_features_2 : null
     });
 
     // This is how we know which SSs are selected

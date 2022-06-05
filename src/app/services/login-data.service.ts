@@ -97,11 +97,9 @@ export class LoginDataService {
     this.activeForm.next(newform);
   }
 
-  // private loanOfficer = new BehaviorSubject<string>('');
-  // userPersona = this.loanOfficer.asObservable();
-  // changeLoanOfficer(data: any) {
-  //   this.loanOfficer.next(data);
-  // }
+  /////////////////////////
+  // UserPersona Obs
+  /////////////////////////
   private persona = new BehaviorSubject<string>('loan-officer');
   userPersona = this.persona.asObservable();
   changePersona(newpersona: any) {

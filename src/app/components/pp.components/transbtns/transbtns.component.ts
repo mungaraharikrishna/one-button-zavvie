@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { LoginDataService } from 'src/app/services/login-data.service';
 import { PlatformDataService } from '../../../services/platform-data.service';
 
 @Component({
@@ -52,12 +53,13 @@ export class TransbtnsComponent implements OnInit {
   exterior = () => this.router.navigate([this.BASEPATH + '/exterior/1'], { queryParamsHandling: 'preserve' });
   homeowners = () => this.router.navigate([this.BASEPATH + '/seller-info/1'], { queryParamsHandling: 'preserve' });
   photos = () => this.router.navigate([this.BASEPATH + '/photos/1'], { queryParamsHandling: 'preserve' });
-  contactInfo = () => this.router.navigate([this.BASEPATH + '/client-contact-info'], { queryParamsHandling: 'preserve' });
-  mortGageInfo = () => this.router.navigate([this.BASEPATH + '/mortgage-info'], { queryParamsHandling: 'preserve' });
+  contactInfo = () => this.router.navigate([this.BASEPATH + '/contact-info'], { queryParamsHandling: 'preserve' });
+  mortgageInfo = () => this.router.navigate([this.BASEPATH + '/mortgage-info'], { queryParamsHandling: 'preserve' });
   financialInfo = () => this.router.navigate([this.BASEPATH + '/financial-info'], { queryParamsHandling: 'preserve' });
   confirmation = () => this.router.navigate([this.BASEPATH + '/success'], { queryParamsHandling: 'preserve' });
 
   constructor(public platformDataService: PlatformDataService,
+    private login: LoginDataService,
     private router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -128,11 +130,21 @@ export class TransbtnsComponent implements OnInit {
     });
   }
 
+  getStep = (num:number) => {
+    return this.loFlow === 'bridge' ? num+1 : num;
+  }
+
   express:boolean = false;
+  userPersona:string = '';
+  loFlow:string = '';
   ngOnInit(): void {
     this.platformDataService.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
     this.platformDataService.currentBuyerStatus.subscribe(newstatus => this.isBuyer = newstatus);
-    this.platformDataService.currentVisibilityStatusLO.subscribe(newstatus => this.isLoanOfficer = newstatus);
+    this.login.userPersona.subscribe(officer => this.userPersona = officer);
     this.platformDataService.activateExpressRouteStatus.subscribe(newstatus => this.express = newstatus);
+    if (this.userPersona === 'loan-officer') {
+      this.isLoanOfficer = true;
+    }
+    this.platformDataService.currentLoFlow.subscribe(newstatus => this.loFlow = newstatus);
   }
 }

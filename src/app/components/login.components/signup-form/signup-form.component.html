@@ -1,6 +1,12 @@
 <h3>Create a zavvie account</h3>
 <span class="sub-heading">Already have an account? <button class="login-link" (click)="showLoginForm()" *ngIf="!form_submitted && !waiting_for_response || signupResponseError">Sign in</button></span>
 
+<form class="persona-toggle" [formGroup]="personaForm" autocomplete="off">
+  <div class="persona persona-agent active" (click)="togglePersona('agent')">I am an agent</div>
+  <div class="persona persona-lo" (click)="togglePersona('loan-officer')">I am a loan officer</div>
+  <input type="hidden" formControlName="persona" value="" />
+</form>
+
 <form [formGroup]="signupForm" (ngSubmit)="submitForm()" autocomplete="off">
 
   <p class="errorText" *ngIf="signupResponseError">{{ signupResponse.problem }}</p>
@@ -23,9 +29,11 @@
         <input type="text" class="form-control" mask="(000)000-0000" [dropSpecialCharacters]="true"
           formControlName="PhoneNumber" (input)="formValueChanged('PhoneNumber', $event)" required />
       </label>
-      <label>MLS number (optional)
-        <input type="text" class="form-control"
+      <label>{{ persona === 'agent' ? 'MLS number (optional)' : 'NMLS number' }}
+        <input type="text" class="form-control" *ngIf="persona === 'agent'"
           formControlName="MLS_ID" (input)="formValueChanged('MLS_ID', $event)" />
+        <input type="text" class="form-control" *ngIf="persona === 'loan-officer'"
+          formControlName="NMLS_ID" (input)="formValueChanged('NMLS_ID', $event)" />
       </label>
     </div>
 

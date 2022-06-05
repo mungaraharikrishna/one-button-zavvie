@@ -46,28 +46,35 @@
   </ng-container>
 
   <ng-container *ngIf="isLoanOfficer">
-    <ul *ngIf="!express" class="loan_officer_ul">
-      <li [class.active]= "!currentUrl || currentUrl === 'client-contact-info'"> <span>Step 1</span> 
+    <ul class="loan_officer_ul">
+      <li [class.active]= "!currentUrl || currentUrl === 'contact-info'"> <span>Step 1</span> 
           <a routerLink="#" (click)="contactInfo()">
             <i *ngIf="firstRouteDone" class="fas fa-check-circle"></i> CONTACT INFO
           </a>
       </li>
-      <li [class.active]= "currentUrl === 'mortgage-info'"> <span>Step 2</span> 
-          <a routerLink="#" (click)="mortGageInfo()">
+
+      <li *ngIf="loFlow === 'bridge'" [class.active]="currentUrl === 'property/1'"> <span>Step 2</span> 
+        <a routerLink="#" (click)="property()" [class.disabled]="transBtnDisabled4">
+          <i *ngIf="secondRouteDone" class="fas fa-check-circle"></i> PROPERTY INFO
+        </a>
+      </li>
+
+      <li [class.active]= "currentUrl === 'mortgage-info'"> <span>Step {{ getStep(2) }}</span> 
+          <a routerLink="#" (click)="mortgageInfo()">
             <i *ngIf="secondRouteDone" class="fas fa-check-circle"></i> MORTGAGE INFO
           </a>
       </li>
-      <li [class.active]= "currentUrl === 'financial-info'"> <span>Step 3</span> 
+      <li [class.active]= "currentUrl === 'financial-info'"> <span>Step {{ getStep(3) }}</span> 
           <a routerLink="#" (click)="financialInfo()">
             <i *ngIf="thirdRouteDone" class="fas fa-check-circle"></i> FINANCIAL INFO
           </a>
       </li>
-      <li [class.active]="currentUrl === 'buyer-info'"> <span>Step 4</span> 
+      <li [class.active]="currentUrl === 'buyer-info'"> <span>Step {{ getStep(4) }}</span> 
           <a routerLink="#" (click)="buyerInfo()">
             <i *ngIf="fourthRouteDone" class="fas fa-check-circle"></i> BUYERS INFO
           </a>
       </li>
-      <li [class.active]="currentUrl === 'success'"> <span>Step 5</span> 
+      <li [class.active]="currentUrl === 'success'"> <span>Step {{ getStep(5) }}</span> 
           <a routerLink="#" (click)="confirmation()">
             <i *ngIf="fifthRouteDone" class="fas fa-check-circle"></i> CONFIRMATION
           </a>

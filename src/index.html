@@ -20,13 +20,81 @@
     </div>
     <div id="offer-optimizer" data-partnerid="14" data-landingpageid="494"></div><!-- remaxalliance Broker Platform -->
     <!--div id="offer-optimizer" data-partnerid="19" data-landingpageid="106643"></div--><!-- 8z Broker Platform -->
+    <!--
+    When this application is deployed, the index.html won't be carried over.
+    Instead, this <app-root> lives in a WP template.
 
+    The <app-root> attributes listed here will be auto-populated by WP data.
+    For testing here, however, you'll need to hard-code the values to your local environment.
+
+    Legend:
+    ---
+    wpbaseurl: the base URL of the WP installation housing the OBZ.
+      On the WP page, the value should be <?php echo get_site_url() ?>.
+      When testing OBZ directly, the value should be something like http://localhost:4200.
+      Do NOT include a trailing slash.
+    apibaseurl: the base URL of the Lumen API instance.
+        staging: https://api-staging.zavvie.com
+        production: https://api.zavvie.com
+    brid: Broker Id. Corresponds to WP post ID of broker platform record.
+    brlandingpageid: Broker's main page WP post ID
+    brapikey: API Key. Saved in WP broker platform (same as platform corresponding to ID) and exists in API.
+    brapiintegration: WP setting for determining which systems to send inquiries. Current values:
+      "PropertyBase",'PropertyBase and 2.0 API','2.0 API'
+      see /zavvie-theme-child/classes/ZavvieCustomizer.php for exact values.
+    brogo: Broker logo. Note, use a logo in same domain as wpbaseurl, otherwise pdf generation won't work.
+    brcolor: broker color.
+
+    Test Data (feel free to add your own for reference)
+    ---
+    8z Broker Platform
+    brid: 14
+    brlandingpageid: 494
+    brogo: http://localhost:8888/zavvie/wp-content/uploads/2020/01/Screen-Shot-2021-06-06-at-5.02.47-PM.png
+    spaffinity="1"
+    spaffinity_type="ibuyer"
+    spaffinity_id="110422"
+    spaffinity_name="Divvy"
+    spaffinity_logo="http://localhost:8888/zavvie/wp-content/uploads/2021/11/divvy-logo.png"
+    spaffinity_description="<p>Divvy VB description blah blah balh for those who want to sell on their own schedule. For those who want to sell on their own schedule</p>"
+    spaffinity_features='[{"feature_item":"Strong cash offer"},{"feature_item":"Sell without license and also this is a very long thing thank you for asking"},{"feature_item":"No showings"},{"feature_item":"Another thing"},{"feature_item":"Penultimate thing and also this is a very long thing but its on the other side of things"},{"feature_item":"This is the last and final thing of things"},{"feature_item":"The seventh thing"}]'
+    spaffinity_nextsteps='<p><a href="https://www.divvyhomes.com/accounts/register/agent" target="_blank" rel="noopener">Click here to start the process</a>. After you submit the requested info, Divvy will contact you within 24-48 hours to get your client approved and to answer any questions you may have.</p>'
+
+    8z Broker Platform
+    brid: 19
+    brlandingpageid: 106643
+
+    Chuck local WP (localhost:8888)
+    RE/MAX Alliance
+    WP post: 94265 (http://localhost:8888/zavvie/wp-admin/post.php?post=94265&action=edit)
+    API Key: RE/M_KDjZ9DcxpiOqx5EPYGuE3mQD2 (company id 118)
+    Logo: https://zavvie.com/wp-content/uploads/2019/11/ReMax-Alliance-1.png
+    8z Real Estate
+    WP post: 15114
+    API key: 8z R_AWDfOflPQ1nyyJwRo9IdjHrfs
+    Landing: 4789
+
+    The old "platform_id_for_vb_spoof" variable: 15777
+    -->
       <app-root
-        brid="14"
+        wpbaseurl="https://staging.zavvie.com"
+        apibaseurl="https://api-staging.zavvie.com"
+        brid="15870"
+        brlandingpageid="10490"
         brapikey="RE/M_KDjZ9DcxpiOqx5EPYGuE3mQD2"
-        brogo="https://zavvie.com/wp-content/uploads/2019/11/ReMax-Alliance-1.png"
-        brcolor="212e4e"></app-root>
-
+        brapiintegration="PropertyBase"
+        brogo="https://staging.zavvie.com/wp-content/uploads/2019/11/ReMax-Alliance-1.png"
+        brcolor="#000000"
+        spaffinity="1"
+        spaffinity_type="cash"
+        spaffinity_id="110422"
+        spaffinity_name="Divvy"
+        spaffinity_logo="http://localhost:8888/zavvie/wp-content/uploads/2021/11/divvy-logo.png"
+        spaffinity_description="<p>Divvy VB description blah blah balh for those who want to sell on their own schedule. For those who want to sell on their own schedule</p>"
+        spaffinity_features='[{"feature_item":"Strong cash offer"},{"feature_item":"Sell without license and also this is a very long thing thank you for asking"},{"feature_item":"No showings"},{"feature_item":"Another thing"},{"feature_item":"Penultimate thing and also this is a very long thing but its on the other side of things"},{"feature_item":"This is the last and final thing of things"},{"feature_item":"The seventh thing"}]'
+        spaffinity_nextsteps='<p><a href="https://www.divvyhomes.com/accounts/register/agent" target="_blank" rel="noopener">Click here to start the process</a>. After you submit the requested info, Divvy will contact you within 24-48 hours to get your client approved and to answer any questions you may have.</p>'
+      ></app-root>
+      <!--app-root brid="14" brapikey="RE/M_KDjZ9DcxpiOqx5EPYGuE3mQD2" brogo="http://localhost:8888/zavvie/wp-content/uploads/2020/01/Screen-Shot-2021-06-06-at-5.02.47-PM.png" brcolor="#000000" spaffinity="" spaffinity_type="" spaffinity_id="" spaffinity_name="" spaffinity_logo="" spaffinity_description="" spaffinity_features='' spaffinity_nextsteps=''></app-root!-->
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8mKzp331nnB78q_Zqr_p17Z2x0bNRTEs&libraries=places&language=en"></script>
   </body>
 

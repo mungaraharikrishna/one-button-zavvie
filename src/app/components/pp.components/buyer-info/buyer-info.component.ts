@@ -7,6 +7,7 @@ import { WpApiService } from 'src/app/services/wp-api.service';
 import { BuyerMarketService } from 'src/app/services/buyer-market.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { EmailClientService } from 'src/app/services/email-client.service';
+import { LoginDataService } from 'src/app/services/login-data.service';
 
 @Component({
   selector: 'app-buyer-info',
@@ -18,6 +19,7 @@ export class BuyerInfoComponent implements OnInit {
 
   constructor(
     private pds: PlatformDataService,
+    private login: LoginDataService,
     public fns: FieldNameService,
     public buyerMarketService: BuyerMarketService,
     private wpApiService: WpApiService,
@@ -30,6 +32,7 @@ export class BuyerInfoComponent implements OnInit {
 
   isseller:boolean = false;
   isbuyer:boolean = false;
+  userPersona:string = '';
 
   ngOnInit(): void {
     this.pds.addUserData('MaxRange', this.maxRangeDefault);
@@ -37,9 +40,13 @@ export class BuyerInfoComponent implements OnInit {
     this.pds.currentSellerStatus.subscribe(newstatus => this.isseller = newstatus);
     this.pds.currentBuyerStatus.subscribe(newstatus => this.isbuyer = newstatus);
     this.pds.currentVerifiedBuyers.subscribe(newbuyers => this.verified_buyers = newbuyers);
-    this.pds.currentVisibilityStatusLO.subscribe(newstatus => this.show_lo = newstatus);
+    this.login.userPersona.subscribe(officer => this.userPersona = officer);
     this.setBuyerInfoFormValidator();
     this.checkValidity();
+
+    if (this.userPersona === 'loan-officer') {
+      this.show_lo = true;
+    }
   }
 
   buyerInfoForm = this.fb.group({
@@ -152,12 +159,14 @@ export class BuyerInfoComponent implements OnInit {
     this.wpApiService.updateBuyerPP(this.pds.getData('buyerPPid')).subscribe((update_response:any) => {
       this.wpApiService.buyerSendToPb(this.pds.getData('buyerPPid')).subscribe((pb_response:any) => {
         this.pds.addUserData('pbConfirmation', pb_response.confirmation_number);
-        this.emailService.sendBuyerEmailToAgent().subscribe();
-        this.emailService.sendBuyerEmailToBuyer().subscribe();
-        !this.isseller
-          ? this.nav.goto.buyerInfo.next()
-          : this.proceedSeller = true;
-        this.showBuyerPPLoader = false;
+        this.emailService.sendBuyerEmailToAgent().subscribe(() => {
+          this.emailService.sendBuyerEmailToBuyer().subscribe(() => {
+            !this.isseller
+              ? this.nav.goto.buyerInfo.next()
+              : this.proceedSeller = true;
+            this.showBuyerPPLoader = false;
+          });
+        });
       });
     });
   }
@@ -343,7 +352,6 @@ export class BuyerInfoComponent implements OnInit {
       this.pds.setMarketData('Verified Buyers', data);
       this.configService.getBuyerLinks(data).subscribe((links_data:any) => {
         this.pds.setMarketData('Verified Buyer Links', links_data);
-        console.log('VBs and IDs', this.pds.getMarketData('Verified Buyer Links'));
         this.checkValidity();
       });
     });

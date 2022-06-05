@@ -105,23 +105,26 @@ export class EmailClientService {
 
     let partnerId = this.configService.getPlatformIds().partnerId;
 
-    let verified_buyers = JSON.parse(this.platformDataService.getMarketData('Verified Buyer Links'));
+    let pdsBuyers = this.platformDataService.getMarketData('Verified Buyer Links');
     let buyerSolutions = this.platformDataService.getUserData('BuyerSolutions') || '';
     let show_mort_fin_vbs:boolean = buyerSolutions.indexOf('Open Market') > -1;
     let show_cash_vbs:boolean = buyerSolutions.indexOf('Cash Offer') > -1;
     let show_lease_vbs:boolean = buyerSolutions.indexOf('Lease to Own') > -1;
-
     let filtered_buyers = [];
 
-    for (let verified_buyer of verified_buyers) {
-      if (show_mort_fin_vbs) {
-        filtered_buyers.push(verified_buyer.buyers.warranty_vbs);
-      }
-      if (show_cash_vbs) {
-        filtered_buyers.push(verified_buyer.buyers.cash_vbs);
-      }
-      if (show_lease_vbs) {
-        filtered_buyers.push(verified_buyer.buyers.lease_vbs);
+    if (this.platformDataService.hasJsonStructure(pdsBuyers)) {
+      let verified_buyers = JSON.parse(pdsBuyers);
+
+      for (let verified_buyer of verified_buyers) {
+        if (show_mort_fin_vbs) {
+          filtered_buyers.push(verified_buyer.buyers.warranty_vbs);
+        }
+        if (show_cash_vbs) {
+          filtered_buyers.push(verified_buyer.buyers.cash_vbs);
+        }
+        if (show_lease_vbs) {
+          filtered_buyers.push(verified_buyer.buyers.lease_vbs);
+        }
       }
     }
 

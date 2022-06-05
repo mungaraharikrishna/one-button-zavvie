@@ -597,13 +597,8 @@ export class WpApiService {
         ? 'Sell'
         : 'Buy';
 
-    let cc_email = (this.pptype == 'broker') ? '' : this.platformDataService.getUserData(this.fns.FieldNames.generalInfo.AgentEmail);
-
     let updated_pb_data = 'id=' + ppid;
     updated_pb_data += '&form=obz';
-    updated_pb_data += '&ng_pp=true';
-    updated_pb_data += '&zProEmail=' + encodeURIComponent(cc_email);
-
     updated_pb_data += '&buysell=' + encodeURIComponent(buysell);
     // this needs to be here, but blank for now...
     // pp2020 uses if email-to-client link clicked
@@ -637,8 +632,9 @@ export class WpApiService {
     let buyer_vbs:string = '';
     let seller_vbs:string = '';
 
-    if (buyer) {
-      let buyers = JSON.parse(this.platformDataService.getMarketData('Verified Buyers'));
+    let pds_buyers = this.platformDataService.getMarketData('Verified Buyers');
+    if (buyer && this.platformDataService.hasJsonStructure(pds_buyers)) {
+      let buyers = JSON.parse(pds_buyers);
       for (let vb of buyers.lease_vbs) {
         buyer_vbs += vb.name + ', ';
       }

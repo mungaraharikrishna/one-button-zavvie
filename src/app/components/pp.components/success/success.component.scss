@@ -14,6 +14,7 @@ $red: #fb4e30;
 
   .card-title {
     color: $white;
+    text-align: center;
   }
 
   .closebtn {
@@ -44,6 +45,25 @@ $red: #fb4e30;
       list-style-type: none;
       padding-bottom: 1em;
       padding-left: 0;
+    }
+
+    &.sp-affinity {
+      color: $white;
+      position: relative;
+
+      .far.fa-square {
+        // position: absolute;
+        float: left;
+        margin-right: .5em;
+      }
+    }
+  }
+
+  .li-block {
+    display: block;
+
+    p a {
+      color: $white;
     }
   }
 
@@ -127,6 +147,7 @@ $red: #fb4e30;
 .fad,
 .far {
   color: $white;
+  float: left;
   font-size: 1.5em;
   position: relative;
 }
@@ -136,8 +157,8 @@ $red: #fb4e30;
 }
 
 .inline-p {
-  display: inline;
-  padding-left: .75em;
+  display: block;
+  padding-left: 2.5em;
 }
 
 .nextbackbtn-container {

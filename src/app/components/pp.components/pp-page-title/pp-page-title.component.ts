@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { LoginDataService } from 'src/app/services/login-data.service';
 import { PlatformDataService } from 'src/app/services/platform-data.service';
 
 @Component({
@@ -9,12 +10,16 @@ import { PlatformDataService } from 'src/app/services/platform-data.service';
 export class PpPageTitleComponent implements OnInit {
 
   @Input() label:any;
-  show_lo: boolean = false;
 
-  constructor(private pds: PlatformDataService) { }
+  constructor(private login: LoginDataService) { }
 
+  userPersona:string = '';
+  isLoanOfficer:boolean = false;
   ngOnInit(): void {
-    this.pds.currentVisibilityStatusLO.subscribe(newstatus => this.show_lo = newstatus);
+    this.login.userPersona.subscribe(officer => this.userPersona = officer);
+    if (this.userPersona === 'loan-officer') {
+      this.isLoanOfficer = true;
+    }
   }
 
 }

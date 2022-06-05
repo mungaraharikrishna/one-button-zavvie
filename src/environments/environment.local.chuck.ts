@@ -2,6 +2,6 @@
 export const environment = {
   production: false,
   overrideWpServer: 'http://localhost:8888/zavvie',
-  overrideLoginServer: 'https://carbonlogicapistaging.test/v1/api',
+  overrideLoginServer: 'https://carbonlogicapistaging.test',
   overridePlatformApiKey: 'Zavv_PR75ci6Cm2xn23XCrq8Bk56IO'
 };

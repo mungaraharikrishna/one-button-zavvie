@@ -32,6 +32,15 @@ export class BuyerSolutionsComponent implements OnInit {
   BASEPATH:string = '';
   path_next:string = '';
 
+  sp_affinity:string = '';
+  sp_affinity_type:string = '';
+  sp_affinity_name:string = '';
+  sp_affinity_logo:any = '';
+  sp_affinity_description:string = '';
+  sp_affinity_features:any = '';
+  sp_features_1:Array<any> = [];
+  sp_features_2:Array<any> = [];
+
   // Start Button
   nextBtnConfig = {
     text: 'NEXT',
@@ -125,38 +134,71 @@ export class BuyerSolutionsComponent implements OnInit {
       : this.isBuyer && this.isSeller ? 'Yes' : undefined;
 
     this.labels = this.platformDataService.getData('labels');
+
+    // Solution Provider Affinity
+    this.sp_affinity = this.platformDataService.getData('sp_affinity');
+    if (this.sp_affinity == "1") {
+      this.sp_affinity_type = this.platformDataService.getData('sp_affinity_type');
+      this.sp_affinity_name = this.platformDataService.getData('sp_affinity_name');
+      this.sp_affinity_logo = this.platformDataService.getData('sp_affinity_logo');
+      this.sp_affinity_description = this.platformDataService.getData('sp_affinity_description');
+      const sp_affinity_features = this.platformDataService.getData('sp_affinity_features');
+      if (this.platformDataService.hasJsonStructure(sp_affinity_features)) {
+        let parsed_features = JSON.parse(sp_affinity_features);
+        let sp_index:number = 0;
+        for (let feature of parsed_features) {
+          if (sp_index < 3) {
+            this.sp_features_1.push(feature.feature_item)
+          } else if (sp_index < 6) {
+            this.sp_features_2.push(feature.feature_item);
+          }
+          sp_index++;
+        }
+      }
+    }
   
     this.buyerSolutions.push({ // push each BS optionally with conditions
       id: 1,
       value: "Open Market",
       heading: this.labels.openMarketBuyerHeading,
-      subHeading: "Open Market/Home Warranty - Covered maintenance and repairs for new home."
+      subHeading: "Open Market/Home Warranty - Covered maintenance and repairs for new home.",
+      sp_affinity: false
     });
     // Home warranty as an BS and push optionally with conditions
     this.showWarranty && this.buyerSolutions.push({
       id: 5,
       value: "Open Market Warranty",
       heading: 'Open Market Home warranty',
-      subHeading: ""
+      subHeading: "",
+      sp_affinity: false
     });
     this.showCashBuyer && this.buyerSolutions.push({ // push each BS optionally with conditions
       id: 2,
       value: "Cash Offer",
-      heading: this.labels.cashHeading,
-      subHeading: "Turn an offer into a non-contingent cash offer"
+      heading: this.sp_affinity === "1" && this.sp_affinity_type === "cash" ? this.sp_affinity_name : this.labels.cashHeading,
+      subHeading: this.sp_affinity === "1" && this.sp_affinity_type === "cash" ? this.sp_affinity_description : "Turn an offer into a non-contingent cash offer",
+      sp_affinity: this.sp_affinity === "1" && this.sp_affinity_type === "cash",
+      logo: this.sp_affinity === "1" && this.sp_affinity_type === "cash" ? this.sp_affinity_logo : null,
+      features_1: this.sp_affinity === "1" && this.sp_affinity_type === "cash" ? this.sp_features_1 : null,
+      features_2: this.sp_affinity === "1" && this.sp_affinity_type === "cash" ? this.sp_features_2 : null
     });
     // Home warranty as an BS and push optionally with conditions
     this.showCashBuyer && this.showWarranty && this.buyerSolutions.push({
       id: 6,
       value: "Cash Warranty",
       heading: 'Cash Offers Home warranty',
-      subHeading: ""
+      subHeading: "",
+      sp_affinity: false
     });
     this.showLeaseBuyer && this.buyerSolutions.push({ // push each BS optionally with conditions
       id: 3,
       value: "Lease to Own",
-      heading: this.labels.leaseToOwnHeading,
-      subHeading: "Use rent payments to build towards owning a home"
+      heading: this.sp_affinity === "1" && this.sp_affinity_type === "lease" ? this.sp_affinity_name : this.labels.leaseToOwnHeading,
+      subHeading: this.sp_affinity === "1" && this.sp_affinity_type === "lease" ? this.sp_affinity_description : "Use rent payments to build towards owning a home",
+      sp_affinity: this.sp_affinity === "1" && this.sp_affinity_type === "lease",
+      logo: this.sp_affinity === "1" && this.sp_affinity_type === "lease" ? this.sp_affinity_logo : null,
+      features_1: this.sp_affinity === "1" && this.sp_affinity_type === "lease" ? this.sp_features_1 : null,
+      features_2: this.sp_affinity === "1" && this.sp_affinity_type === "lease" ? this.sp_features_2 : null
     });
 
       // An option will be checked if the corresponding 

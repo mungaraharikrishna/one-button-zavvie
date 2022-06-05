@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { PlatformDataService } from '../../../services/platform-data.service';
 import { WpApiService } from '../../../services/wp-api.service';
 import { Router } from '@angular/router';
+import { LoginDataService } from 'src/app/services/login-data.service';
 
 @Component({
   selector: 'app-nextbackbtn',
@@ -10,14 +11,18 @@ import { Router } from '@angular/router';
 })
 export class NextbackbtnComponent {
   show_lo: boolean = false;
-  
+  userPersona:string = '';
   constructor(
     private wpApiService: WpApiService,
     private platformDataService: PlatformDataService,
+    private login: LoginDataService,
     private router: Router) {
       this.platformDataService.currentSellerStatus.subscribe(newstatus => this.isSeller = newstatus);
       this.platformDataService.currentPPId.subscribe(currentPPId => this.ppvalue = currentPPId);
-      this.platformDataService.currentVisibilityStatusLO.subscribe(newstatus => this.show_lo = newstatus);
+      this.login.userPersona.subscribe(officer => this.userPersona = officer);
+      if (this.userPersona === 'loan-officer') {
+        this.show_lo = true;
+      }
     }
 
   @Input() buttonConfig: any;
